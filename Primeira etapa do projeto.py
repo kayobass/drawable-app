@@ -56,6 +56,7 @@ def incluir_figura_nova(event):
         figuras.append((fig, values, cor_da_borda, cor_do_preenchimento)) 
     desenhar_figuras()
 
+# Utilizando a ideia de transformar o retangulo diretor em quadrado para desenhar um circulo
 def oval_em_circulo(values):
     a,b,c,d = values
     largura = c - a
