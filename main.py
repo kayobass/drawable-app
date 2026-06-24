@@ -126,7 +126,7 @@ def incompleta(figura):
 
 
 # função para desfazer (ctrl+z)
-def desfazer():
+def desfazer(*args):
     global historico_figuras, figuras_desfeitas
     if historico_figuras:
         figura = historico_figuras.pop()
@@ -135,7 +135,7 @@ def desfazer():
 
 
 # função para refazer (ctrl+y)
-def refazer():
+def refazer(*args):
     global historico_figuras, figuras_desfeitas
     if figuras_desfeitas:
         figura = figuras_desfeitas.pop()
