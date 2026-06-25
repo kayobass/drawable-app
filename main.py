@@ -22,6 +22,7 @@ def escolher_cor_do_preenchimento():
 def remover_preenchimento():
     global cor_do_preenchimento
     cor_do_preenchimento = ""
+    indicador_preenchimento.config(bg="#D3D3D3")
 
 
 # Quando mouse é pressionado
@@ -190,7 +191,7 @@ botao_cor_preenchimento = Button(frame_cores, text="Cor do preenchimento", comma
 botao_cor_preenchimento.pack(side="left", padx=0, pady=0)
 
 # indicador da cor do preenchimento
-indicador_preenchimento = Canvas(frame_cores, width=20, height=10, bg="black", highlightthickness=1,
+indicador_preenchimento = Canvas(frame_cores, width=20, height=10, bg="#D3D3D3", highlightthickness=1,
                                  highlightbackground="gray")
 indicador_preenchimento.pack(side="left", padx=5, pady=0)
 
