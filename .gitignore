@@ -73,6 +73,9 @@ venv.bak/
 .env.*
 *.env
 
+# Annotations
+metas.md
+
 # Logs
 *.log
 
