@@ -2,11 +2,70 @@ from tkinter import *
 from tkinter import colorchooser
 from tkinter import ttk
 
+# Criação da classe Figura
+class Figura():
+    def __init__(self, values, cor_borda, cor_preenchimento):
+        self.values = values
+        self.cor_borda = cor_borda
+        self.cor_preenchimento = cor_preenchimento
+    
+    def desenhar(self, canvas):
+        pass
+
+
+# Hierarquização das classes de figuras geométricas utilizando a classe Figura
+class Circulo(Figura):
+    # Utilizando a ideia de transformar o retangulo diretor em quadrado para desenhar um circulo
+    def oval_em_circulo(self, values):
+        a, b, c, d = values
+        largura = c - a
+        altura = d - b
+        tamanho = min(abs(largura), abs(altura))
+        if largura < 0:
+            c = a - tamanho
+        else:
+            c = a + tamanho
+        if altura < 0:
+            d = b - tamanho
+        else:
+            d = b + tamanho
+        return a, b, c, d
+    def desenhar(self, canvas):
+        a, b, c, d = self.oval_em_circulo(self.values)
+        canvas.create_oval(a,b,c,d, outline=self.cor_borda, fill=self.cor_preenchimento)
+
+
+class Linha(Figura):
+    def desenhar(self, canvas):
+        x_inicial, y_inicial, x_final, y_final = self.values
+        canvas.create_line(x_inicial, y_inicial, x_final, y_final, fill=self.cor_borda)
+
+
+class Retangulo(Figura):
+    def desenhar(self, canvas):
+        x_inicial, y_inicial, x_final, y_final = self.values
+        canvas.create_rectangle(x_inicial, y_inicial, x_final, y_final, outline=self.cor_borda, fill=self.cor_preenchimento)
+
+
+class Oval(Figura):
+    def desenhar(self, canvas):
+        x_inicial, y_inicial, x_final, y_final = self.values
+        canvas.create_oval(x_inicial, y_inicial, x_final, y_final, outline=self.cor_borda, fill=self.cor_preenchimento)
+
+
+class Rabisco(Figura):
+    def desenhar(self, canvas):
+        canvas.create_line(self.values, fill=self.cor_borda)
+
+
+
 # ******* MAIN *******#
+
+
 
 class DrawableApp():
     def __init__(self):
-        # Variaveis que antes eram globais e agora ficam dentro da classe
+        # Variáveis que antes eram globais e agora ficam dentro da classe
         self.historico_figuras = []  # Todas as figuras desenhadas
         self.figuras_desfeitas = []  # Figuras que foram desfeitas (para refazer)
         self.figura_nova = None  # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
@@ -83,6 +142,7 @@ class DrawableApp():
 
         self.root.mainloop()
 
+
     def escolher_cor_da_borda(self):
         cor = colorchooser.askcolor(title="Cor da borda")
         if cor[1] is not None:
@@ -131,48 +191,35 @@ class DrawableApp():
         self.desenhar_figuras()
         self.desenhar_figura_nova()
 
+    # Cria um objeto da figura escolhida, substituindo o uso de tuplas no histórico
+    def criar_figura(self, fig, values, cor_borda, cor_preenchimento):
+        if fig == "linha":
+            return Linha(values, cor_borda, cor_preenchimento)
+        elif fig == "retangulo":
+            return Retangulo(values, cor_borda, cor_preenchimento)
+        elif fig == "oval":
+            return Oval(values, cor_borda, cor_preenchimento)
+        elif fig == "circulo":
+            return Circulo(values, cor_borda, cor_preenchimento)
+        else:
+            return Rabisco(values, cor_borda, cor_preenchimento)
+
 
     # Quando mouse é solto
     def incluir_figura_nova(self, event):
         if not self.incompleta(
                 self.figura_nova):  # para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
             fig, values = self.figura_nova
-            self.historico_figuras.append((fig, values, self.cor_da_borda, self.cor_do_preenchimento))
+            figura = self.criar_figura(fig, values, self.cor_da_borda, self.cor_do_preenchimento)
+            self.historico_figuras.append(figura)
             self.figuras_desfeitas.clear()
         self.desenhar_figuras()
 
 
-    # Utilizando a ideia de transformar o retangulo diretor em quadrado para desenhar um circulo
-    def oval_em_circulo(self, values):
-        a, b, c, d = values
-        largura = c - a
-        altura = d - b
-        tamanho = min(abs(largura), abs(altura))
-        if largura < 0:
-            c = a - tamanho
-        else:
-            c = a + tamanho
-        if altura < 0:
-            d = b - tamanho
-        else:
-            d = b + tamanho
-        return a, b, c, d
-
-
     def desenhar_figuras(self):
         self.canvas.delete("all")
-        for fig, values, cor, cor_preenchimento in self.historico_figuras:
-            if fig == "linha":
-                self.canvas.create_line(values[0], values[1], values[2], values[3], fill=cor)
-            elif fig == "retangulo":
-                self.canvas.create_rectangle(values[0], values[1], values[2], values[3], outline=cor, fill=cor_preenchimento)
-            elif fig == "oval":
-                self.canvas.create_oval(values[0], values[1], values[2], values[3], outline=cor, fill=cor_preenchimento)
-            elif fig == "circulo":
-                a, b, c, d = self.oval_em_circulo(values)
-                self.canvas.create_oval(a, b, c, d, outline=cor, fill=cor_preenchimento)
-            else:  # fig == "rabisco"
-                self.canvas.create_line(values, fill=cor)
+        for figura in self.historico_figuras:
+            figura.desenhar(self.canvas)
 
 
     def desenhar_figura_nova(self):
@@ -186,7 +233,8 @@ class DrawableApp():
             self.canvas.create_oval(values[0], values[1], values[2], values[3], dash=(4, 2), outline=self.cor_da_borda,
                             fill=self.cor_do_preenchimento)
         elif fig == "circulo":
-            a, b, c, d = self.oval_em_circulo(values)
+            circulo = Circulo(values, self.cor_da_borda, self.cor_do_preenchimento)
+            a, b, c, d = circulo.oval_em_circulo(values)
             self.canvas.create_oval(a, b, c, d, dash=(4, 2), outline=self.cor_da_borda, fill=self.cor_do_preenchimento)
         else:  # fig == "rabisco"
             self.canvas.create_line(values, dash=(4, 2), fill=self.cor_da_borda)
@@ -214,6 +262,7 @@ class DrawableApp():
             figura = self.figuras_desfeitas.pop()
             self.historico_figuras.append(figura)
             self.desenhar_figuras()
+
 
     # verificação de alteração no valor do menu
     def opcao_mudou(self, *args):
