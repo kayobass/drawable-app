@@ -16,6 +16,8 @@ class Circulo(Figura):
         else:
             d = b + tamanho
         return a, b, c, d
+    
     def desenhar(self, canvas):
         a, b, c, d = self.oval_em_circulo(self.values)
-        canvas.create_oval(a,b,c,d, outline=self.cor_borda, fill=self.cor_preenchimento)
+
+        return canvas.create_oval(a,b,c,d, outline=self.cor_borda, fill=self.cor_preenchimento, width=self.espessura)
