@@ -18,6 +18,12 @@ class Circulo(Figura):
         return a, b, c, d
     
     def desenhar(self, canvas):
-        a, b, c, d = self.oval_em_circulo(self.values)
+        x_inicial, y_inicial, x_final, y_final = self.oval_em_circulo(self.values)
 
-        return canvas.create_oval(a,b,c,d, outline=self.cor_borda, fill=self.cor_preenchimento, width=self.espessura)
+        return canvas.create_oval(
+            x_inicial, y_inicial, 
+            x_final, y_final, 
+            outline=self.cor_borda, 
+            fill=self.cor_preenchimento, 
+            width=self.espessura
+        )

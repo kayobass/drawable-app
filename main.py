@@ -10,6 +10,7 @@ from retangulo import Retangulo
 from oval import Oval
 from rabisco import Rabisco
 from triangulo_equilatero import TrianguloEquilatero
+from triangulo_retangulo import TrianguloRetangulo
 
 
 class DrawableApp():
@@ -21,6 +22,7 @@ class DrawableApp():
         'Oval': Oval,
         'Retangulo': Retangulo,
         'Triangulo': TrianguloEquilatero,
+        'Triangulo Retangulo': TrianguloRetangulo,
     }
 
     def __init__(self):
@@ -56,7 +58,7 @@ class DrawableApp():
         self.tipo_figura_var = StringVar(self.root)
         self.option_menu = ttk.OptionMenu(
             self.frame, self.tipo_figura_var,
-            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo'
+            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo', 'Triangulo Retangulo'
         )
         self.option_menu.grid(column=1, row=0, sticky=W, **self.paddings)
         
