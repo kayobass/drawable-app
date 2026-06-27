@@ -9,16 +9,18 @@ from linha import Linha
 from retangulo import Retangulo
 from oval import Oval
 from rabisco import Rabisco
+from triangulo_equilatero import TrianguloEquilatero
 
 
 class DrawableApp():
     # Dicionário para mapear a string do menu para a classe real
     MAPA_FIGURAS = {
-        'Linha': Linha,
-        'Retangulo': Retangulo,
-        'Oval': Oval,
         'Circulo': Circulo,
-        'Rabisco': Rabisco
+        'Linha': Linha,
+        'Rabisco': Rabisco,
+        'Oval': Oval,
+        'Retangulo': Retangulo,
+        'Triangulo': TrianguloEquilatero,
     }
 
     def __init__(self):
@@ -27,7 +29,7 @@ class DrawableApp():
         self.figura_nova = None  # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
         self.cor_da_borda = "black"
         self.cor_do_preenchimento = ""
-        self.paddings = {'padx': 5, 'pady': 5 } # Widgets arranjados com Layout grid dentro de frame
+        self.paddings = {'padx': 5, 'pady': 5} # Widgets arranjados com Layout grid dentro de frame
 
 
         # Inicialização da janela
@@ -54,7 +56,7 @@ class DrawableApp():
         self.tipo_figura_var = StringVar(self.root)
         self.option_menu = ttk.OptionMenu(
             self.frame, self.tipo_figura_var,
-            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo'
+            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo'
         )
         self.option_menu.grid(column=1, row=0, sticky=W, **self.paddings)
         
