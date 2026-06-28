@@ -32,8 +32,6 @@ O projeto será evoluído gradualmente ao longo das etapas da disciplina.
 
 # 📌 Funcionalidades Implementadas
 
-## Etapa 1 — Versão `imperativa.1`
-
 ### Funcionalidades disponíveis
 
 - Desenho de linhas
@@ -41,10 +39,18 @@ O projeto será evoluído gradualmente ao longo das etapas da disciplina.
 - Desenho de retângulos
 - Desenho de ovais
 - Desenho de círculos
+- Desenho de quadrados
+- Desenho de triângulos equiláteros
+- Desenho de triângulos retângulos
+- Desenho de pentágonos
+- Desenho de hexágonos
+- Desenho de polígonos interativos (3 a 12 lados)
 - Escolha de cor da borda
 - Escolha de cor de preenchimento
 - Opção de remover preenchimento
+- Seleção de espessura da linha (1 a 10)
 - Visualização em tempo real da figura durante o desenho
+- Visualização de vértices e guias ao desenhar polígonos interativos
 - Sistema de desfazer (Ctrl + Z)
 - Sistema de refazer (Ctrl + Y)
 
@@ -55,10 +61,14 @@ O projeto será evoluído gradualmente ao longo das etapas da disciplina.
 | Linha | Cria linhas retas |
 | Rabisco | Desenho livre acompanhando o movimento do mouse |
 | Retângulo | Cria retângulos |
+| Quadrado | Cria quadrados proporcionais |
 | Oval | Cria elipses |
 | Círculo | Cria círculos proporcionais |
-
-Entrega referente à primeira etapa do projeto. :contentReference[oaicite:2]{index=2}
+| Triângulo | Cria triângulos equiláteros |
+| Triângulo Retângulo | Cria triângulos retângulos |
+| Pentágono | Cria pentágonos regulares |
+| Hexágono | Cria hexágonos regulares |
+| Polígono | Cria polígonos interativos com número de lados configurável (3–12) |
 
 ---
 
@@ -89,9 +99,12 @@ python main.py
 A aplicação possui:
 
 - Menu de seleção da ferramenta de desenho
-- Seleção de cor da borda
-- Seleção de cor do preenchimento
-- Área de desenho baseada no widget Canvas do Tkinter
+- Seletor de número de lados para polígonos interativos
+- Seleção de cor da borda com indicador visual
+- Seleção de cor do preenchimento com indicador visual
+- Opção de remover preenchimento
+- Seletor de espessura da linha
+- Área de desenho baseada no widget Canvas do Tkinter (600×600)
 
 ---
 
@@ -101,6 +114,7 @@ A aplicação possui:
 |---------|--------|
 | Ctrl + Z | Desfazer |
 | Ctrl + Y | Refazer |
+| Botão direito do mouse | Finalizar polígono interativo |
 
 ---
 
@@ -119,23 +133,41 @@ A aplicação possui:
 
 ---
 
-## 🔄 Etapa 2 — Em desenvolvimento
+## ✅ Etapa 2 — Implementada
 
-Funcionalidades serão adicionadas conforme os requisitos da disciplina.
-
-- [ ] Refatoração para Programação Orientada a Objetos
-- [ ] Definir hierarquia de classes (Figura) — retângulos, mão livre, etc
-- [ ] Adequar o programa para usar a hierarquia de Figuras
-- [ ] Adicionar desenho de polígonos
-- [ ] Separar código em módulos
+- [x] Refatoração para Programação Orientada a Objetos
+- [x] Definir hierarquia de classes (Figura abstrata)
+- [x] Adequar o programa para usar a hierarquia de Figuras
+- [x] Adicionar desenho de polígonos (Triângulo, Triângulo Retângulo, Pentágono, Hexágono, Polígono interativo)
+- [x] Separar código em módulos (cada figura em seu próprio arquivo)
+- [x] Seleção de espessura da linha
 
 ---
 
 ## 🔄 Etapa 3 — Em desenvolvimento
 
-Funcionalidades serão adicionadas conforme os requisitos da disciplina.
+Refatoração para o padrão **MVC (Model-View-Controller)**:
 
-- [ ] A definir
+- [ ] Definir as classes do modelo (Figuras, Desenho, ...)
+- [ ] Definir uma classe ou classes para a visão
+- [ ] Definir uma classe ou classes para o(s) controlador(es)
+
+### Estrutura de pastas recomendada
+
+```
+drawable-app/
+├── .git/
+├── .gitignore
+├── src/
+│   └── drawable_app/
+│       ├── main.py
+│       ├── modelo/
+│       │   └── ...
+│       ├── visao/
+│       │   └── ...
+│       └── controlador/
+│           └── ...
+```
 
 ---
 
