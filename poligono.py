@@ -26,4 +26,9 @@ class Poligono(Figura):
         if len(pontos) < 3:
             return None
 
-        return canvas.create_polygon(pontos, outline=self.cor_borda, fill=self.cor_preenchimento, width=self.espessura)
+        return canvas.create_polygon(
+            pontos,
+            outline=self.cor_borda, 
+            fill=self.cor_preenchimento, 
+            width=self.espessura
+        )
