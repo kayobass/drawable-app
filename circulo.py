@@ -2,23 +2,23 @@ from figura import Figura
 
 class Circulo(Figura):
     # Utilizando a ideia de transformar o retangulo diretor em quadrado para desenhar um circulo
-    def oval_em_circulo(self, values):
-        a, b, c, d = values
-        largura = c - a
-        altura = d - b
+    def transformar_em_circulo(self, values):
+        x_inicial, y_inicial, x_final, y_final = values
+        largura = x_final - x_inicial
+        altura = y_final - y_inicial
         tamanho = min(abs(largura), abs(altura))
         if largura < 0:
-            c = a - tamanho
+            x_final = x_inicial - tamanho
         else:
-            c = a + tamanho
+            x_final = x_inicial + tamanho
         if altura < 0:
-            d = b - tamanho
+            y_final = y_inicial - tamanho
         else:
-            d = b + tamanho
-        return a, b, c, d
+            y_final = y_inicial + tamanho
+        return x_inicial, y_inicial, x_final, y_final
     
     def desenhar(self, canvas):
-        x_inicial, y_inicial, x_final, y_final = self.oval_em_circulo(self.values)
+        x_inicial, y_inicial, x_final, y_final = self.transformar_em_circulo(self.values)
 
         return canvas.create_oval(
             x_inicial, y_inicial, 

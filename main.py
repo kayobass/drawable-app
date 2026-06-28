@@ -11,7 +11,8 @@ from oval import Oval
 from rabisco import Rabisco
 from triangulo_equilatero import TrianguloEquilatero
 from triangulo_retangulo import TrianguloRetangulo
-
+from quadrado import Quadrado
+from poligono import Poligono
 
 class DrawableApp():
     # Dicionário para mapear a string do menu para a classe real
@@ -23,12 +24,15 @@ class DrawableApp():
         'Retangulo': Retangulo,
         'Triangulo': TrianguloEquilatero,
         'Triangulo Retangulo': TrianguloRetangulo,
+        'Quadrado': Quadrado,
+        'Poligono': Poligono
     }
 
     def __init__(self):
         self.historico_figuras = []  # Todas as figuras desenhadas
         self.figuras_desfeitas = []  # Figuras que foram desfeitas (para refazer)
         self.figura_nova = None  # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
+        self.poligono_atual = None
         self.cor_da_borda = "black"
         self.cor_do_preenchimento = ""
         self.paddings = {'padx': 5, 'pady': 5} # Widgets arranjados com Layout grid dentro de frame
@@ -58,7 +62,7 @@ class DrawableApp():
         self.tipo_figura_var = StringVar(self.root)
         self.option_menu = ttk.OptionMenu(
             self.frame, self.tipo_figura_var,
-            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo', 'Triangulo Retangulo'
+            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo', 'Triangulo Retangulo', 'Quadrado', 'Poligono'
         )
         self.option_menu.grid(column=1, row=0, sticky=W, **self.paddings)
         
@@ -132,6 +136,16 @@ class DrawableApp():
     # Quando mouse é pressionado e cria um objeto da figura escolhida
     def iniciar_figura_nova(self, event):
         opcao = self.tipo_figura_var.get()
+        if opcao == 'Poligono':
+            # Se ainda nao tiver um poligono sendo construido, cria um novo poligono vazio
+            if self.poligono_atual is None:
+                self.poligono_atual = Poligono([], self.cor_da_borda, self.cor_do_preenchimento, self.espessura.get())
+
+            self.poligono_atual.adicionar_ponto(event.x, event.y)
+            self.desenhar_figuras()
+            self.poligono_atual.desenhar_pontos_do_poligono(self.canvas)
+            return
+        
         figura = self.MAPA_FIGURAS.get(opcao)
 
         valores_iniciais = [(event.x, event.y)] if opcao == 'Rabisco' else [event.x, event.y, event.x, event.y]
@@ -141,6 +155,9 @@ class DrawableApp():
 
     # Quando mouse é movido com o botão pressionado
     def atualizar_figura_nova(self, event):
+        if self.tipo_figura_var.get() == 'Poligono':
+            return 
+        
         if not self.figura_nova:
             return
 
@@ -156,10 +173,24 @@ class DrawableApp():
 
     # Quando mouse é solto
     def incluir_figura_nova(self, event):
+        if self.tipo_figura_var.get() == 'Poligono':
+            return 
+        
         if self.figura_nova and not self.incompleta(self.figura_nova):  # Para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
             self.historico_figuras.append(self.figura_nova)
             self.figuras_desfeitas.clear()  # Limpa o histórico de refazer, pois uma nova figura foi adicionada
         self.figura_nova = None
+        self.desenhar_figuras()
+
+    # Finaliza o poligono que estava sendo construído
+    def finalizar_poligono(self, event):
+        if self.tipo_figura_var.get() != 'Poligono':
+            return
+        if self.poligono_atual is not None and len(self.poligono_atual.values) >= 3:
+            self.historico_figuras.append(self.poligono_atual)
+            self.figuras_desfeitas.clear()
+        
+        self.poligono_atual = None
         self.desenhar_figuras()
 
 
@@ -187,6 +218,8 @@ class DrawableApp():
         self.canvas.bind('<ButtonPress-1>', self.iniciar_figura_nova)
         self.canvas.bind('<B1-Motion>', self.atualizar_figura_nova)
         self.canvas.bind('<ButtonRelease-1>', self.incluir_figura_nova)
+        # Finaliza o poligono com o botão direito
+        self.canvas.bind('<Button-3>', self.finalizar_poligono)
 
         # Eventos de teclado para desfazer/refazer
         self.canvas.bind('<Control-z>', self.desfazer)
