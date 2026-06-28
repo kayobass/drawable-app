@@ -43,7 +43,7 @@ class DrawableApp():
         self.root = Tk()
         self.root.title('Drawable App')
         self.frame = Frame(self.root)
-        self.espessura = IntVar(value=1)
+        self.espessura = IntVar(value=2)
         self.lados_poligono = IntVar(value=3)
 
         # Chamando os métodos de criação dos widgets e eventos
@@ -73,7 +73,7 @@ class DrawableApp():
         self.combo_lados = ttk.Combobox(
             self.frame_selecao, 
             textvariable=self.lados_poligono, 
-            values=list(range(3, 9)), 
+            values=list(range(3, 13)), 
             state="readonly", 
             width=3
         )
