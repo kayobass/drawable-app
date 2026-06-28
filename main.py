@@ -11,6 +11,8 @@ from rabisco import Rabisco
 from triangulo_equilatero import TrianguloEquilatero
 from triangulo_retangulo import TrianguloRetangulo
 from quadrado import Quadrado
+from pentagono import Pentagono
+from hexagono import Hexagono
 from poligono import Poligono
 
 class DrawableApp():
@@ -23,6 +25,8 @@ class DrawableApp():
         'Triangulo': TrianguloEquilatero,
         'Triangulo Retangulo': TrianguloRetangulo,
         'Quadrado': Quadrado,
+        'Pentagono': Pentagono,
+        'Hexagono': Hexagono,
         'Poligono': Poligono
     }
 
@@ -61,7 +65,7 @@ class DrawableApp():
         self.tipo_figura_var = StringVar(self.root)
         self.option_menu = ttk.OptionMenu(
             self.frame_selecao, self.tipo_figura_var,
-            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo', 'Triangulo Retangulo', 'Quadrado', 'Poligono'
+            'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo', 'Triangulo Retangulo', 'Quadrado', 'Pentagono', 'Hexagono', 'Poligono'
         )
         self.option_menu.pack(side="left")
         
