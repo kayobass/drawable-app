@@ -41,6 +41,7 @@ htmlcov/
 .coverage.*
 .cache
 .pytest_cache/
+tempCodeRunnerFile.py
 
 # Scrapy stuff
 .scrapy

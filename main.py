@@ -2,8 +2,7 @@ from tkinter import *
 from tkinter import colorchooser
 from tkinter import ttk
 
-# Importando a classes geométricas
-
+# Importando as classes geométricas
 from circulo import Circulo
 from linha import Linha
 from retangulo import Retangulo
@@ -15,7 +14,6 @@ from quadrado import Quadrado
 from poligono import Poligono
 
 class DrawableApp():
-    # Dicionário para mapear a string do menu para a classe real
     MAPA_FIGURAS = {
         'Circulo': Circulo,
         'Linha': Linha,
@@ -29,22 +27,22 @@ class DrawableApp():
     }
 
     def __init__(self):
-        self.historico_figuras = []  # Todas as figuras desenhadas
-        self.figuras_desfeitas = []  # Figuras que foram desfeitas (para refazer)
-        self.figura_nova = None  # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
+        self.historico_figuras = []  
+        self.figuras_desfeitas = []  
+        self.figura_nova = None  
         self.poligono_atual = None
         self.cor_da_borda = "black"
         self.cor_do_preenchimento = ""
-        self.paddings = {'padx': 5, 'pady': 5} # Widgets arranjados com Layout grid dentro de frame
-
+        self.paddings = {'padx': 5, 'pady': 5} 
 
         # Inicialização da janela
         self.root = Tk()
         self.root.title('Drawable App')
         self.frame = Frame(self.root)
         self.espessura = IntVar(value=1)
+        self.lados_poligono = IntVar(value=3)
 
-        # Chamandos os métodos de criação dos widgets e eventos
+        # Chamando os métodos de criação dos widgets e eventos
         self.criar_widgets_selecao()
         self.criar_widgets_cores()
         self.criar_area_desenho()
@@ -53,23 +51,33 @@ class DrawableApp():
         self.frame.pack()
         self.root.mainloop()
 
-
-    # Cria os elementos de escolha de ferramentas
     def criar_widgets_selecao(self):
         self.label = ttk.Label(self.frame, text='Escolha a ferramenta de desenho:')
         self.label.grid(column=0, row=0, sticky=W, **self.paddings)
 
+        self.frame_selecao = Frame(self.frame)
+        self.frame_selecao.grid(column=1, row=0, sticky=W)
+
         self.tipo_figura_var = StringVar(self.root)
         self.option_menu = ttk.OptionMenu(
-            self.frame, self.tipo_figura_var,
+            self.frame_selecao, self.tipo_figura_var,
             'Linha', 'Linha', 'Rabisco', 'Retangulo', 'Oval', 'Circulo', 'Triangulo', 'Triangulo Retangulo', 'Quadrado', 'Poligono'
         )
-        self.option_menu.grid(column=1, row=0, sticky=W, **self.paddings)
+        self.option_menu.pack(side="left")
+        
+        self.label_lados = ttk.Label(self.frame_selecao, text="  Lados:")
+        self.combo_lados = ttk.Combobox(
+            self.frame_selecao, 
+            textvariable=self.lados_poligono, 
+            values=list(range(3, 9)), 
+            state="readonly", 
+            width=3
+        )
+        self.combo_lados.current(0)
         
         self.tipo_figura_var.trace_add('write', self.opcao_mudou)
+        self.lados_poligono.trace_add('write', self.opcao_mudou)
 
-
-    # Cria o painel de seleção e indicação de cores
     def criar_widgets_cores(self):
         self.cores = ttk.Label(self.frame, text='Escolha as cores do desenho:')
         self.cores.grid(column=0, row=1, sticky=W, **self.paddings)
@@ -77,7 +85,6 @@ class DrawableApp():
         self.frame_cores = Frame(self.frame)
         self.frame_cores.grid(column=1, row=1, sticky=W)
 
-        # Configuração dos botões e indicadores de borda/preenchimento
         self.botao_cor_borda = Button(self.frame_cores, text="Cor da borda", command=self.escolher_cor_da_borda)
         self.botao_cor_borda.pack(side="left", padx=0, pady=0)
 
@@ -102,17 +109,14 @@ class DrawableApp():
             state="readonly",
             width=2
         )
-        self.combo_espessura.current(1)  # Define o valor inicial como 2
+        self.combo_espessura.current(1)  
         self.combo_espessura.pack(side="left")
         
         self.opcao_mudou()
 
-
-    # Cria o Canvas principal onde os desenhos acontecem
     def criar_area_desenho(self):
         self.canvas = Canvas(self.frame, bg='white', width=600, height=600)
         self.canvas.grid(column=0, row=2, columnspan=2, sticky=W, **self.paddings)
-
 
     def escolher_cor_da_borda(self):
         cor = colorchooser.askcolor(title="Cor da borda")
@@ -120,40 +124,34 @@ class DrawableApp():
             self.cor_da_borda = cor[1]
             self.indicador_borda.config(bg=self.cor_da_borda)
 
-
     def escolher_cor_do_preenchimento(self):
         corp = colorchooser.askcolor(title="Cor do preenchimento")
         if corp[1] is not None:
             self.cor_do_preenchimento = corp[1]
             self.indicador_preenchimento.config(bg=self.cor_do_preenchimento)
 
-
     def remover_preenchimento(self):
         self.cor_do_preenchimento = ""
         self.indicador_preenchimento.config(bg="#D3D3D3")
 
-
-    # Quando mouse é pressionado e cria um objeto da figura escolhida
     def iniciar_figura_nova(self, event):
         opcao = self.tipo_figura_var.get()
         if opcao == 'Poligono':
-            # Se ainda nao tiver um poligono sendo construido, cria um novo poligono vazio
             if self.poligono_atual is None:
                 self.poligono_atual = Poligono([], self.cor_da_borda, self.cor_do_preenchimento, self.espessura.get())
 
             self.poligono_atual.adicionar_ponto(event.x, event.y)
             self.desenhar_figuras()
             self.poligono_atual.desenhar_pontos_do_poligono(self.canvas)
+            
+            if len(self.poligono_atual.values) == self.lados_poligono.get():
+                self.finalizar_poligono(None)
             return
         
         figura = self.MAPA_FIGURAS.get(opcao)
-
         valores_iniciais = [(event.x, event.y)] if opcao == 'Rabisco' else [event.x, event.y, event.x, event.y]
-
         self.figura_nova = figura(valores_iniciais, self.cor_da_borda, self.cor_do_preenchimento, self.espessura.get())
 
-
-    # Quando mouse é movido com o botão pressionado
     def atualizar_figura_nova(self, event):
         if self.tipo_figura_var.get() == 'Poligono':
             return 
@@ -170,22 +168,17 @@ class DrawableApp():
         self.desenhar_figuras()
         self.desenhar_figura_nova()
 
-
-    # Quando mouse é solto
     def incluir_figura_nova(self, event):
         if self.tipo_figura_var.get() == 'Poligono':
             return 
         
-        if self.figura_nova and not self.incompleta(self.figura_nova):  # Para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
+        if self.figura_nova and not self.incompleta(self.figura_nova):  
             self.historico_figuras.append(self.figura_nova)
-            self.figuras_desfeitas.clear()  # Limpa o histórico de refazer, pois uma nova figura foi adicionada
+            self.figuras_desfeitas.clear()  
         self.figura_nova = None
         self.desenhar_figuras()
 
-    # Finaliza o poligono que estava sendo construído
     def finalizar_poligono(self, event):
-        if self.tipo_figura_var.get() != 'Poligono':
-            return
         if self.poligono_atual is not None and len(self.poligono_atual.values) >= 3:
             self.historico_figuras.append(self.poligono_atual)
             self.figuras_desfeitas.clear()
@@ -193,20 +186,16 @@ class DrawableApp():
         self.poligono_atual = None
         self.desenhar_figuras()
 
-
     def desenhar_figuras(self):
         self.canvas.delete("all")
         for figura in self.historico_figuras:
             figura.desenhar(self.canvas)
 
-
     def desenhar_figura_nova(self):
         if self.figura_nova:
             id_desenho = self.figura_nova.desenhar(self.canvas)
-
             if id_desenho:
                 self.canvas.itemconfig(id_desenho, dash=(4, 2))
-
 
     def incompleta(self, figura):
         if isinstance(figura, Rabisco):
@@ -214,40 +203,53 @@ class DrawableApp():
         return (figura.values[0], figura.values[1]) == (figura.values[2], figura.values[3])
         
     def eventos_bind(self):
-        # Eventos de mouse associados ao canvas - com seus callbacks
         self.canvas.bind('<ButtonPress-1>', self.iniciar_figura_nova)
         self.canvas.bind('<B1-Motion>', self.atualizar_figura_nova)
         self.canvas.bind('<ButtonRelease-1>', self.incluir_figura_nova)
-        # Finaliza o poligono com o botão direito
         self.canvas.bind('<Button-3>', self.finalizar_poligono)
 
-        # Eventos de teclado para desfazer/refazer
         self.canvas.bind('<Control-z>', self.desfazer)
         self.canvas.bind('<Control-y>', self.refazer)
-
-        # Focar no canvas para capturar eventos de teclado
         self.canvas.focus_set()
 
-
-    # Função para desfazer (ctrl+z)
     def desfazer(self, *args):
+        # Se estiver criando um polígono, cancela o esboço atual imediatamente
+        if self.tipo_figura_var.get() == 'Poligono' and self.poligono_atual is not None:
+            self.poligono_atual = None
+            self.desenhar_figuras()
+            return
+
         if self.historico_figuras:
             figura = self.historico_figuras.pop()
             self.figuras_desfeitas.append(figura)
             self.desenhar_figuras()
 
-
-    # Função para refazer (ctrl+y)
     def refazer(self, *args):
+        # Se estiver criando um polígono, cancela o esboço atual se o usuário tentar refazer algo antigo
+        if self.tipo_figura_var.get() == 'Poligono' and self.poligono_atual is not None:
+            self.poligono_atual = None
+            self.desenhar_figuras()
+            return
+
         if self.figuras_desfeitas:
             figura = self.figuras_desfeitas.pop()
             self.historico_figuras.append(figura)
             self.desenhar_figuras()
 
-
-    # Verificação de alteração no valor do menu
     def opcao_mudou(self, *args):
         opcao_selecionada = self.tipo_figura_var.get()
+        
+        if self.poligono_atual is not None:
+            self.poligono_atual = None
+            self.desenhar_figuras()
+
+        if opcao_selecionada == 'Poligono':
+            self.label_lados.pack(side="left")
+            self.combo_lados.pack(side="left")
+        else:
+            self.label_lados.pack_forget()
+            self.combo_lados.pack_forget()
+
         if opcao_selecionada == 'Linha' or opcao_selecionada == 'Rabisco':
             self.botao_cor_preenchimento.config(state="disabled")
             self.botao_sem_preenchimento.config(state="disabled")
@@ -258,9 +260,6 @@ class DrawableApp():
             self.botao_sem_preenchimento.config(state="normal")
             self.indicador_preenchimento.config(bg=self.cor_do_preenchimento or "#D3D3D3")
             self.botao_cor_borda.config(text="Cor da borda")
-
-
-# Função principal para iniciar a aplicação
 
 def main():
     app = DrawableApp()
