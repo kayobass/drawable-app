@@ -3,17 +3,7 @@ from tkinter import colorchooser
 from tkinter import ttk
 
 # Importando as classes geométricas
-from circulo import Circulo
-from linha import Linha
-from retangulo import Retangulo
-from oval import Oval
-from rabisco import Rabisco
-from triangulo_equilatero import TrianguloEquilatero
-from triangulo_retangulo import TrianguloRetangulo
-from quadrado import Quadrado
-from pentagono import Pentagono
-from hexagono import Hexagono
-from poligono import Poligono
+from src.models.figuras import *
 
 class DrawableApp():
     MAPA_FIGURAS = {
@@ -42,6 +32,10 @@ class DrawableApp():
         # Inicialização da janela
         self.root = Tk()
         self.root.title('Drawable App')
+
+        self.root.rowconfigure(0, weight=1)
+        self.root.columnconfigure(0, weight=1)
+
         self.frame = Frame(self.root)
         self.espessura = IntVar(value=2)
         self.lados_poligono = IntVar(value=3)
@@ -52,7 +46,10 @@ class DrawableApp():
         self.criar_area_desenho()
         self.eventos_bind()
 
-        self.frame.pack()
+        self.frame.grid(row=0, column=0, sticky="nsew")
+        self.frame.rowconfigure(2, weight=1)
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
         self.root.mainloop()
 
     def criar_widgets_selecao(self):
@@ -76,6 +73,11 @@ class DrawableApp():
             values=list(range(3, 13)), 
             state="readonly", 
             width=3
+        )
+        # Retorna o foco ao Canvas ao mudar o lado
+        self.combo_lados.bind(
+            "<<ComboboxSelected>>",
+            lambda event: self.canvas.focus_set()
         )
         self.combo_lados.current(0)
         
@@ -113,6 +115,11 @@ class DrawableApp():
             state="readonly",
             width=2
         )
+        # Retorna o foco ao Canvas ao mudar a espressura
+        self.combo_espessura.bind(
+            "<<ComboboxSelected>>",
+            lambda event: self.canvas.focus_set()
+        )
         self.combo_espessura.current(1)  
         self.combo_espessura.pack(side="left")
         
@@ -120,7 +127,13 @@ class DrawableApp():
 
     def criar_area_desenho(self):
         self.canvas = Canvas(self.frame, bg='white', width=600, height=600)
-        self.canvas.grid(column=0, row=2, columnspan=2, sticky=W, **self.paddings)
+        self.canvas.grid(
+            row=2,
+            column=0,
+            columnspan=2,
+            sticky="nsew",
+            **self.paddings
+        )
 
     def escolher_cor_da_borda(self):
         cor = colorchooser.askcolor(title="Cor da borda")
