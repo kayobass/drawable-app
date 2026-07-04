@@ -3,7 +3,8 @@ from tkinter import colorchooser
 from tkinter import ttk
 
 # Importando as classes geométricas
-from src.models.figuras import *
+from models.figuras import *
+from models.historico import Historico
 
 class DrawableApp():
     MAPA_FIGURAS = {
@@ -21,8 +22,7 @@ class DrawableApp():
     }
 
     def __init__(self):
-        self.historico_figuras = []  
-        self.figuras_desfeitas = []  
+        self.historico = Historico()
         self.figura_nova = None  
         self.poligono_atual = None
         self.cor_da_borda = "black"
@@ -190,22 +190,20 @@ class DrawableApp():
             return 
         
         if self.figura_nova and not self.incompleta(self.figura_nova):  
-            self.historico_figuras.append(self.figura_nova)
-            self.figuras_desfeitas.clear()  
+            self.historico.adicionar(self.figura_nova)
         self.figura_nova = None
         self.desenhar_figuras()
 
     def finalizar_poligono(self, event):
         if self.poligono_atual is not None and len(self.poligono_atual.values) >= 3:
-            self.historico_figuras.append(self.poligono_atual)
-            self.figuras_desfeitas.clear()
+            self.historico.adicionar(self.poligono_atual)
         
         self.poligono_atual = None
         self.desenhar_figuras()
 
     def desenhar_figuras(self):
         self.canvas.delete("all")
-        for figura in self.historico_figuras:
+        for figura in self.historico.get_figuras():
             figura.desenhar(self.canvas)
 
     def desenhar_figura_nova(self):
@@ -236,9 +234,8 @@ class DrawableApp():
             self.desenhar_figuras()
             return
 
-        if self.historico_figuras:
-            figura = self.historico_figuras.pop()
-            self.figuras_desfeitas.append(figura)
+        if self.historico.get_figuras():
+            self.historico.desfazer()
             self.desenhar_figuras()
 
     def refazer(self, *args):
@@ -248,9 +245,8 @@ class DrawableApp():
             self.desenhar_figuras()
             return
 
-        if self.figuras_desfeitas:
-            figura = self.figuras_desfeitas.pop()
-            self.historico_figuras.append(figura)
+        if self.historico.get_figuras_desfeitas():
+            self.historico.refazer()
             self.desenhar_figuras()
 
     def opcao_mudou(self, *args):
