@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import colorchooser
 from tkinter import ttk
 
-# Importando as classes geométricas
+# Importando as classes geométricas e historico
 from models.figuras import *
 from models.historico import Historico
 
@@ -203,7 +203,7 @@ class DrawableApp():
 
     def desenhar_figuras(self):
         self.canvas.delete("all")
-        for figura in self.historico.get_figuras():
+        for figura in self.historico.figuras:
             figura.desenhar(self.canvas)
 
     def desenhar_figura_nova(self):
@@ -234,7 +234,7 @@ class DrawableApp():
             self.desenhar_figuras()
             return
 
-        if self.historico.get_figuras():
+        if self.historico.figuras:
             self.historico.desfazer()
             self.desenhar_figuras()
 
@@ -245,7 +245,7 @@ class DrawableApp():
             self.desenhar_figuras()
             return
 
-        if self.historico.get_figuras_desfeitas():
+        if self.historico.figuras_desfeitas:
             self.historico.refazer()
             self.desenhar_figuras()
 

@@ -44,6 +44,7 @@ class Circulo(Figura):
         largura = x_final - x_inicial
         altura = y_final - y_inicial
         tamanho = min(abs(largura), abs(altura))
+        
         if largura < 0:
             x_final = x_inicial - tamanho
         else:
@@ -52,7 +53,13 @@ class Circulo(Figura):
             y_final = y_inicial - tamanho
         else:
             y_final = y_inicial + tamanho
-        return x_inicial, y_inicial, x_final, y_final
+            
+        return (
+            x_inicial, 
+            y_inicial, 
+            x_final, 
+            y_final
+        )
 
     def desenhar(self, canvas):
         x_inicial, y_inicial, x_final, y_final = self.transformar_em_circulo(self.values)
@@ -205,7 +212,6 @@ class Poligono(Figura):
             fill=self.cor_preenchimento,
             width=self.espessura
         )
-
 
 class TrianguloEquilatero(Figura):
     def desenhar(self, canvas):
