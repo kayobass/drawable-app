@@ -19,6 +19,8 @@ class DrawableView:
         self.frame.rowconfigure(2, weight=1)
         self.frame.columnconfigure(0, weight=1)
         self.frame.columnconfigure(1, weight=1)
+        self.frame.columnconfigure(2, weight=1)
+        self.frame.columnconfigure(3, weight=1)
 
         self.criar_widgets_selecao()
         self.criar_widgets_personalizacao()
@@ -64,13 +66,26 @@ class DrawableView:
         )
 
     def criar_widgets_personalizacao(self):
+        self.label_cores = ttk.Label(
+            self.frame,
+            text="Escolha as cores do desenho:"
+        )
+
+        self.label_cores.grid(
+            row=1,
+            column=0,
+            sticky="w",
+            **self.paddings
+        )
+
         self.frame_cores = Frame(self.frame)
 
         self.frame_cores.grid(
             row=1,
-            column=0,
-            columnspan=2,
-            sticky="w"
+            column=1,
+            columnspan=3,
+            sticky="w",
+            **self.paddings
         )
 
         self.botao_cor_borda = Button(
@@ -127,13 +142,15 @@ class DrawableView:
     def criar_area_desenho(self):
         self.canvas = Canvas(
             self.frame,
-            bg="white"
+            bg="white",
+            width=600,
+            height=600
         )
 
         self.canvas.grid(
             row=2,
             column=0,
-            columnspan=2,
+            columnspan=4,
             sticky="nsew",
             **self.paddings
         )
