@@ -1,11 +1,12 @@
 from tkinter import *
 from tkinter import ttk
 
+
 class DrawableView:
 
     def __init__(self, figuras):
         self.figuras = figuras
-        
+
         self.root = Tk()
         self.root.title("Drawable App")
 

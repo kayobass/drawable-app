@@ -1,8 +1,9 @@
-from models.figuras import *
 from tkinter import colorchooser
 
+from models.figuras import *
+
+
 class DrawableController:
-    
     MAPA_FIGURAS = {
         'Circulo': Circulo,
         'Linha': Linha,
@@ -23,17 +24,26 @@ class DrawableController:
 
         self.cor_da_borda = "black"
         self.cor_do_preenchimento = ""
-        
+
         self.figura_nova = None
         self.poligono_atual = None
 
         self.configurar_comandos()
         self.configurar_eventos()
-        
+        self.atribuir_foco_canvas()
+
     @classmethod
     def figuras_disponiveis(cls):
         return list(cls.MAPA_FIGURAS.keys())
-    
+
+    @property
+    def ferramenta(self):
+        return self.view.tipo_figura.get()
+
+    @property
+    def espessura(self):
+        return self.view.espessura.get()
+
     def configurar_comandos(self):
         self.view.botao_cor_borda.config(command=self.escolher_cor_da_borda)
         self.view.botao_cor_preenchimento.config(command=self.escolher_cor_do_preenchimento)
@@ -43,7 +53,7 @@ class DrawableController:
         self.view.lados_poligono.trace_add('write', self.opcao_mudou)
 
         self.opcao_mudou()
-    
+
     def configurar_eventos(self):
         self.view.canvas.bind('<ButtonPress-1>', self.iniciar_figura_nova)
         self.view.canvas.bind('<B1-Motion>', self.atualizar_figura_nova)
@@ -53,7 +63,18 @@ class DrawableController:
         self.view.root.bind_all('<Control-z>', self.desfazer)
         self.view.root.bind_all('<Control-y>', self.refazer)
         self.view.canvas.focus_set()
-    
+
+    def atribuir_foco_canvas(self):
+        self.view.combo_lados.bind(
+            "<<ComboboxSelected>>",
+            lambda event: self.view.canvas.focus_set()
+        )
+
+        self.view.combo_espessura.bind(
+            "<<ComboboxSelected>>",
+            lambda event: self.view.canvas.focus_set()
+        )
+
     def escolher_cor_da_borda(self):
         cor = colorchooser.askcolor(title="Cor da borda")
         if cor[1] is not None:
@@ -69,9 +90,9 @@ class DrawableController:
     def remover_preenchimento(self):
         self.cor_do_preenchimento = ""
         self.view.indicador_preenchimento.config(bg="#D3D3D3")
-    
+
     def opcao_mudou(self, *args):
-        opcao_selecionada = self.view.tipo_figura.get()
+        opcao_selecionada = self.ferramenta
 
         if self.poligono_atual is not None:
             self.poligono_atual = None
@@ -95,28 +116,49 @@ class DrawableController:
             self.view.indicador_preenchimento.config(bg=self.cor_do_preenchimento or "#D3D3D3")
             self.view.botao_cor_borda.config(text="Cor da borda")
 
-    def iniciar_figura_nova(self, event):
-        opcao = self.view.tipo_figura.get()
-        if opcao == 'Poligono':
-            if self.poligono_atual is None:
-                self.poligono_atual = Poligono([], self.cor_da_borda, self.cor_do_preenchimento, self.view.espessura.get())
+    def iniciar_poligono(self, event):
+        if self.poligono_atual is None:
+            self.poligono_atual = Poligono(
+                [],
+                self.cor_da_borda,
+                self.cor_do_preenchimento,
+                self.espessura
+            )
 
-            self.poligono_atual.adicionar_ponto(event.x, event.y)
-            self.desenhar_figuras()
-            self.poligono_atual.desenhar_pontos_do_poligono(self.view.canvas)
-            
-            if len(self.poligono_atual.values) == self.view.lados_poligono.get():
-                self.finalizar_poligono(None)
-            return
-        
-        figura = self.MAPA_FIGURAS.get(opcao)
-        valores_iniciais = [(event.x, event.y)] if opcao == 'Rabisco' else [event.x, event.y, event.x, event.y]
-        self.figura_nova = figura(valores_iniciais, self.cor_da_borda, self.cor_do_preenchimento, self.view.espessura.get())
+        self.poligono_atual.adicionar_ponto(event.x, event.y)
+
+        self.desenhar_figuras()
+        self.poligono_atual.desenhar_pontos_do_poligono(self.view.canvas)
+
+        if len(self.poligono_atual.values) == self.view.lados_poligono.get():
+            self.finalizar_poligono(None)
+
+    def iniciar_figura(self, event):
+        figura = self.MAPA_FIGURAS[self.ferramenta]
+
+        valores_iniciais = (
+            [(event.x, event.y)]
+            if self.ferramenta == "Rabisco"
+            else [event.x, event.y, event.x, event.y]
+        )
+
+        self.figura_nova = figura(
+            valores_iniciais,
+            self.cor_da_borda,
+            self.cor_do_preenchimento,
+            self.espessura
+        )
+
+    def iniciar_figura_nova(self, event):
+        if self.ferramenta == "Poligono":
+            self.iniciar_poligono(event)
+        else:
+            self.iniciar_figura(event)
 
     def atualizar_figura_nova(self, event):
-        if self.view.tipo_figura.get() == 'Poligono':
-            return 
-        
+        if self.ferramenta == 'Poligono':
+            return
+
         if not self.figura_nova:
             return
 
@@ -130,10 +172,10 @@ class DrawableController:
         self.desenhar_figura_nova()
 
     def incluir_figura_nova(self, event):
-        if self.view.tipo_figura.get() == 'Poligono':
-            return 
-        
-        if self.figura_nova and not self.incompleta(self.figura_nova):  
+        if self.ferramenta == 'Poligono':
+            return
+
+        if self.figura_nova and not self.incompleta(self.figura_nova):
             self.historico.adicionar(self.figura_nova)
         self.figura_nova = None
         self.desenhar_figuras()
@@ -141,7 +183,7 @@ class DrawableController:
     def finalizar_poligono(self, event):
         if self.poligono_atual is not None and len(self.poligono_atual.values) >= 3:
             self.historico.adicionar(self.poligono_atual)
-        
+
         self.poligono_atual = None
         self.desenhar_figuras()
 
@@ -156,7 +198,6 @@ class DrawableController:
             if id_desenho:
                 self.view.canvas.itemconfig(id_desenho, dash=(4, 2))
 
-    
     def incompleta(self, figura):
         if isinstance(figura, Rabisco):
             return len(figura.values) <= 1
@@ -164,7 +205,7 @@ class DrawableController:
 
     def desfazer(self, *args):
         # Se estiver criando um polígono, cancela o esboço atual imediatamente
-        if self.view.tipo_figura.get() == 'Poligono' and self.poligono_atual is not None:
+        if self.ferramenta == 'Poligono' and self.poligono_atual is not None:
             self.poligono_atual = None
             self.desenhar_figuras()
             return
@@ -175,7 +216,7 @@ class DrawableController:
 
     def refazer(self, *args):
         # Se estiver criando um polígono, cancela o esboço atual se o usuário tentar refazer algo antigo
-        if self.view.tipo_figura.get() == 'Poligono' and self.poligono_atual is not None:
+        if self.ferramenta == 'Poligono' and self.poligono_atual is not None:
             self.poligono_atual = None
             self.desenhar_figuras()
             return

@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
 import math
+from abc import ABC, abstractmethod
+
 
 # Criação da classe Figura
 class Figura(ABC):
@@ -9,7 +10,7 @@ class Figura(ABC):
         self.cor_preenchimento = cor_preenchimento
         self.espessura = espessura
 
-    @abstractmethod    
+    @abstractmethod
     def desenhar(self, canvas):
         pass
 
@@ -44,7 +45,7 @@ class Circulo(Figura):
         largura = x_final - x_inicial
         altura = y_final - y_inicial
         tamanho = min(abs(largura), abs(altura))
-        
+
         if largura < 0:
             x_final = x_inicial - tamanho
         else:
@@ -53,11 +54,11 @@ class Circulo(Figura):
             y_final = y_inicial - tamanho
         else:
             y_final = y_inicial + tamanho
-            
+
         return (
-            x_inicial, 
-            y_inicial, 
-            x_final, 
+            x_inicial,
+            y_inicial,
+            x_final,
             y_final
         )
 
@@ -86,7 +87,7 @@ class Oval(Figura):
         )
 
 
- # Retangulos
+# Retangulos
 class Quadrado(Figura):
     def retangulo_em_quadrado(self, values):
         x_inicial, y_inicial, x_final, y_final = values
@@ -212,6 +213,7 @@ class Poligono(Figura):
             fill=self.cor_preenchimento,
             width=self.espessura
         )
+
 
 class TrianguloEquilatero(Figura):
     def desenhar(self, canvas):
