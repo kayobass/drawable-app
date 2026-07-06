@@ -18,9 +18,6 @@ class DrawableView:
         self.frame = Frame(self.root)
         self.frame.grid(row=0, column=0, sticky="nsew")
         self.frame.rowconfigure(2, weight=1)
-        self.frame.columnconfigure(0, weight=1)
-        self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
 
         self.criar_widgets_selecao()
