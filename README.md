@@ -1,120 +1,104 @@
 # Drawable App
 
-Aplicação gráfica desenvolvida em Python utilizando a biblioteca Tkinter para criação e manipulação de desenhos vetoriais simples, inspirada em ferramentas como Google Drawings, Paint e LibreOffice Draw.
+---
 
-Este projeto foi desenvolvido como atividade da disciplina de Programação A da UFS.
+## 📋 Descrição do Sistema
+
+O **Drawable App** é uma aplicação gráfica desenvolvida em Python utilizando a biblioteca Tkinter, destinada à criação e manipulação de desenhos vetoriais simples. O sistema permite ao usuário desenhar diversas formas geométricas (linhas, rabiscos, retângulos, ovais e etc), personalizar cores de borda e preenchimento, ajustar espessura de linhas e utilizar um sistema de desfazer/refazer. O projeto segue o padrão arquitetural **MVC (Model-View-Controller)**.
 
 ---
 
-## 📋 Objetivo do Projeto
+## 👨‍💻 Equipe
 
-O objetivo é desenvolver uma ferramenta de desenho com interface gráfica capaz de permitir ao usuário criar e manipular formas geométricas, aplicando conceitos de:
-
-- Programação Orientada a Objetos
-- Interfaces Gráficas com Tkinter
-- Padrões de Projeto
-- Arquitetura de Software
-- Controle de Versão com Git e GitHub
-- Desenvolvimento Colaborativo
-
-O projeto será evoluído gradualmente ao longo das etapas da disciplina.
+| Integrante      | GitHub          |
+| --------------- | --------------- |
+| Kayo Araujo     | @kayobass       |
+| Matheuz Rozendo | @matheuzrozendo |
 
 ---
 
-# 🚀 Tecnologias Utilizadas
+## 🔩 Classes Presentes
 
-- Python
-- Tkinter
-- Git
-- GitHub
+**15 classes**
 
----
-
-# 📌 Funcionalidades Implementadas
-
-### Funcionalidades disponíveis
-
-- Desenho de linhas
-- Desenho livre (rabisco)
-- Desenho de retângulos
-- Desenho de ovais
-- Desenho de círculos
-- Desenho de quadrados
-- Desenho de triângulos equiláteros
-- Desenho de triângulos retângulos
-- Desenho de pentágonos
-- Desenho de hexágonos
-- Desenho de polígonos interativos (3 a 12 lados)
-- Escolha de cor da borda
-- Escolha de cor de preenchimento
-- Opção de remover preenchimento
-- Seleção de espessura da linha (1 a 10)
-- Visualização em tempo real da figura durante o desenho
-- Visualização de vértices e guias ao desenhar polígonos interativos
-- Sistema de desfazer (Ctrl + Z)
-- Sistema de refazer (Ctrl + Y)
-
-### Ferramentas de desenho
-
-| Ferramenta | Descrição |
-|------------|------------|
-| Linha | Cria linhas retas |
-| Rabisco | Desenho livre acompanhando o movimento do mouse |
-| Retângulo | Cria retângulos |
-| Quadrado | Cria quadrados proporcionais |
-| Oval | Cria elipses |
-| Círculo | Cria círculos proporcionais |
-| Triângulo | Cria triângulos equiláteros |
-| Triângulo Retângulo | Cria triângulos retângulos |
-| Pentágono | Cria pentágonos regulares |
-| Hexágono | Cria hexágonos regulares |
-| Polígono | Cria polígonos interativos com número de lados configurável (3–12) |
+| #   | Classe                | Arquivo                            |
+| --- | --------------------- | ---------------------------------- |
+| 1   | `Figura` (ABC)        | `src/models/figura.py`             |
+| 2   | `Linha`               | `src/models/tracados.py`           |
+| 3   | `Rabisco`             | `src/models/tracados.py`           |
+| 4   | `Circulo`             | `src/models/ovais.py`              |
+| 5   | `Oval`                | `src/models/ovais.py`              |
+| 6   | `Retangulo`           | `src/models/retangulos.py`         |
+| 7   | `Quadrado`            | `src/models/retangulos.py`         |
+| 8   | `TrianguloEquilatero` | `src/models/poligonos.py`          |
+| 9   | `TrianguloRetangulo`  | `src/models/poligonos.py`          |
+| 10  | `Pentagono`           | `src/models/poligonos.py`          |
+| 11  | `Hexagono`            | `src/models/poligonos.py`          |
+| 12  | `Poligono`            | `src/models/poligonos.py`          |
+| 13  | `Historico`           | `src/models/historico.py`          |
+| 14  | `DrawableView`        | `src/views/view.py`                |
+| 15  | `DrawableController`  | `src/controllers/controller.py`    |
 
 ---
 
-# 🖥️ Como Executar
+## 🔎 Métodos por Classe
 
-## Clone o repositório
+**50 métodos**
+
+| Classe                | Métodos                                                                                                                          | Qtd |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --- |
+| `Figura`              | `__init__`, `desenhar`                                                                                                           | 2   |
+| `Linha`               | `desenhar`                                                                                                                       | 1   |
+| `Rabisco`             | `desenhar`                                                                                                                       | 1   |
+| `Circulo`             | `transformar_em_circulo`, `desenhar`                                                                                             | 2   |
+| `Oval`                | `desenhar`                                                                                                                       | 1   |
+| `Retangulo`           | `desenhar`                                                                                                                       | 1   |
+| `Quadrado`            | `retangulo_em_quadrado`, `desenhar`                                                                                              | 2   |
+| `TrianguloEquilatero` | `desenhar`                                                                                                                       | 1   |
+| `TrianguloRetangulo`  | `desenhar`                                                                                                                       | 1   |
+| `Pentagono`           | `desenhar`                                                                                                                       | 1   |
+| `Hexagono`            | `desenhar`                                                                                                                       | 1   |
+| `Poligono`            | `adicionar_ponto`, `desenhar_pontos_do_poligono`, `desenhar`                                                                     | 3   |
+| `Historico`           | `__init__`, `adicionar`, `desfazer`, `refazer`, `limpar`, `figuras`, `figuras_desfeitas`                                         | 7   |
+| `DrawableView`        | `__init__`, `criar_widgets_selecao`, `criar_widgets_personalizacao`, `criar_area_desenho`, `mainloop`                            | 5   |
+| `DrawableController`  | `__init__`, `figuras_disponiveis`, `ferramenta`, `espessura`, `configurar_comandos`, `configurar_eventos`, `atribuir_foco_canvas`, `escolher_cor_da_borda`, `escolher_cor_do_preenchimento`, `remover_preenchimento`, `opcao_mudou`, `iniciar_poligono`, `iniciar_figura`, `iniciar_figura_nova`, `atualizar_figura_nova`, `incluir_figura_nova`, `finalizar_poligono`, `desenhar_figuras`, `desenhar_figura_nova`, `incompleta`, `desfazer`, `refazer` | 21  |
+
+---
+
+## ⌨️ Atalhos
+
+| Atalho                 | Ação                          |
+| ---------------------- | ----------------------------- |
+| Ctrl + Z               | Desfazer                      |
+| Ctrl + Y               | Refazer                       |
+| Botão direito do mouse | Finalizar polígono interativo |
+
+---
+
+### 📚 Pré-requisitos
+
+- Python 3.x instalado
+- Biblioteca Tkinter (incluída na instalação padrão do Python)
+
+### 💻 Executar o Sistema
+
+1. Clone o repositório:
 
 ```bash
-git clone https://github.com/kayobass/drawable-app
+git clone https://github.com/kayobass/drawable-app.git
 ```
 
-## Acesse a pasta
+2. Acesse a pasta do projeto:
 
 ```bash
 cd drawable-app
 ```
 
-## Execute o programa
+3. Execute o programa:
 
 ```bash
-python main.py
+python src/main.py
 ```
-
----
-
-# 🎨 Interface
-
-A aplicação possui:
-
-- Menu de seleção da ferramenta de desenho
-- Seletor de número de lados para polígonos interativos
-- Seleção de cor da borda com indicador visual
-- Seleção de cor do preenchimento com indicador visual
-- Opção de remover preenchimento
-- Seletor de espessura da linha
-- Área de desenho baseada no widget Canvas do Tkinter (600×600)
-
----
-
-# ⌨️ Atalhos
-
-| Atalho | Ação |
-|---------|--------|
-| Ctrl + Z | Desfazer |
-| Ctrl + Y | Refazer |
-| Botão direito do mouse | Finalizar polígono interativo |
 
 ---
 
@@ -144,50 +128,14 @@ A aplicação possui:
 
 ---
 
-## 🔄 Etapa 3 — Em desenvolvimento
+## ✅ Etapa 3 — Implementada
 
 Refatoração para o padrão **MVC (Model-View-Controller)**:
 
-- [ ] Definir as classes do modelo (Figuras, Desenho, ...)
-- [ ] Definir uma classe ou classes para a visão
-- [ ] Definir uma classe ou classes para o(s) controlador(es)
-
-### Estrutura de pastas recomendada
-
-```
-drawable-app/
-├── .git/
-├── .gitignore
-├── src/
-│   └── drawable_app/
-│       ├── main.py
-│       ├── modelo/
-│       │   └── ...
-│       ├── visao/
-│       │   └── ...
-│       └── controlador/
-│           └── ...
-```
+- [x] Definir as classes do modelo (Figuras, Desenho, ...)
+- [x] Definir uma classe ou classes para a visão
+- [x] Definir uma classe ou classes para o(s) controlador(es)
 
 ---
 
-## 🔄 Etapa 4 — Em desenvolvimento
-
-Funcionalidades serão adicionadas conforme os requisitos da disciplina.
-
-- [ ] A definir
-
----
-
-# 👨‍💻 Equipe
-
-| Integrante      | GitHub |
-|-----------------|----|
-| Kayo Araujo     | @kayobass |
-| Matheuz Rozendo | @matheuzrozendo  |
-
----
-
-# 📄 Licença
-
-Projeto desenvolvido exclusivamente para fins acadêmicos.
+_Documentação elaborada para fins acadêmicos — Disciplina de Programação A_

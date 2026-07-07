@@ -1,16 +1,15 @@
 from tkinter import colorchooser
 
-
-from models.tracados import Linha, Rabisco
 from models.ovais import Circulo, Oval
-from models.retangulos import Retangulo, Quadrado
 from models.poligonos import (
-    TrianguloEquilatero, 
-    TrianguloRetangulo, 
-    Pentagono, 
-    Hexagono, 
-    Poligono)
-
+    TrianguloEquilatero,
+    TrianguloRetangulo,
+    Pentagono,
+    Hexagono,
+    Poligono
+)
+from models.retangulos import Retangulo, Quadrado
+from models.tracados import Linha, Rabisco
 
 
 class DrawableController:

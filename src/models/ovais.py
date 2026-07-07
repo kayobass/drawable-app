@@ -1,5 +1,6 @@
 from .figura import Figura
 
+
 class Circulo(Figura):
     # Utilizando a ideia de transformar o retangulo diretor em quadrado para desenhar um circulo
     def transformar_em_circulo(self, values):

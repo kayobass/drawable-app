@@ -1,5 +1,6 @@
 from .figura import Figura
 
+
 class Linha(Figura):
     def desenhar(self, canvas):
         x_inicial, y_inicial, x_final, y_final = self.values
@@ -10,6 +11,7 @@ class Linha(Figura):
             fill=self.cor_borda,
             width=self.espessura
         )
+
 
 class Rabisco(Figura):
     def desenhar(self, canvas):

@@ -1,5 +1,7 @@
-from .figura import Figura
 import math
+
+from .figura import Figura
+
 
 class TrianguloRetangulo(Figura):
     def desenhar(self, canvas):

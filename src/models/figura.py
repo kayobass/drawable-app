@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 # Criação da classe Figura
 class Figura(ABC):
     def __init__(self, values, cor_borda, cor_preenchimento, espessura):
