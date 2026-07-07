@@ -1,26 +1,24 @@
 from tkinter import colorchooser
 
 
-from models.linha import Linha
-from models.rabisco import Rabisco
-from models.circulo import Circulo
-from models.oval import Oval
-from models.quadrado import Quadrado
-from models.retangulo import Retangulo
-from models.triangulo_equilatero import TrianguloEquilatero
-from models.triangulo_retangulo import TrianguloRetangulo
-from models.pentagono import Pentagono
-from models.hexagono import Hexagono
-from models.poligono import Poligono
+from models.tracados import Linha, Rabisco
+from models.ovais import Circulo, Oval
+from models.retangulos import Retangulo, Quadrado
+from models.poligonos import (
+    TrianguloEquilatero, 
+    TrianguloRetangulo, 
+    Pentagono, 
+    Hexagono, 
+    Poligono)
 
 
 
 class DrawableController:
     MAPA_FIGURAS = {
-        'Circulo': Circulo,
         'Linha': Linha,
         'Rabisco': Rabisco,
         'Oval': Oval,
+        'Circulo': Circulo,
         'Retangulo': Retangulo,
         'Triangulo': TrianguloEquilatero,
         'Triangulo Retangulo': TrianguloRetangulo,
