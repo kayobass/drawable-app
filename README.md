@@ -21,23 +21,23 @@ O **Drawable App** é uma aplicação gráfica desenvolvida em Python utilizando
 
 **15 classes**
 
-| #   | Classe                | Arquivo                            |
-| --- | --------------------- | ---------------------------------- |
-| 1   | `Figura` (ABC)        | `src/models/figura.py`             |
-| 2   | `Linha`               | `src/models/tracados.py`           |
-| 3   | `Rabisco`             | `src/models/tracados.py`           |
-| 4   | `Circulo`             | `src/models/ovais.py`              |
-| 5   | `Oval`                | `src/models/ovais.py`              |
-| 6   | `Retangulo`           | `src/models/retangulos.py`         |
-| 7   | `Quadrado`            | `src/models/retangulos.py`         |
-| 8   | `TrianguloEquilatero` | `src/models/poligonos.py`          |
-| 9   | `TrianguloRetangulo`  | `src/models/poligonos.py`          |
-| 10  | `Pentagono`           | `src/models/poligonos.py`          |
-| 11  | `Hexagono`            | `src/models/poligonos.py`          |
-| 12  | `Poligono`            | `src/models/poligonos.py`          |
-| 13  | `Historico`           | `src/models/historico.py`          |
-| 14  | `DrawableView`        | `src/views/view.py`                |
-| 15  | `DrawableController`  | `src/controllers/controller.py`    |
+| #   | Classe                | Arquivo                         |
+| --- | --------------------- | ------------------------------- |
+| 1   | `Figura` (ABC)        | `src/models/figura.py`          |
+| 2   | `Linha`               | `src/models/tracados.py`        |
+| 3   | `Rabisco`             | `src/models/tracados.py`        |
+| 4   | `Circulo`             | `src/models/ovais.py`           |
+| 5   | `Oval`                | `src/models/ovais.py`           |
+| 6   | `Retangulo`           | `src/models/retangulos.py`      |
+| 7   | `Quadrado`            | `src/models/retangulos.py`      |
+| 8   | `TrianguloEquilatero` | `src/models/poligonos.py`       |
+| 9   | `TrianguloRetangulo`  | `src/models/poligonos.py`       |
+| 10  | `Pentagono`           | `src/models/poligonos.py`       |
+| 11  | `Hexagono`            | `src/models/poligonos.py`       |
+| 12  | `Poligono`            | `src/models/poligonos.py`       |
+| 13  | `Historico`           | `src/models/historico.py`       |
+| 14  | `DrawableView`        | `src/views/view.py`             |
+| 15  | `DrawableController`  | `src/controllers/controller.py` |
 
 ---
 
@@ -45,23 +45,23 @@ O **Drawable App** é uma aplicação gráfica desenvolvida em Python utilizando
 
 **50 métodos**
 
-| Classe                | Métodos                                                                                                                          | Qtd |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --- |
-| `Figura`              | `__init__`, `desenhar`                                                                                                           | 2   |
-| `Linha`               | `desenhar`                                                                                                                       | 1   |
-| `Rabisco`             | `desenhar`                                                                                                                       | 1   |
-| `Circulo`             | `transformar_em_circulo`, `desenhar`                                                                                             | 2   |
-| `Oval`                | `desenhar`                                                                                                                       | 1   |
-| `Retangulo`           | `desenhar`                                                                                                                       | 1   |
-| `Quadrado`            | `retangulo_em_quadrado`, `desenhar`                                                                                              | 2   |
-| `TrianguloEquilatero` | `desenhar`                                                                                                                       | 1   |
-| `TrianguloRetangulo`  | `desenhar`                                                                                                                       | 1   |
-| `Pentagono`           | `desenhar`                                                                                                                       | 1   |
-| `Hexagono`            | `desenhar`                                                                                                                       | 1   |
-| `Poligono`            | `adicionar_ponto`, `desenhar_pontos_do_poligono`, `desenhar`                                                                     | 3   |
-| `Historico`           | `__init__`, `adicionar`, `desfazer`, `refazer`, `limpar`, `figuras`, `figuras_desfeitas`                                         | 7   |
-| `DrawableView`        | `__init__`, `criar_widgets_selecao`, `criar_widgets_personalizacao`, `criar_area_desenho`, `mainloop`                            | 5   |
-| `DrawableController`  | `__init__`, `figuras_disponiveis`, `ferramenta`, `espessura`, `configurar_comandos`, `configurar_eventos`, `atribuir_foco_canvas`, `escolher_cor_da_borda`, `escolher_cor_do_preenchimento`, `remover_preenchimento`, `opcao_mudou`, `iniciar_poligono`, `iniciar_figura`, `iniciar_figura_nova`, `atualizar_figura_nova`, `incluir_figura_nova`, `finalizar_poligono`, `desenhar_figuras`, `desenhar_figura_nova`, `incompleta`, `desfazer`, `refazer` | 21  |
+| Classe                | Métodos                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Qtd |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| `Figura`              | `__init__`, `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                      | 2   |
+| `Linha`               | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Rabisco`             | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Circulo`             | `transformar_em_circulo`, `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                        | 2   |
+| `Oval`                | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Retangulo`           | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Quadrado`            | `retangulo_em_quadrado`, `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                         | 2   |
+| `TrianguloEquilatero` | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `TrianguloRetangulo`  | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Pentagono`           | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Hexagono`            | `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 1   |
+| `Poligono`            | `adicionar_ponto`, `desenhar_pontos_do_poligono`, `desenhar`                                                                                                                                                                                                                                                                                                                                                                                                | 3   |
+| `Historico`           | `__init__`, `adicionar`, `desfazer`, `refazer`, `limpar`, `figuras`, `figuras_desfeitas`                                                                                                                                                                                                                                                                                                                                                                    | 7   |
+| `DrawableView`        | `__init__`, `criar_widgets_selecao`, `criar_widgets_personalizacao`, `criar_area_desenho`, `mainloop`                                                                                                                                                                                                                                                                                                                                                       | 5   |
+| `DrawableController`  | `__init__`, `figuras_disponiveis`, `ferramenta`, `espessura`, `configurar_comandos`, `configurar_eventos`, `atribuir_foco_canvas`, `escolher_cor_da_borda`, `escolher_cor_do_preenchimento`, `remover_preenchimento`, `detecta_mudanca`, `iniciar_poligono`, `iniciar_figura`, `iniciar_figura_nova`, `atualizar_figura_nova`, `incluir_figura_nova`, `finalizar_poligono`, `desenhar_figuras`, `desenhar_figura_nova`, `incompleta`, `desfazer`, `refazer` | 21  |
 
 ---
 
