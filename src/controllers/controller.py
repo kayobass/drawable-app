@@ -1,4 +1,5 @@
-from tkinter import colorchooser
+import pickle
+from tkinter import colorchooser, messagebox, filedialog
 
 from models.ovais import Circulo, Oval
 from models.poligonos import (
@@ -36,6 +37,11 @@ class DrawableController:
 
         self.figura_nova = None
         self.poligono_atual = None
+        self.arquivo_atual = None
+
+            
+        self.view.botao_salvar.config(command=self.salvar_desenho)
+        self.view.botao_carregar.config(command=self.carregar_desenho)
 
         self.configurar_comandos()
         self.configurar_eventos()
@@ -266,3 +272,72 @@ class DrawableController:
             self.historico.refazer()
             self.verifica_historico()
             self.desenhar_figuras()
+
+
+    def salvar_desenho(self):
+        if not self.historico.figuras:
+            messagebox.showwarning("Aviso", "Não há nada para salvar!")
+            return
+
+        if self.arquivo_atual:
+            caminho_para_salvar = self.arquivo_atual
+        else:
+            caminho_para_salvar = filedialog.asksaveasfilename(
+                initialfile="desenho.pkl",
+                defaultextension=".pkl",
+                filetypes=[("Pickle files", "*.pkl"), ("All files", "*.*")]
+            )
+        
+        if caminho_para_salvar:
+            try:
+                with open(caminho_para_salvar, 'wb') as f:
+                    pickle.dump(self.historico.figuras, f)
+                
+                self.arquivo_atual = caminho_para_salvar
+                
+                nome_arquivo = caminho_para_salvar.split('/')[-1]
+                self.view.root.title(f"Drawable App - {nome_arquivo}")
+                
+                messagebox.showinfo("Sucesso", f"Desenho salvo em: {caminho_para_salvar}")
+            except Exception as e:
+                messagebox.showerror("Erro", f"Não foi possível salvar o arquivo: {e}")
+
+
+    def carregar_desenho(self):
+        if self.historico.figuras:
+            resposta = messagebox.askyesnocancel("Atenção", 
+                "Você tem desenhos não salvos. Deseja salvar antes de carregar?")
+            if resposta is True:
+                self.salvar_desenho()
+            elif resposta is False:
+                pass 
+            else:
+                return 
+
+        arquivo = filedialog.askopenfilename(
+            initialfile="desenho.pkl",
+            filetypes=[("Pickle files", "*.pkl"), ("All files", "*.*")]
+        )
+
+        if arquivo:
+            try:
+                with open(arquivo, 'rb') as f:
+                    figuras_carregadas = pickle.load(f)
+                
+                self.historico.figuras.clear()
+                self.historico.figuras_desfeitas.clear()
+                
+                for figura in figuras_carregadas:
+                    self.historico.adicionar(figura)
+                
+                self.arquivo_atual = arquivo
+                
+                nome_arquivo = arquivo.split('/')[-1]
+                self.view.root.title(f"Drawable App - {nome_arquivo}")
+                
+                self.desenhar_figuras()
+                self.verifica_historico()
+                messagebox.showinfo("Sucesso", "Desenho carregado com sucesso!")
+                
+            except Exception as e:
+                messagebox.showerror("Erro", f"Não foi possível carregar o arquivo: {e}")
