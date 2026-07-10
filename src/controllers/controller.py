@@ -38,10 +38,7 @@ class DrawableController:
         self.figura_nova = None
         self.poligono_atual = None
         self.arquivo_atual = None
-
-            
-        self.view.botao_salvar.config(command=self.salvar_desenho)
-        self.view.botao_carregar.config(command=self.carregar_desenho)
+        self.figuras_carregadas = []
 
         self.configurar_comandos()
         self.configurar_eventos()
@@ -64,6 +61,11 @@ class DrawableController:
 
 
     def configurar_comandos(self):
+        self.view.root.protocol("WM_DELETE_WINDOW", self.fechar_app)
+        
+        self.view.botao_salvar.config(command=self.salvar_desenho)
+        self.view.botao_carregar.config(command=self.carregar_desenho)
+        
         self.view.botao_cor_borda.config(command=self.escolher_cor_da_borda)
         self.view.botao_cor_preenchimento.config(command=self.escolher_cor_do_preenchimento)
         self.view.botao_sem_preenchimento.config(command=self.remover_preenchimento)
@@ -274,6 +276,10 @@ class DrawableController:
             self.desenhar_figuras()
 
 
+    def esta_alterado(self):
+        return self.historico.figuras != self.figuras_carregadas
+
+
     def salvar_desenho(self):
         if not self.historico.figuras:
             messagebox.showwarning("Aviso", "Não há nada para salvar!")
@@ -283,7 +289,6 @@ class DrawableController:
             caminho_para_salvar = self.arquivo_atual
         else:
             caminho_para_salvar = filedialog.asksaveasfilename(
-                initialfile="desenho.pkl",
                 defaultextension=".pkl",
                 filetypes=[("Pickle files", "*.pkl"), ("All files", "*.*")]
             )
@@ -299,12 +304,13 @@ class DrawableController:
                 self.view.root.title(f"Drawable App - {nome_arquivo}")
                 
                 messagebox.showinfo("Sucesso", f"Desenho salvo em: {caminho_para_salvar}")
+                return True
             except Exception as e:
                 messagebox.showerror("Erro", f"Não foi possível salvar o arquivo: {e}")
 
 
     def carregar_desenho(self):
-        if self.historico.figuras:
+        if self.esta_alterado():
             resposta = messagebox.askyesnocancel("Atenção", 
                 "Você tem desenhos não salvos. Deseja salvar antes de carregar?")
             if resposta is True:
@@ -315,7 +321,6 @@ class DrawableController:
                 return 
 
         arquivo = filedialog.askopenfilename(
-            initialfile="desenho.pkl",
             filetypes=[("Pickle files", "*.pkl"), ("All files", "*.*")]
         )
 
@@ -329,6 +334,7 @@ class DrawableController:
                 
                 for figura in figuras_carregadas:
                     self.historico.adicionar(figura)
+                    self.figuras_carregadas.append(figura)
                 
                 self.arquivo_atual = arquivo
                 
@@ -341,3 +347,18 @@ class DrawableController:
                 
             except Exception as e:
                 messagebox.showerror("Erro", f"Não foi possível carregar o arquivo: {e}")
+                
+                
+    def fechar_app(self):
+        if self.esta_alterado():
+            resposta = messagebox.askyesnocancel("Sair do Aplicativo", 
+                "Você tem desenhos não salvos. Deseja salvar antes de sair?")
+            
+            if resposta is True:
+                if self.salvar_desenho():
+                    self.view.root.destroy()
+            elif resposta is False:
+                self.view.root.destroy()
+        else:
+            self.view.root.destroy()
+            
