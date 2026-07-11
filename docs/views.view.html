@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module views.view</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="views.html" class="white">views</a>.view</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Ckayobass%5Cprogramming%5Cpython%5Cdrawable-app%5Csrc%5Cviews%5Cview.py">c:\users\kayobass\programming\python\drawable-app\src\views\view.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;responsável&nbsp;pela&nbsp;interface&nbsp;gráfica&nbsp;do&nbsp;sistema&nbsp;de&nbsp;desenho.<br>
+&nbsp;<br>
+Contém&nbsp;a&nbsp;classe&nbsp;que&nbsp;cria&nbsp;a&nbsp;janela,&nbsp;os&nbsp;controles&nbsp;de&nbsp;seleção&nbsp;e<br>
+personalização,&nbsp;além&nbsp;da&nbsp;área&nbsp;onde&nbsp;as&nbsp;figuras&nbsp;são&nbsp;desenhadas.<br>
+&nbsp;<br>
+:author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo<br>
+:version:&nbsp;OO.persiste.1<br>
+:since:&nbsp;OO.MVC.1</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="tkinter.ttk.html">tkinter.ttk</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="views.view.html#DrawableView">DrawableView</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="DrawableView">class <strong>DrawableView</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#DrawableView">DrawableView</a>(figuras)<br>
+&nbsp;<br>
+Representa&nbsp;a&nbsp;interface&nbsp;gráfica&nbsp;do&nbsp;sistema&nbsp;de&nbsp;desenho.<br>
+&nbsp;<br>
+A&nbsp;classe&nbsp;cria&nbsp;a&nbsp;janela&nbsp;principal,&nbsp;os&nbsp;botões,&nbsp;os&nbsp;campos&nbsp;de&nbsp;seleção<br>
+e&nbsp;o&nbsp;canvas&nbsp;utilizado&nbsp;para&nbsp;mostrar&nbsp;as&nbsp;figuras.<br>
+&nbsp;<br>
+:author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo<br>
+:version:&nbsp;OO.persiste.1<br>
+:since:&nbsp;OO.MVC.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="DrawableView-__init__"><strong>__init__</strong></a>(self, figuras)</dt><dd><span class="code">Inicializa&nbsp;a&nbsp;interface&nbsp;gráfica&nbsp;do&nbsp;programa.&nbsp;<br>
+&nbsp;<br>
+Recebe&nbsp;os&nbsp;tipos&nbsp;de&nbsp;figuras&nbsp;disponíveis,&nbsp;cria&nbsp;a&nbsp;janela&nbsp;principal<br>
+e&nbsp;chama&nbsp;os&nbsp;métodos&nbsp;responsáveis&nbsp;pela&nbsp;criação&nbsp;dos&nbsp;componentes.&nbsp;<br>
+&nbsp;<br>
+:param&nbsp;figuras:&nbsp;Lista&nbsp;com&nbsp;os&nbsp;nomes&nbsp;das&nbsp;figuras&nbsp;disponíveis.&nbsp;<br>
+:return:&nbsp;None&nbsp;<br>
+:see:&nbsp;criar_widgets_selecao,&nbsp;criar_widgets_personalizacao,&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;criar_area_desenho</span></dd></dl>
+
+<dl><dt><a name="DrawableView-criar_area_desenho"><strong>criar_area_desenho</strong></a>(self)</dt><dd><span class="code">Cria&nbsp;a&nbsp;área&nbsp;utilizada&nbsp;para&nbsp;desenhar&nbsp;as&nbsp;figuras.&nbsp;<br>
+&nbsp;<br>
+O&nbsp;método&nbsp;cria&nbsp;um&nbsp;canvas&nbsp;branco&nbsp;que&nbsp;ocupa&nbsp;o&nbsp;espaço&nbsp;disponível<br>
+dentro&nbsp;da&nbsp;janela.&nbsp;<br>
+&nbsp;<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableView-criar_widgets_personalizacao"><strong>criar_widgets_personalizacao</strong></a>(self)</dt><dd><span class="code">Cria&nbsp;os&nbsp;componentes&nbsp;usados&nbsp;para&nbsp;personalizar&nbsp;o&nbsp;desenho.<br>
+&nbsp;<br>
+O&nbsp;método&nbsp;cria&nbsp;os&nbsp;botões&nbsp;de&nbsp;cores,&nbsp;os&nbsp;indicadores&nbsp;das&nbsp;cores&nbsp;escolhidas<br>
+e&nbsp;a&nbsp;seleção&nbsp;da&nbsp;espessura&nbsp;da&nbsp;figura.&nbsp;<br>
+&nbsp;<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableView-criar_widgets_selecao"><strong>criar_widgets_selecao</strong></a>(self)</dt><dd><span class="code">Cria&nbsp;os&nbsp;componentes&nbsp;usados&nbsp;para&nbsp;selecionar&nbsp;ferramentas.&nbsp;<br>
+&nbsp;<br>
+O&nbsp;método&nbsp;cria&nbsp;a&nbsp;seleção&nbsp;do&nbsp;tipo&nbsp;de&nbsp;figura,&nbsp;a&nbsp;quantidade&nbsp;de&nbsp;lados&nbsp;<br>
+do&nbsp;polígono&nbsp;e&nbsp;os&nbsp;botões&nbsp;usados&nbsp;para&nbsp;salvar&nbsp;e&nbsp;carregar&nbsp;desenhos.&nbsp;<br>
+&nbsp;<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableView-mainloop"><strong>mainloop</strong></a>(self)</dt><dd><span class="code">Inicia&nbsp;o&nbsp;funcionamento&nbsp;da&nbsp;interface&nbsp;gráfica.&nbsp;<br>
+&nbsp;<br>
+O&nbsp;método&nbsp;mantém&nbsp;a&nbsp;janela&nbsp;aberta&nbsp;e&nbsp;aguardando&nbsp;as&nbsp;ações<br>
+realizadas&nbsp;pelo&nbsp;usuário.<br>
+&nbsp;<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
