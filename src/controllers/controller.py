@@ -277,7 +277,12 @@ class DrawableController:
 
 
     def esta_alterado(self):
-        return self.historico.figuras != self.figuras_carregadas
+        if not self.historico.figuras:
+            return False
+        
+        return (
+            self.historico.figuras != self.figuras_carregadas or self.arquivo_atual is None
+        )
 
 
     def salvar_desenho(self):
@@ -298,6 +303,8 @@ class DrawableController:
                 with open(caminho_para_salvar, 'wb') as f:
                     pickle.dump(self.historico.figuras, f)
                 
+                self.figuras_carregadas = self.historico.figuras.copy()
+
                 self.arquivo_atual = caminho_para_salvar
                 
                 nome_arquivo = caminho_para_salvar.split('/')[-1]
@@ -331,6 +338,7 @@ class DrawableController:
                 
                 self.historico.figuras.clear()
                 self.historico.figuras_desfeitas.clear()
+                self.figuras_carregadas.clear()
                 
                 for figura in figuras_carregadas:
                     self.historico.adicionar(figura)
