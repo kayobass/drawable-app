@@ -1,8 +1,41 @@
-from tkinter import *
+"""
+Módulo responsável pela interface gráfica do sistema de desenho.
+
+Contém a classe que cria a janela, os controles de seleção e
+personalização, além da área onde as figuras são desenhadas.
+
+@author: Matheuz Rozendo, Kayo Araujo
+@version: OO.persiste.1
+@since: OO.MVC.1
+"""
+
+from tkinter import Tk, Frame, StringVar, IntVar, Button, Canvas
 from tkinter import ttk
 
 class DrawableView:
+    """
+    Representa a interface gráfica do sistema de desenho.
+
+    A classe cria a janela principal, os botões, os campos de seleção
+    e o canvas utilizado para mostrar as figuras.
+
+    @author: Matheuz Rozendo, Kayo Araujo
+    @version: OO.persiste.1
+    @since: OO.MVC.1
+    """
+
     def __init__(self, figuras):
+        """ 
+        Inicializa a interface gráfica do programa. 
+
+        Recebe os tipos de figuras disponíveis, cria a janela principal
+        e chama os métodos responsáveis pela criação dos componentes. 
+
+        @param figuras: Lista com os nomes das figuras disponíveis. 
+        @return: None 
+        @see: criar_widgets_selecao, criar_widgets_personalizacao, 
+              criar_area_desenho 
+        """
         self.figuras = figuras
         
         self.root = Tk()
@@ -23,6 +56,14 @@ class DrawableView:
         self.criar_area_desenho()
 
     def criar_widgets_selecao(self):
+        """ 
+        Cria os componentes usados para selecionar ferramentas. 
+
+        O método cria a seleção do tipo de figura, a quantidade de lados 
+        do polígono e os botões usados para salvar e carregar desenhos. 
+
+        @return: None 
+        """
         self.label = ttk.Label(
             self.frame,
             text="Escolha a ferramenta:"
@@ -94,6 +135,14 @@ class DrawableView:
         )
 
     def criar_widgets_personalizacao(self):
+        """ 
+        Cria os componentes usados para personalizar o desenho.
+
+        O método cria os botões de cores, os indicadores das cores escolhidas
+        e a seleção da espessura da figura. 
+
+        @return: None 
+        """
         self.label_cores = ttk.Label(
             self.frame,
             text="Escolha as cores do desenho:"
@@ -157,6 +206,14 @@ class DrawableView:
         self.combo_espessura.pack(side="left")
 
     def criar_area_desenho(self):
+        """ 
+        Cria a área utilizada para desenhar as figuras. 
+
+        O método cria um canvas branco que ocupa o espaço disponível
+        dentro da janela. 
+
+        @return: None 
+        """
         self.canvas = Canvas(
             self.frame,
             bg="white",
@@ -172,4 +229,12 @@ class DrawableView:
         )
 
     def mainloop(self):
+        """ 
+        Inicia o funcionamento da interface gráfica. 
+
+        O método mantém a janela aberta e aguardando as ações
+        realizadas pelo usuário.
+
+        @return: None 
+        """
         self.root.mainloop()

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module controllers.controller</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="controllers.html" class="white">controllers</a>.controller</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cmathe%5Cdesktop%5Cprojeto%20programa%C3%A7%C3%A3o%20dupla%20-%20oficial%5Csrc%5Ccontrollers%5Ccontroller.py">c:\users\mathe\desktop\projeto programação dupla - oficial\src\controllers\controller.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;responsável&nbsp;pelo&nbsp;controle&nbsp;do&nbsp;sistema&nbsp;de&nbsp;desenho.<br>
+&nbsp;<br>
+Contém&nbsp;o&nbsp;controlador&nbsp;principal&nbsp;da&nbsp;aplicação,&nbsp;responsável&nbsp;por&nbsp;conectar<br>
+a&nbsp;visão&nbsp;ao&nbsp;histórico&nbsp;e&nbsp;às&nbsp;classes&nbsp;de&nbsp;figuras,&nbsp;além&nbsp;de&nbsp;controlar&nbsp;eventos,<br>
+comandos,&nbsp;criação&nbsp;de&nbsp;desenhos,&nbsp;persistência&nbsp;e&nbsp;fechamento&nbsp;do&nbsp;sistema.<br>
+&nbsp;<br>
+@author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo<br>
+@version:&nbsp;OO.persiste.1<br>
+@since:&nbsp;OO.MVC.1</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="tkinter.colorchooser.html">tkinter.colorchooser</a><br>
+</td><td class="multicolumn"><a href="tkinter.filedialog.html">tkinter.filedialog</a><br>
+</td><td class="multicolumn"><a href="tkinter.messagebox.html">tkinter.messagebox</a><br>
+</td><td class="multicolumn"><a href="pickle.html">pickle</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="controllers.controller.html#DrawableController">DrawableController</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="DrawableController">class <strong>DrawableController</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#DrawableController">DrawableController</a>(view,&nbsp;historico)<br>
+&nbsp;<br>
+Controla&nbsp;as&nbsp;ações&nbsp;e&nbsp;os&nbsp;eventos&nbsp;do&nbsp;sistema&nbsp;de&nbsp;desenho.<br>
+&nbsp;<br>
+A&nbsp;classe&nbsp;faz&nbsp;a&nbsp;ligação&nbsp;entre&nbsp;a&nbsp;interface,&nbsp;o&nbsp;histórico&nbsp;e&nbsp;as&nbsp;classes&nbsp;das&nbsp;figuras.<br>
+Ela&nbsp;também&nbsp;controla&nbsp;a&nbsp;escolha&nbsp;das&nbsp;ferramentas&nbsp;e&nbsp;cores,&nbsp;a&nbsp;criação&nbsp;dos&nbsp;desenhos,<br>
+as&nbsp;funções&nbsp;de&nbsp;desfazer&nbsp;e&nbsp;refazer&nbsp;e&nbsp;o&nbsp;salvamento&nbsp;e&nbsp;carregamento&nbsp;dos&nbsp;arquivos.<br>
+&nbsp;<br>
+Para&nbsp;criar&nbsp;o&nbsp;controlador,&nbsp;é&nbsp;necessário&nbsp;informar&nbsp;a&nbsp;visão&nbsp;e&nbsp;o&nbsp;histórico.<br>
+&nbsp;<br>
+@author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo&nbsp;<br>
+@version:&nbsp;OO.persiste.1&nbsp;<br>
+@since:&nbsp;OO.MVC.1&nbsp;<br>
+@see:&nbsp;DrawableView,&nbsp;Historico<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="DrawableController-__init__"><strong>__init__</strong></a>(self, view, historico)</dt><dd><span class="code">Inicializa&nbsp;o&nbsp;controlador&nbsp;do&nbsp;sistema&nbsp;de&nbsp;desenho.<br>
+&nbsp;<br>
+Guarda&nbsp;a&nbsp;visão&nbsp;e&nbsp;o&nbsp;histórico&nbsp;que&nbsp;serão&nbsp;usados&nbsp;pelo&nbsp;controlador.<br>
+Também&nbsp;define&nbsp;os&nbsp;valores&nbsp;iniciais&nbsp;das&nbsp;cores&nbsp;e&nbsp;das&nbsp;figuras&nbsp;e&nbsp;configura&nbsp;os&nbsp;comandos<br>
+e&nbsp;eventos&nbsp;da&nbsp;interface.<br>
+&nbsp;<br>
+@param&nbsp;view:&nbsp;visão&nbsp;usada&nbsp;para&nbsp;acessar&nbsp;e&nbsp;atualizar&nbsp;a&nbsp;interface&nbsp;gráfica.<br>
+@param&nbsp;historico:&nbsp;Histórico&nbsp;usado&nbsp;para&nbsp;guardar&nbsp;as&nbsp;figuras&nbsp;e&nbsp;controlar&nbsp;<br>
+as&nbsp;ações&nbsp;de&nbsp;desfazer&nbsp;e&nbsp;refazer.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@see:&nbsp;configurar_comandos,&nbsp;configurar_eventos,&nbsp;atribuir_foco_canvas</span></dd></dl>
+
+<dl><dt><a name="DrawableController-atribuir_foco_canvas"><strong>atribuir_foco_canvas</strong></a>(self)</dt><dd><span class="code">Configura&nbsp;o&nbsp;retorno&nbsp;do&nbsp;foco&nbsp;ao&nbsp;canvas&nbsp;após&nbsp;alterações&nbsp;nos&nbsp;seletores.<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableController-atualizar_figura_nova"><strong>atualizar_figura_nova</strong></a>(self, event)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;figura&nbsp;enquanto&nbsp;o&nbsp;usuário&nbsp;arrasta&nbsp;o&nbsp;mouse.<br>
+&nbsp;<br>
+No&nbsp;caso&nbsp;do&nbsp;rabisco,&nbsp;adiciona&nbsp;novos&nbsp;pontos&nbsp;ao&nbsp;desenho.&nbsp;Para&nbsp;as&nbsp;outras<br>
+figuras,&nbsp;atualiza&nbsp;as&nbsp;coordenadas&nbsp;finais.<br>
+&nbsp;<br>
+@param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;que&nbsp;contém&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;desenhar_figuras,&nbsp;desenhar_figura_nova</span></dd></dl>
+
+<dl><dt><a name="DrawableController-carregar_desenho"><strong>carregar_desenho</strong></a>(self)</dt><dd><span class="code">Carrega&nbsp;um&nbsp;desenho&nbsp;salvo&nbsp;em&nbsp;um&nbsp;arquivo&nbsp;Pickle.<br>
+&nbsp;<br>
+Antes&nbsp;de&nbsp;carregar,&nbsp;verifica&nbsp;se&nbsp;existem&nbsp;alterações&nbsp;que&nbsp;ainda&nbsp;não&nbsp;foram&nbsp;salvas.<br>
+Depois,&nbsp;limpa&nbsp;o&nbsp;desenho&nbsp;atual,&nbsp;coloca&nbsp;as&nbsp;figuras&nbsp;carregadas&nbsp;no&nbsp;histórico<br>
+e&nbsp;atualiza&nbsp;o&nbsp;canvas.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@since:&nbsp;OO.persiste.1<br>
+@see:&nbsp;salvar_desenho,&nbsp;pickle.load</span></dd></dl>
+
+<dl><dt><a name="DrawableController-configurar_comandos"><strong>configurar_comandos</strong></a>(self)</dt><dd><span class="code">Associa&nbsp;os&nbsp;botões&nbsp;e&nbsp;controles&nbsp;da&nbsp;interface&nbsp;aos&nbsp;métodos&nbsp;do&nbsp;controlador.<br>
+&nbsp;<br>
+Configura&nbsp;os&nbsp;comandos&nbsp;de&nbsp;salvar,&nbsp;carregar,&nbsp;escolher&nbsp;cores,&nbsp;remover<br>
+preenchimento&nbsp;e&nbsp;detectar&nbsp;mudanças&nbsp;nas&nbsp;opções&nbsp;selecionadas.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@see:&nbsp;salvar_desenho,&nbsp;carregar_desenho,&nbsp;detecta_mudanca</span></dd></dl>
+
+<dl><dt><a name="DrawableController-configurar_eventos"><strong>configurar_eventos</strong></a>(self)</dt><dd><span class="code">Configura&nbsp;os&nbsp;eventos&nbsp;do&nbsp;mouse&nbsp;e&nbsp;os&nbsp;atalhos&nbsp;do&nbsp;teclado.<br>
+&nbsp;<br>
+Os&nbsp;eventos&nbsp;são&nbsp;usados&nbsp;para&nbsp;criar&nbsp;as&nbsp;figuras&nbsp;e&nbsp;os&nbsp;atalhos&nbsp;Ctrl+Z&nbsp;e&nbsp;Ctrl+Y<br>
+são&nbsp;usados&nbsp;para&nbsp;desfazer&nbsp;e&nbsp;refazer&nbsp;ações.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@see:&nbsp;iniciar_figura_nova,&nbsp;atualizar_figura_nova,&nbsp;desfazer,&nbsp;refazer</span></dd></dl>
+
+<dl><dt><a name="DrawableController-desenhar_figura_nova"><strong>desenhar_figura_nova</strong></a>(self)</dt><dd><span class="code">Desenha&nbsp;temporariamente&nbsp;a&nbsp;figura&nbsp;que&nbsp;está&nbsp;sendo&nbsp;criada.<br>
+&nbsp;<br>
+A&nbsp;figura&nbsp;temporária&nbsp;recebe&nbsp;uma&nbsp;linha&nbsp;tracejada&nbsp;para&nbsp;mostrar&nbsp;que&nbsp;ainda<br>
+não&nbsp;foi&nbsp;adicionada&nbsp;ao&nbsp;histórico.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@see:&nbsp;iniciar_figura,&nbsp;atualizar_figura_nova</span></dd></dl>
+
+<dl><dt><a name="DrawableController-desenhar_figuras"><strong>desenhar_figuras</strong></a>(self)</dt><dd><span class="code">Desenha&nbsp;novamente&nbsp;todas&nbsp;as&nbsp;figuras&nbsp;armazenadas&nbsp;no&nbsp;histórico.<br>
+&nbsp;<br>
+Primeiro&nbsp;limpa&nbsp;o&nbsp;canvas&nbsp;e&nbsp;depois&nbsp;percorre&nbsp;as&nbsp;figuras&nbsp;do&nbsp;histórico,<br>
+desenhando&nbsp;cada&nbsp;uma&nbsp;delas.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@see:&nbsp;Historico</span></dd></dl>
+
+<dl><dt><a name="DrawableController-desfazer"><strong>desfazer</strong></a>(self, *args)</dt><dd><span class="code">Desfaz&nbsp;a&nbsp;última&nbsp;figura&nbsp;adicionada&nbsp;ao&nbsp;desenho.<br>
+&nbsp;<br>
+Caso&nbsp;exista&nbsp;um&nbsp;polígono&nbsp;ainda&nbsp;em&nbsp;construção,&nbsp;cancela&nbsp;apenas&nbsp;seu&nbsp;esboço.<br>
+&nbsp;<br>
+@param&nbsp;args:&nbsp;Argumentos&nbsp;opcionais&nbsp;enviados&nbsp;pelo&nbsp;evento&nbsp;de&nbsp;teclado.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;Historico.desfazer</span></dd></dl>
+
+<dl><dt><a name="DrawableController-detecta_mudanca"><strong>detecta_mudanca</strong></a>(self, *args)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;interface&nbsp;quando&nbsp;a&nbsp;ferramenta&nbsp;ou&nbsp;a&nbsp;quantidade&nbsp;de&nbsp;lados&nbsp;muda.<br>
+&nbsp;<br>
+Também&nbsp;cancela&nbsp;um&nbsp;polígono&nbsp;em&nbsp;construção&nbsp;e&nbsp;habilita&nbsp;ou&nbsp;desabilita<br>
+os&nbsp;controles&nbsp;de&nbsp;preenchimento&nbsp;conforme&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+@param&nbsp;args:&nbsp;Informações&nbsp;enviadas&nbsp;automaticamente&nbsp;pelo&nbsp;Tkinter.<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableController-escolher_cor_da_borda"><strong>escolher_cor_da_borda</strong></a>(self)</dt><dd><span class="code">Abre&nbsp;o&nbsp;seletor&nbsp;de&nbsp;cores&nbsp;e&nbsp;altera&nbsp;a&nbsp;cor&nbsp;da&nbsp;borda&nbsp;das&nbsp;próximas&nbsp;figuras.<br>
+&nbsp;<br>
+Caso&nbsp;o&nbsp;usuário&nbsp;cancele&nbsp;a&nbsp;seleção,&nbsp;a&nbsp;cor&nbsp;atual&nbsp;é&nbsp;mantida.<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableController-escolher_cor_do_preenchimento"><strong>escolher_cor_do_preenchimento</strong></a>(self)</dt><dd><span class="code">Abre&nbsp;o&nbsp;seletor&nbsp;de&nbsp;cores&nbsp;e&nbsp;altera&nbsp;a&nbsp;cor&nbsp;de&nbsp;preenchimento&nbsp;das&nbsp;próximas&nbsp;figuras.<br>
+&nbsp;<br>
+Caso&nbsp;o&nbsp;usuário&nbsp;cancele&nbsp;a&nbsp;seleção,&nbsp;a&nbsp;cor&nbsp;atual&nbsp;é&nbsp;mantida.<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableController-esta_alterado"><strong>esta_alterado</strong></a>(self)</dt><dd><span class="code">Verifica&nbsp;se&nbsp;o&nbsp;desenho&nbsp;atual&nbsp;possui&nbsp;alterações&nbsp;ainda&nbsp;não&nbsp;salvas.<br>
+&nbsp;<br>
+@return:&nbsp;True&nbsp;quando&nbsp;existem&nbsp;alterações&nbsp;não&nbsp;salvas;&nbsp;False&nbsp;caso&nbsp;contrário.<br>
+@since:&nbsp;OO.persiste.1</span></dd></dl>
+
+<dl><dt><a name="DrawableController-fechar_app"><strong>fechar_app</strong></a>(self)</dt><dd><span class="code">Fecha&nbsp;o&nbsp;aplicativo&nbsp;após&nbsp;verificar&nbsp;a&nbsp;existência&nbsp;de&nbsp;alterações&nbsp;não&nbsp;salvas.<br>
+&nbsp;<br>
+Caso&nbsp;existam&nbsp;alterações,&nbsp;oferece&nbsp;ao&nbsp;usuário&nbsp;as&nbsp;opções&nbsp;de&nbsp;salvar,<br>
+sair&nbsp;sem&nbsp;salvar&nbsp;ou&nbsp;cancelar&nbsp;o&nbsp;fechamento.<br>
+&nbsp;<br>
+@return:&nbsp;None<br>
+@since:&nbsp;OO.persiste.1<br>
+@see:&nbsp;salvar_desenho,&nbsp;esta_alterado</span></dd></dl>
+
+<dl><dt><a name="DrawableController-finalizar_poligono"><strong>finalizar_poligono</strong></a>(self, event)</dt><dd><span class="code">Finaliza&nbsp;o&nbsp;polígono&nbsp;que&nbsp;está&nbsp;sendo&nbsp;criado.<br>
+&nbsp;<br>
+O&nbsp;polígono&nbsp;é&nbsp;adicionado&nbsp;ao&nbsp;histórico&nbsp;apenas&nbsp;quando&nbsp;possui&nbsp;pelo&nbsp;menos<br>
+três&nbsp;pontos.&nbsp;Depois&nbsp;disso,&nbsp;o&nbsp;polígono&nbsp;atual&nbsp;é&nbsp;apagado&nbsp;e&nbsp;o&nbsp;canvas&nbsp;é&nbsp;atualizado.<br>
+&nbsp;<br>
+@param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;ou&nbsp;None&nbsp;quando&nbsp;a&nbsp;finalização&nbsp;ocorre&nbsp;automaticamente.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;iniciar_poligono,&nbsp;verifica_historico,&nbsp;desenhar_figuras</span></dd></dl>
+
+<dl><dt><a name="DrawableController-incluir_figura_nova"><strong>incluir_figura_nova</strong></a>(self, event)</dt><dd><span class="code">Finaliza&nbsp;a&nbsp;figura&nbsp;atual&nbsp;e&nbsp;a&nbsp;adiciona&nbsp;ao&nbsp;histórico.<br>
+&nbsp;<br>
+A&nbsp;figura&nbsp;só&nbsp;é&nbsp;adicionada&nbsp;quando&nbsp;estiver&nbsp;completa.&nbsp;Depois&nbsp;disso,<br>
+a&nbsp;figura&nbsp;temporária&nbsp;é&nbsp;apagada&nbsp;e&nbsp;o&nbsp;canvas&nbsp;é&nbsp;atualizado.<br>
+&nbsp;<br>
+@param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;quando&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse&nbsp;é&nbsp;solto.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;incompleta,&nbsp;verifica_historico,&nbsp;desenhar_figuras</span></dd></dl>
+
+<dl><dt><a name="DrawableController-incompleta"><strong>incompleta</strong></a>(self, figura)</dt><dd><span class="code">Verifica&nbsp;se&nbsp;uma&nbsp;figura&nbsp;está&nbsp;incompleta.<br>
+&nbsp;<br>
+Um&nbsp;rabisco&nbsp;é&nbsp;considerado&nbsp;incompleto&nbsp;quando&nbsp;possui&nbsp;apenas&nbsp;um&nbsp;ponto.<br>
+As&nbsp;outras&nbsp;figuras&nbsp;são&nbsp;consideradas&nbsp;incompletas&nbsp;quando&nbsp;as&nbsp;coordenadas<br>
+iniciais&nbsp;e&nbsp;finais&nbsp;são&nbsp;iguais.<br>
+&nbsp;<br>
+@param&nbsp;figura:&nbsp;Figura&nbsp;que&nbsp;será&nbsp;verificada.<br>
+@return:&nbsp;True&nbsp;se&nbsp;a&nbsp;figura&nbsp;estiver&nbsp;incompleta&nbsp;e&nbsp;False&nbsp;caso&nbsp;contrário.<br>
+@see:&nbsp;Rabisco</span></dd></dl>
+
+<dl><dt><a name="DrawableController-iniciar_figura"><strong>iniciar_figura</strong></a>(self, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;uma&nbsp;figura&nbsp;com&nbsp;base&nbsp;na&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+Define&nbsp;as&nbsp;coordenadas&nbsp;iniciais&nbsp;da&nbsp;figura&nbsp;e&nbsp;utiliza&nbsp;as&nbsp;cores&nbsp;e&nbsp;a&nbsp;espessura<br>
+escolhidas&nbsp;pelo&nbsp;usuário.<br>
+&nbsp;<br>
+@param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;que&nbsp;contém&nbsp;as&nbsp;coordenadas&nbsp;iniciais&nbsp;da&nbsp;figura.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;MAPA_FIGURAS</span></dd></dl>
+
+<dl><dt><a name="DrawableController-iniciar_figura_nova"><strong>iniciar_figura_nova</strong></a>(self, event)</dt><dd><span class="code">Inicia&nbsp;uma&nbsp;nova&nbsp;figura&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+Caso&nbsp;a&nbsp;ferramenta&nbsp;seja&nbsp;Polígono,&nbsp;inicia&nbsp;ou&nbsp;adiciona&nbsp;um&nbsp;ponto&nbsp;ao&nbsp;polígono.<br>
+Para&nbsp;as&nbsp;outras&nbsp;ferramentas,&nbsp;inicia&nbsp;uma&nbsp;figura&nbsp;comum.<br>
+&nbsp;<br>
+@param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;que&nbsp;contém&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;iniciar_poligono,&nbsp;iniciar_figura</span></dd></dl>
+
+<dl><dt><a name="DrawableController-iniciar_poligono"><strong>iniciar_poligono</strong></a>(self, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;um&nbsp;polígono&nbsp;ou&nbsp;adiciona&nbsp;um&nbsp;novo&nbsp;ponto&nbsp;ao&nbsp;polígono&nbsp;atual.<br>
+&nbsp;<br>
+Caso&nbsp;ainda&nbsp;não&nbsp;exista&nbsp;um&nbsp;polígono&nbsp;sendo&nbsp;criado,&nbsp;um&nbsp;novo&nbsp;é&nbsp;iniciado.<br>
+O&nbsp;polígono&nbsp;é&nbsp;finalizado&nbsp;quando&nbsp;atinge&nbsp;a&nbsp;quantidade&nbsp;de&nbsp;lados&nbsp;escolhida<br>
+pelo&nbsp;usuário.<br>
+&nbsp;<br>
+@param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;que&nbsp;contém&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;finalizar_poligono,&nbsp;desenhar_figuras</span></dd></dl>
+
+<dl><dt><a name="DrawableController-refazer"><strong>refazer</strong></a>(self, *args)</dt><dd><span class="code">Refaz&nbsp;a&nbsp;última&nbsp;figura&nbsp;anteriormente&nbsp;desfeita.<br>
+&nbsp;<br>
+Caso&nbsp;exista&nbsp;um&nbsp;polígono&nbsp;em&nbsp;construção,&nbsp;cancela&nbsp;seu&nbsp;esboço&nbsp;antes<br>
+de&nbsp;executar&nbsp;a&nbsp;operação.<br>
+&nbsp;<br>
+@param&nbsp;args:&nbsp;Argumentos&nbsp;opcionais&nbsp;enviados&nbsp;pelo&nbsp;evento&nbsp;de&nbsp;teclado.<br>
+@return:&nbsp;None<br>
+@see:&nbsp;Historico.refazer</span></dd></dl>
+
+<dl><dt><a name="DrawableController-remover_preenchimento"><strong>remover_preenchimento</strong></a>(self)</dt><dd><span class="code">Remove&nbsp;a&nbsp;cor&nbsp;de&nbsp;preenchimento&nbsp;selecionada.<br>
+&nbsp;<br>
+As&nbsp;próximas&nbsp;figuras&nbsp;serão&nbsp;criadas&nbsp;sem&nbsp;preenchimento.<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="DrawableController-salvar_desenho"><strong>salvar_desenho</strong></a>(self)</dt><dd><span class="code">Salva&nbsp;o&nbsp;desenho&nbsp;atual&nbsp;em&nbsp;um&nbsp;arquivo&nbsp;Pickle.<br>
+&nbsp;<br>
+Se&nbsp;o&nbsp;desenho&nbsp;já&nbsp;tiver&nbsp;sido&nbsp;salvo&nbsp;antes,&nbsp;o&nbsp;mesmo&nbsp;arquivo&nbsp;será&nbsp;atualizado.<br>
+Caso&nbsp;contrário,&nbsp;o&nbsp;usuário&nbsp;poderá&nbsp;escolher&nbsp;onde&nbsp;salvar.<br>
+&nbsp;<br>
+@return:&nbsp;True&nbsp;se&nbsp;o&nbsp;desenho&nbsp;for&nbsp;salvo;&nbsp;None&nbsp;caso&nbsp;contrário.<br>
+&nbsp;<br>
+@since:&nbsp;OO.persiste.1<br>
+@see:&nbsp;pickle.dump</span></dd></dl>
+
+<dl><dt><a name="DrawableController-verifica_historico"><strong>verifica_historico</strong></a>(self)</dt><dd><span class="code">Atualiza&nbsp;o&nbsp;estado&nbsp;do&nbsp;botão&nbsp;de&nbsp;salvar&nbsp;conforme&nbsp;o&nbsp;conteúdo&nbsp;do&nbsp;histórico.<br>
+&nbsp;<br>
+O&nbsp;botão&nbsp;é&nbsp;habilitado&nbsp;quando&nbsp;existem&nbsp;figuras&nbsp;e&nbsp;desabilitado&nbsp;quando<br>
+o&nbsp;histórico&nbsp;está&nbsp;vazio.<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<hr>
+Class methods defined here:<br>
+<dl><dt><a name="DrawableController-figuras_disponiveis"><strong>figuras_disponiveis</strong></a>()</dt><dd><span class="code">Retorna&nbsp;os&nbsp;nomes&nbsp;das&nbsp;figuras&nbsp;disponíveis&nbsp;no&nbsp;sistema.<br>
+&nbsp;<br>
+Os&nbsp;nomes&nbsp;são&nbsp;obtidos&nbsp;a&nbsp;partir&nbsp;das&nbsp;chaves&nbsp;armazenadas&nbsp;em&nbsp;MAPA_FIGURAS.<br>
+&nbsp;<br>
+@return:&nbsp;Lista&nbsp;com&nbsp;os&nbsp;nomes&nbsp;das&nbsp;figuras&nbsp;disponíveis.<br>
+@see:&nbsp;MAPA_FIGURAS</span></dd></dl>
+
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>espessura</strong></dt>
+<dd><span class="code">Retorna&nbsp;a&nbsp;espessura&nbsp;de&nbsp;linha&nbsp;selecionada&nbsp;na&nbsp;interface.<br>
+&nbsp;<br>
+@return:&nbsp;Valor&nbsp;da&nbsp;espessura&nbsp;selecionada&nbsp;pelo&nbsp;usuário.</span></dd>
+</dl>
+<dl><dt><strong>ferramenta</strong></dt>
+<dd><span class="code">Retorna&nbsp;a&nbsp;ferramenta&nbsp;selecionada&nbsp;atualmente&nbsp;na&nbsp;interface.<br>
+&nbsp;<br>
+@return:&nbsp;Nome&nbsp;da&nbsp;figura&nbsp;selecionada&nbsp;pelo&nbsp;usuário.</span></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>MAPA_FIGURAS</strong> = {'Circulo': &lt;class 'models.ovais.Circulo'&gt;, 'Hexagono': &lt;class 'models.poligonos.Hexagono'&gt;, 'Linha': &lt;class 'models.tracados.Linha'&gt;, 'Oval': &lt;class 'models.ovais.Oval'&gt;, 'Pentagono': &lt;class 'models.poligonos.Pentagono'&gt;, 'Poligono': &lt;class 'models.poligonos.Poligono'&gt;, 'Quadrado': &lt;class 'models.retangulos.Quadrado'&gt;, 'Rabisco': &lt;class 'models.tracados.Rabisco'&gt;, 'Retangulo': &lt;class 'models.retangulos.Retangulo'&gt;, 'Triangulo': &lt;class 'models.poligonos.TrianguloEquilatero'&gt;, ...}</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module models.historico</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="models.html" class="white">models</a>.historico</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cmathe%5Cdesktop%5Cprojeto%20programa%C3%A7%C3%A3o%20dupla%20-%20oficial%5Csrc%5Cmodels%5Chistorico.py">c:\users\mathe\desktop\projeto programação dupla - oficial\src\models\historico.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;responsável&nbsp;pelo&nbsp;histórico&nbsp;das&nbsp;figuras&nbsp;do&nbsp;desenho.<br>
+&nbsp;<br>
+Contém&nbsp;a&nbsp;classe&nbsp;que&nbsp;guarda&nbsp;as&nbsp;figuras&nbsp;adicionadas&nbsp;e&nbsp;controla<br>
+as&nbsp;ações&nbsp;de&nbsp;desfazer&nbsp;e&nbsp;refazer.<br>
+&nbsp;<br>
+@author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo<br>
+@version:&nbsp;OO.persiste.1<br>
+@since:&nbsp;OO.MVC.1</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="models.historico.html#Historico">Historico</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Historico">class <strong>Historico</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Controla&nbsp;o&nbsp;histórico&nbsp;de&nbsp;figuras&nbsp;do&nbsp;sistema&nbsp;de&nbsp;desenho.<br>
+&nbsp;<br>
+A&nbsp;classe&nbsp;guarda&nbsp;as&nbsp;figuras&nbsp;adicionadas&nbsp;e&nbsp;também&nbsp;as&nbsp;figuras&nbsp;que&nbsp;foram<br>
+desfeitas.&nbsp;Com&nbsp;isso,&nbsp;permite&nbsp;realizar&nbsp;as&nbsp;ações&nbsp;de&nbsp;desfazer,&nbsp;refazer<br>
+e&nbsp;limpar&nbsp;o&nbsp;desenho.<br>
+&nbsp;<br>
+@author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo<br>
+@version:&nbsp;OO.persiste.1<br>
+@since:&nbsp;OO.MVC.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Historico-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Inicializa&nbsp;o&nbsp;histórico&nbsp;do&nbsp;desenho.&nbsp;<br>
+&nbsp;<br>
+Cria&nbsp;uma&nbsp;lista&nbsp;para&nbsp;guardar&nbsp;as&nbsp;figuras&nbsp;adicionadas&nbsp;e&nbsp;outra&nbsp;<br>
+para&nbsp;guardar&nbsp;as&nbsp;figuras&nbsp;que&nbsp;foram&nbsp;desfeitas.&nbsp;<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="Historico-adicionar"><strong>adicionar</strong></a>(self, figura)</dt><dd><span class="code">Adiciona&nbsp;uma&nbsp;nova&nbsp;figura&nbsp;ao&nbsp;histórico.&nbsp;<br>
+&nbsp;<br>
+Quando&nbsp;uma&nbsp;nova&nbsp;figura&nbsp;é&nbsp;adicionada,&nbsp;a&nbsp;lista&nbsp;de&nbsp;figuras&nbsp;desfeitas<br>
+é&nbsp;limpa,&nbsp;pois&nbsp;não&nbsp;será&nbsp;mais&nbsp;possível&nbsp;refazer&nbsp;as&nbsp;ações&nbsp;anteriores.&nbsp;<br>
+&nbsp;<br>
+@param&nbsp;figura:&nbsp;Figura&nbsp;que&nbsp;será&nbsp;adicionada&nbsp;ao&nbsp;desenho.&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="Historico-desfazer"><strong>desfazer</strong></a>(self)</dt><dd><span class="code">Desfaz&nbsp;a&nbsp;última&nbsp;figura&nbsp;adicionada&nbsp;ao&nbsp;desenho.<br>
+&nbsp;<br>
+A&nbsp;figura&nbsp;é&nbsp;retirada&nbsp;da&nbsp;lista&nbsp;principal&nbsp;e&nbsp;colocada&nbsp;na&nbsp;lista<br>
+de&nbsp;figuras&nbsp;desfeitas.<br>
+&nbsp;<br>
+@return:&nbsp;None&nbsp;<br>
+@see:&nbsp;refazer</span></dd></dl>
+
+<dl><dt><a name="Historico-limpar"><strong>limpar</strong></a>(self)</dt><dd><span class="code">Limpa&nbsp;todo&nbsp;o&nbsp;histórico&nbsp;do&nbsp;desenho.&nbsp;<br>
+&nbsp;<br>
+Remove&nbsp;as&nbsp;figuras&nbsp;adicionadas&nbsp;e&nbsp;também&nbsp;as&nbsp;figuras&nbsp;que&nbsp;foram&nbsp;desfeitas.&nbsp;<br>
+&nbsp;<br>
+@return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="Historico-refazer"><strong>refazer</strong></a>(self)</dt><dd><span class="code">Refaz&nbsp;a&nbsp;última&nbsp;figura&nbsp;que&nbsp;foi&nbsp;desfeita.&nbsp;<br>
+&nbsp;<br>
+A&nbsp;figura&nbsp;é&nbsp;retirada&nbsp;da&nbsp;lista&nbsp;de&nbsp;figuras&nbsp;desfeitas&nbsp;e&nbsp;colocada&nbsp;<br>
+novamente&nbsp;na&nbsp;lista&nbsp;principal.&nbsp;<br>
+&nbsp;<br>
+@return:&nbsp;None&nbsp;<br>
+@see:&nbsp;desfazer</span></dd></dl>
+
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>figuras</strong></dt>
+<dd><span class="code">Retorna&nbsp;as&nbsp;figuras&nbsp;que&nbsp;estão&nbsp;atualmente&nbsp;no&nbsp;desenho.&nbsp;<br>
+&nbsp;<br>
+@return:&nbsp;Lista&nbsp;com&nbsp;as&nbsp;figuras&nbsp;adicionadas&nbsp;ao&nbsp;desenho.</span></dd>
+</dl>
+<dl><dt><strong>figuras_desfeitas</strong></dt>
+<dd><span class="code">Retorna&nbsp;as&nbsp;figuras&nbsp;que&nbsp;foram&nbsp;desfeitas.&nbsp;<br>
+&nbsp;<br>
+@return:&nbsp;Lista&nbsp;com&nbsp;as&nbsp;figuras&nbsp;disponíveis&nbsp;para&nbsp;serem&nbsp;refeitas.</span></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
