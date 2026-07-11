@@ -4,9 +4,9 @@ Módulo que contém as classes responsáveis pelos traçados.
 Define o funcionamento da linha reta e do rabisco livre,
 utilizando o canvas para desenhar as figuras na interface.
 
-@author: Matheuz Rozendo, Kayo Araujo
-@version: OO.persiste.1
-@since: OO.1
+:author: Matheuz Rozendo, Kayo Araujo
+:version: OO.MVC.1
+:since: OO.1
 """
 
 from .figura import Figura
@@ -19,18 +19,18 @@ class Linha(Figura):
     A classe utiliza as coordenadas inicial e final, a cor da borda
     e a espessura para desenhar a linha no canvas.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura, Rabisco
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura, Rabisco
     """
 
     def desenhar(self, canvas):
         """ 
         Desenha uma linha reta no canvas. 
 
-        @param canvas: Área da interface onde a linha será desenhada. 
-        @return: Identificador da linha criada no canvas. 
+        :param canvas: Área da interface onde a linha será desenhada. 
+        :return: Identificador da linha criada no canvas. 
         """
         x_inicial, y_inicial, x_final, y_final = self.values
 
@@ -49,10 +49,10 @@ class Rabisco(Figura):
     A classe utiliza uma sequência de pontos para criar um traçado
     contínuo no canvas.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura, Linha
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura, Linha
     """
 
     def desenhar(self, canvas):
@@ -62,8 +62,8 @@ class Rabisco(Figura):
         Os pontos armazenados na figura são ligados para formar
         um traçado contínuo.
 
-        @param canvas: Área da interface onde o rabisco será desenhado. 
-        @return: Identificador do rabisco criado no canvas. 
+        :param canvas: Área da interface onde o rabisco será desenhado. 
+        :return: Identificador do rabisco criado no canvas. 
         """
         return canvas.create_line(
             self.values,

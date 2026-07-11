@@ -3,9 +3,9 @@ Módulo principal do sistema de desenho.
 
 Inicializa os componentes da aplicação no padrão MVC.
 
-@author: Matheuz Rozendo, Kayo Araujo
-@version: OO.persiste.1
-@since: imperativa.1
+:author: Matheuz Rozendo, Kayo Araujo
+:version: OO.MVC.1
+:since: OO.1
 """
 
 from controllers.controller import DrawableController
@@ -19,8 +19,8 @@ def main():
     
     Cria a visão, o histórico, o controlador e inicia o loop principal da interface gráfica.
     
-    @return: None
-    @see: DrawableController, DrawableView, Historico
+    :return: None
+    :see: DrawableController, DrawableView, Historico
     """
     view = DrawableView(DrawableController.figuras_disponiveis())
     historico = Historico()

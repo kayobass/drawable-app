@@ -4,9 +4,9 @@ Módulo que contém as classes das figuras formadas por polígonos.
 Define o funcionamento dos triângulos, pentágono, hexágono e do
 polígono criado livremente pelo usuário.
 
-@author: Matheuz Rozendo, Kayo Araujo
-@version: OO.persiste.1
-@since: OO.1
+:author: Matheuz Rozendo, Kayo Araujo
+:version: OO.MVC.1
+:since: OO.1
 """
 
 import math
@@ -21,18 +21,18 @@ class TrianguloRetangulo(Figura):
     A classe utiliza as coordenadas guardadas na figura para definir
     os três pontos do triângulo e desenhá-lo no canvas.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura
     """
 
     def desenhar(self, canvas):
         """ 
         Desenha o triângulo retângulo no canvas. 
 
-        @param canvas: Área da interface onde o triângulo será desenhado. 
-        @return: Identificador do triângulo criado no canvas. 
+        :param canvas: Área da interface onde o triângulo será desenhado. 
+        :return: Identificador do triângulo criado no canvas. 
         """
         x_inicial, y_inicial, x_final, y_final = self.values
 
@@ -53,18 +53,18 @@ class TrianguloEquilatero(Figura):
     A classe calcula a altura e o ponto médio do triângulo a partir
     das coordenadas informadas pelo usuário.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura
     """
 
     def desenhar(self, canvas):
         """ 
         Calcula os pontos e desenha o triângulo equilátero no canvas. 
 
-        @param canvas: Área da interface onde o triângulo será desenhado. 
-        @return: Identificador do triângulo criado no canvas. 
+        :param canvas: Área da interface onde o triângulo será desenhado. 
+        :return: Identificador do triângulo criado no canvas. 
         """
         x_inicial, y_inicial, x_final, y_final = self.values
 
@@ -90,18 +90,18 @@ class Pentagono(Figura):
     A classe calcula o centro, o raio e os cinco pontos necessários
     para desenhar o pentágono.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura
     """
 
     def desenhar(self, canvas):
         """ 
         Calcula os cinco pontos e desenha o pentágono no canvas. 
 
-        @param canvas: Área da interface onde o pentágono será desenhado. 
-        @return: Identificador do pentágono criado no canvas. 
+        :param canvas: Área da interface onde o pentágono será desenhado. 
+        :return: Identificador do pentágono criado no canvas. 
         """
         x_inicial, y_inicial, x_final, y_final = self.values
         centro_x = (x_inicial + x_final) / 2
@@ -132,18 +132,18 @@ class Hexagono(Figura):
     A classe calcula o centro, o raio e os seis pontos necessários
     para desenhar o hexágono.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura
     """
 
     def desenhar(self, canvas):
         """ 
         Calcula os seis pontos e desenha o hexágono no canvas. 
 
-        @param canvas: Área da interface onde o hexágono será desenhado. 
-        @return: Identificador do hexágono criado no canvas. 
+        :param canvas: Área da interface onde o hexágono será desenhado. 
+        :return: Identificador do hexágono criado no canvas. 
         """
         x_inicial, y_inicial, x_final, y_final = self.values
         centro_x = (x_inicial + x_final) / 2
@@ -174,19 +174,19 @@ class Poligono(Figura):
     A classe permite adicionar pontos, mostrar um esboço durante a criação
     e desenhar o polígono final no canvas.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.1
-    @see: Figura
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.MVC.1
+    :since: OO.1
+    :see: Figura
     """
 
     def adicionar_ponto(self, x, y):
         """ 
         Adiciona um novo ponto ao polígono.
 
-        @param x: Coordenada do ponto no eixo X. 
-        @param y: Coordenada do ponto no eixo Y. 
-        @return: None 
+        :param x: Coordenada do ponto no eixo X. 
+        :param y: Coordenada do ponto no eixo Y. 
+        :return: None 
         """
         self.values.append((x, y))
 
@@ -197,8 +197,8 @@ class Poligono(Figura):
         Os pontos são mostrados como pequenos círculos e ligados por 
         linhas tracejadas enquanto o polígono ainda está sendo criado. 
 
-        @param canvas: Área da interface onde o esboço será desenhado. 
-        @return: None 
+        :param canvas: Área da interface onde o esboço será desenhado. 
+        :return: None 
         """
         for x, y in self.values:
             canvas.create_oval(x - 2, y - 2, x + 2, y + 2, fill=self.cor_borda)
@@ -221,8 +221,8 @@ class Poligono(Figura):
 
         O polígono só é desenhado quando possui pelo menos três pontos. 
 
-        @param canvas: Área da interface onde o polígono será desenhado. 
-        @return: Identificador do polígono criado no canvas ou None 
+        :param canvas: Área da interface onde o polígono será desenhado. 
+        :return: Identificador do polígono criado no canvas ou None 
                  quando existem menos de três pontos. 
         """
         pontos = self.values

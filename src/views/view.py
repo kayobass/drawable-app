@@ -4,13 +4,14 @@ Módulo responsável pela interface gráfica do sistema de desenho.
 Contém a classe que cria a janela, os controles de seleção e
 personalização, além da área onde as figuras são desenhadas.
 
-@author: Matheuz Rozendo, Kayo Araujo
-@version: OO.persiste.1
-@since: OO.MVC.1
+:author: Matheuz Rozendo, Kayo Araujo
+:version: OO.persiste.1
+:since: OO.MVC.1
 """
 
 from tkinter import Tk, Frame, StringVar, IntVar, Button, Canvas
 from tkinter import ttk
+
 
 class DrawableView:
     """
@@ -19,9 +20,9 @@ class DrawableView:
     A classe cria a janela principal, os botões, os campos de seleção
     e o canvas utilizado para mostrar as figuras.
 
-    @author: Matheuz Rozendo, Kayo Araujo
-    @version: OO.persiste.1
-    @since: OO.MVC.1
+    :author: Matheuz Rozendo, Kayo Araujo
+    :version: OO.persiste.1
+    :since: OO.MVC.1
     """
 
     def __init__(self, figuras):
@@ -31,26 +32,26 @@ class DrawableView:
         Recebe os tipos de figuras disponíveis, cria a janela principal
         e chama os métodos responsáveis pela criação dos componentes. 
 
-        @param figuras: Lista com os nomes das figuras disponíveis. 
-        @return: None 
-        @see: criar_widgets_selecao, criar_widgets_personalizacao, 
+        :param figuras: Lista com os nomes das figuras disponíveis. 
+        :return: None 
+        :see: criar_widgets_selecao, criar_widgets_personalizacao, 
               criar_area_desenho 
         """
         self.figuras = figuras
-        
+
         self.root = Tk()
         self.root.title("Drawable App")
         self.root.rowconfigure(0, weight=1)
         self.root.columnconfigure(0, weight=1)
-        
+
         self.paddings = {"padx": 5, "pady": 5}
-        
+
         self.frame = Frame(self.root)
         self.frame.grid(row=0, column=0, sticky="nsew")
         self.frame.rowconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
         self.frame.columnconfigure(4, weight=0)
-        
+
         self.criar_widgets_selecao()
         self.criar_widgets_personalizacao()
         self.criar_area_desenho()
@@ -62,7 +63,7 @@ class DrawableView:
         O método cria a seleção do tipo de figura, a quantidade de lados 
         do polígono e os botões usados para salvar e carregar desenhos. 
 
-        @return: None 
+        :return: None 
         """
         self.label = ttk.Label(
             self.frame,
@@ -108,7 +109,7 @@ class DrawableView:
             sticky="w",
             **self.paddings
         )
-        
+
         self.botao_salvar = Button(
             self.frame,
             text="Salvar",
@@ -121,7 +122,7 @@ class DrawableView:
             padx=(5, 0),
             pady=5
         )
-        
+
         self.botao_carregar = Button(
             self.frame,
             text="Carregar"
@@ -141,7 +142,7 @@ class DrawableView:
         O método cria os botões de cores, os indicadores das cores escolhidas
         e a seleção da espessura da figura. 
 
-        @return: None 
+        :return: None 
         """
         self.label_cores = ttk.Label(
             self.frame,
@@ -212,7 +213,7 @@ class DrawableView:
         O método cria um canvas branco que ocupa o espaço disponível
         dentro da janela. 
 
-        @return: None 
+        :return: None 
         """
         self.canvas = Canvas(
             self.frame,
@@ -235,6 +236,6 @@ class DrawableView:
         O método mantém a janela aberta e aguardando as ações
         realizadas pelo usuário.
 
-        @return: None 
+        :return: None 
         """
         self.root.mainloop()

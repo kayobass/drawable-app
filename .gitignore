@@ -76,6 +76,7 @@ venv.bak/
 
 # Annotations
 metas.md
+annotations.md
 
 # Logs
 *.log
