@@ -74,6 +74,9 @@ venv.bak/
 .env.*
 *.env
 
+# Temp Files
+.mimocode
+
 # Annotations
 metas.md
 annotations.md
