@@ -74,6 +74,9 @@ class DrawableController:
 
         self.figura_nova = None
         self.poligono_atual = None
+        self.figura_selecionada = None
+        self.itens_figuras = {}
+        self.ultima_posicao_mouse = None
         self.arquivo_atual = None
         self.figuras_carregadas = []
 
@@ -94,7 +97,7 @@ class DrawableController:
         :return: Lista com os nomes das figuras disponíveis.
         :see: MAPA_FIGURAS
         """
-        return list(cls.MAPA_FIGURAS.keys())
+        return ["Selecionar"] + list(cls.MAPA_FIGURAS.keys())
 
     @property
     def ferramenta(self):
@@ -270,11 +273,95 @@ class DrawableController:
         """
         Desenha novamente todas as figuras armazenadas no histórico.
 
+        O método limpa o canvas, redesenha as figuras e associa cada
+        identificador criado no canvas ao respectivo objeto de figura.
+        Caso uma figura esteja selecionada, seu contorno é exibido
+        de forma tracejada.
+
         :return: None
+        :see: selecionar_figura
         """
+
         self.view.canvas.delete("all")
+        self.itens_figuras.clear()
         for figura in self.historico.figuras:
-            figura.desenhar(self.view.canvas)
+            id_desenho = figura.desenhar(self.view.canvas)
+            if id_desenho is not None:
+                self.itens_figuras[id_desenho] = figura
+                if figura is self.figura_selecionada:
+                    self.view.canvas.itemconfig(
+                        id_desenho,
+                        dash=(4,2)
+                    )
+
+    def selecionar_figura(self, x, y):
+        """
+        Seleciona a figura localizada na posição clicada.
+
+        O método procura itens do canvas próximos às coordenadas recebidas.
+        Quando existem figuras sobrepostas, seleciona a figura que estiver
+        visualmente mais acima. Caso nenhuma figura seja encontrada, a
+        seleção atual é removida.
+
+        :param x: Coordenada horizontal do clique.
+        :param y: Coordenada vertical do clique.
+        :return: None
+        :see: desenhar_figuras
+        """
+
+        margem = 4
+
+        itens_encontrados = self.view.canvas.find_overlapping(
+            x - margem,
+            y - margem,
+            x + margem,
+            y + margem
+        )
+
+        self.figura_selecionada = None
+
+        for id_item in reversed(itens_encontrados):
+            if id_item in self.itens_figuras:
+                self.figura_selecionada = self.itens_figuras[id_item]
+                break
+
+        self.desenhar_figuras()
+        self.view.canvas.focus_set()
+
+    def mover_figura_selecionada(self, deslocamento_x, deslocamento_y):
+        """
+        Move a figura selecionada pela quantidade informada.
+
+        O método altera as coordenadas da figura com base nos deslocamentos
+        horizontal e vertical recebidos. Figuras formadas por vários pontos,
+        como polígonos e rabiscos, têm todos os seus pontos atualizados.
+
+        :param deslocamento_x: Distância horizontal percorrida pelo mouse.
+        :param deslocamento_y: Distância vertical percorrida pelo mouse.
+        :return: None
+        :see: selecionar_figura, desenhar_figuras
+        """
+
+        if self.figura_selecionada is None:
+            return
+
+        valores = self.figura_selecionada.values
+
+        if not valores:
+            return
+
+        if isinstance(valores[0], (tuple, list)):
+            self.figura_selecionada.values = [
+                (x + deslocamento_x, y + deslocamento_y)
+                for x, y in valores
+            ]
+
+        else:
+            for indice in range(0, len(valores), 2):
+                valores[indice] += deslocamento_x
+                valores[indice + 1] += deslocamento_y
+
+        self.desenhar_figuras()
 
     def desenhar_figura_nova(self):
         """

@@ -324,8 +324,97 @@ class EstadoPoligono(EstadoFerramenta):
             controller.verifica_historico()
             controller.desenhar_figuras()
 
+class EstadoSelecao(EstadoFerramenta):
+    """
+    Estado responsável pela seleção e movimentação das figuras.
+
+    Permite selecionar uma figura ao clicar sobre ela e movê-la enquanto
+    o botão esquerdo do mouse permanece pressionado.
+
+    :author: Matheuz Rozendo
+    :since: OO.State.1
+    """
+
+    def configurar_estado(self, controller):
+        controller.view.label_lados.grid_forget()
+        controller.view.combo_lados.grid_forget()
+
+        controller.view.botao_cor_preenchimento.config(state="normal")
+        controller.view.botao_sem_preenchimento.config(state="normal")
+        controller.view.botao_cor_borda.config(text="Cor da borda")
+
+        controller.figura_nova = None
+        controller.poligono_atual = None
+
+    def iniciar_figura(self, controller, event):
+        """
+        Seleciona uma figura e registra a posição inicial do mouse.
+
+        :param controller: Controlador principal da aplicação.
+        :param event: Evento do mouse com as coordenadas do clique.
+        :return: None
+        """
+
+        controller.selecionar_figura(event.x, event.y)
+        if controller.figura_selecionada is not None:
+            controller.ultima_posicao_mouse = (event.x, event.y)
+        else:
+            controller.ultima_posicao_mouse = None
+
+    def atualizar_figura(self, controller, event):
+        """
+        Move a figura selecionada durante o arraste do mouse.
+
+        Calcula o deslocamento em relação à posição anterior do cursor
+        e solicita ao controlador que atualize as coordenadas da figura.
+
+        :param controller: Controlador principal da aplicação.
+        :param event: Evento do mouse com a posição atual do cursor.
+        :return: None
+        """
+         
+        if (controller.figura_selecionada is None or controller.ultima_posicao_mouse is None):
+            return
+
+        x_anterior, y_anterior = controller.ultima_posicao_mouse
+
+        deslocamento_x = event.x - x_anterior
+        deslocamento_y = event.y - y_anterior
+
+        controller.mover_figura_selecionada(
+            deslocamento_x,
+            deslocamento_y
+        )
+
+        controller.ultima_posicao_mouse = (event.x, event.y)
+
+    def incluir_figura(self, controller, event):
+        """
+        Finaliza a movimentação da figura selecionada.
+
+        Remove o registro da última posição do mouse quando o botão
+        esquerdo é solto.
+
+        :param controller: Controlador principal da aplicação.
+        :param event: Evento gerado ao soltar o botão do mouse.
+        :return: None
+        """
+        controller.ultima_posicao_mouse = None
+
+    def desfazer(self, controller):
+        if controller.historico.figuras:
+            controller.historico.desfazer()
+            controller.verifica_historico()
+            controller.desenhar_figuras()
+
+    def refazer(self, controller):
+        if controller.historico.figuras_desfeitas:
+            controller.historico.refazer()
+            controller.verifica_historico()
+            controller.desenhar_figuras()
 
 MAPA_ESTADOS = {
+    'Selecionar': EstadoSelecao,
     'Linha': EstadoLinha,
     'Rabisco': EstadoRabisco,
     'Poligono': EstadoPoligono,
