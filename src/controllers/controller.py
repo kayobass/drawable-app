@@ -138,6 +138,7 @@ class DrawableController:
 
         self.view.tipo_figura.trace_add("write", self.detecta_mudanca)
         self.view.lados_poligono.trace_add("write", self.detecta_mudanca)
+        self.view.espessura.trace_add("write", self.alterar_espessura)
 
         self.detecta_mudanca()
 
@@ -155,6 +156,8 @@ class DrawableController:
         self.view.root.bind_all("<Control-z>", self.desfazer)
         self.view.root.bind_all("<Control-y>", self.refazer)
         self.view.root.bind_all("<Delete>", self.excluir_figura_selecionada)
+        self.view.root.bind_all("<Right>", self.passar_uma_posicao_para_frente)
+        self.view.root.bind_all("<Left>", self.passar_uma_posicao_para_tras)
 
         self.view.canvas.focus_set()
 
@@ -174,18 +177,27 @@ class DrawableController:
 
     def escolher_cor_da_borda(self):
         """
-        Abre o seletor de cores e altera a cor da borda das próximas figuras.
+        Abre o seletor de cores e altera a cor da borda.
+
+        Se houver uma figura selecionada, altera também a cor dela.
+        Caso contrário, a cor será usada nas próximas figuras.
 
         :return: None
-        """
+        """ 
         cor = colorchooser.askcolor(title="Cor da borda")
         if cor[1] is not None:
             self.cor_da_borda = cor[1]
             self.view.indicador_borda.config(bg=self.cor_da_borda)
+            if self.figura_selecionada is not None:
+                self.figura_selecionada.cor_borda = self.cor_da_borda
+                self.desenhar_figuras()
 
     def escolher_cor_do_preenchimento(self):
         """
-        Abre o seletor de cores e altera a cor de preenchimento das próximas figuras.
+        Abre o seletor de cores e altera a cor de preenchimento.
+
+        Se houver uma figura selecionada, altera também o preenchimento dela.
+        Caso contrário, a cor será usada nas próximas figuras.
 
         :return: None
         """
@@ -193,15 +205,22 @@ class DrawableController:
         if corp[1] is not None:
             self.cor_do_preenchimento = corp[1]
             self.view.indicador_preenchimento.config(bg=self.cor_do_preenchimento)
+            if self.figura_selecionada is not None:
+                self.figura_selecionada.cor_preenchimento = (self.cor_do_preenchimento)
+                self.desenhar_figuras()
 
     def remover_preenchimento(self):
         """
-        Remove a cor de preenchimento selecionada.
+        Remove a cor de preenchimento.
+        Se houver uma figura selecionada, remove também o preenchimento dela.
 
         :return: None
         """
         self.cor_do_preenchimento = ""
         self.view.indicador_preenchimento.config(bg="#D3D3D3")
+        if self.figura_selecionada is not None:
+            self.figura_selecionada.cor_preenchimento = ""
+            self.desenhar_figuras()
 
     def detecta_mudanca(self, *args):
         """
@@ -215,6 +234,21 @@ class DrawableController:
         """
         self.estado = obter_estado(self.ferramenta)
         self.estado.configurar_estado(self)
+    
+    def alterar_espessura(self, *args):
+        """
+        Atualiza a espessura utilizada no desenho.
+
+        Se houver uma figura selecionada, altera também a espessura dela.
+
+        :param args: Informações enviadas automaticamente pelo Tkinter.
+        :return: None
+        """
+        if self.figura_selecionada is not None:
+            self.figura_selecionada.espessura = self.espessura
+            self.desenhar_figuras()
+
+        self.view.canvas.focus_set()
 
     def verifica_historico(self):
         """
@@ -421,6 +455,40 @@ class DrawableController:
             self.figura_selecionada = None
             self.desenhar_figuras()
             self.verifica_historico()
+
+    def passar_uma_posicao_para_frente(self, event=None):
+        """
+        Move a figura selecionada uma posição para frente na ordem de desenho.
+
+        :param event: Evento opcional da tecla seta para a direita.
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        figuras = self.historico.figuras
+        indice = figuras.index(self.figura_selecionada)
+
+        if indice < len(figuras) - 1:
+            figuras[indice], figuras[indice + 1] = figuras[indice + 1], figuras[indice]
+            self.desenhar_figuras()
+
+    def passar_uma_posicao_para_tras(self, event=None):
+        """
+        Move a figura selecionada uma posição para trás na ordem de desenho.
+
+        :param event: Evento opcional da tecla seta para a esquerda.
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        figuras = self.historico.figuras
+        indice = figuras.index(self.figura_selecionada)
+
+        if indice > 0:
+            figuras[indice], figuras[indice - 1] = figuras[indice - 1], figuras[indice]
+            self.desenhar_figuras()
 
     def esta_alterado(self):
         """
