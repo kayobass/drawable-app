@@ -153,6 +153,7 @@ class DrawableController:
         self.view.canvas.bind("<ButtonRelease-1>", self.incluir_figura_nova)
         self.view.canvas.bind("<Button-3>", self.finalizar_poligono)
 
+        self.view.root.bind_all("<Escape>", self.cancelar_acao)
         self.view.root.bind_all("<Control-z>", self.desfazer)
         self.view.root.bind_all("<Control-y>", self.refazer)
         self.view.root.bind_all("<Delete>", self.excluir_figura_selecionada)
@@ -183,7 +184,7 @@ class DrawableController:
         Caso contrário, a cor será usada nas próximas figuras.
 
         :return: None
-        """ 
+        """
         cor = colorchooser.askcolor(title="Cor da borda")
         if cor[1] is not None:
             self.cor_da_borda = cor[1]
@@ -206,7 +207,7 @@ class DrawableController:
             self.cor_do_preenchimento = corp[1]
             self.view.indicador_preenchimento.config(bg=self.cor_do_preenchimento)
             if self.figura_selecionada is not None:
-                self.figura_selecionada.cor_preenchimento = (self.cor_do_preenchimento)
+                self.figura_selecionada.cor_preenchimento = self.cor_do_preenchimento
                 self.desenhar_figuras()
 
     def remover_preenchimento(self):
@@ -234,7 +235,7 @@ class DrawableController:
         """
         self.estado = obter_estado(self.ferramenta)
         self.estado.configurar_estado(self)
-    
+
     def alterar_espessura(self, *args):
         """
         Atualiza a espessura utilizada no desenho.
@@ -489,6 +490,31 @@ class DrawableController:
         if indice > 0:
             figuras[indice], figuras[indice - 1] = figuras[indice - 1], figuras[indice]
             self.desenhar_figuras()
+
+    def cancelar_acao(self, event=None):
+        """
+        Cancela a ação em andamento ao pressionar a tecla Esc.
+
+        Desceleciona figuras, cancela polígonos em criação e
+        cancela figuras sendo desenhadas.
+
+        :param event: Evento da tecla Esc.
+        :return: None
+        """
+        if self.figura_selecionada is not None:
+            self.figura_selecionada = None
+            self.desenhar_figuras()
+            return
+
+        if self.poligono_atual is not None:
+            self.poligono_atual = None
+            self.desenhar_figuras()
+            return
+
+        if self.figura_nova is not None:
+            self.figura_nova = None
+            self.desenhar_figuras()
+            return
 
     def esta_alterado(self):
         """
