@@ -34,6 +34,8 @@ class Historico:
         """
         self._figuras = []
         self._figuras_desfeitas = []
+        self._movimentacoes = []
+        self._movimentacoes_anteriores = []
 
     @property
     def figuras(self):
@@ -100,6 +102,49 @@ class Historico:
             index, figura = self._figuras_desfeitas.pop()
             self._figuras.insert(index, figura)
 
+    def registrar_movimentacao(self, ordem_anterior):
+        """
+        Registra uma mudança de posição das figuras no histórico.
+
+        Salva a ordem anterior para permitir desfazer a movimentação.
+
+        :param ordem_anterior: Lista com a ordem das figuras antes da movimentação.
+        :return: None
+        """
+        self._figuras_desfeitas.clear()
+        self._movimentacoes.append(list(self._figuras))
+        self._movimentacoes_anteriores.append(ordem_anterior)
+
+    def desfazer_movimentacao(self):
+        """
+        Desfaz a última movimentação de posição.
+
+        Restaura a ordem das figuras para o estado anterior à movimentação.
+
+        :return: True se uma movimentação foi desfeita; False caso contrário.
+        """
+        if self._movimentacoes_anteriores:
+            ordem_anterior = self._movimentacoes_anteriores.pop()
+            self._movimentacoes.pop()
+            self._figuras.clear()
+            self._figuras.extend(ordem_anterior)
+            return True
+        return False
+
+    def refazer_movimentacao(self):
+        """
+        Refaz a última movimentação de posição desfeita.
+
+        :return: True se uma movimentação foi refeita; False caso contrário.
+        """
+        if self._movimentacoes:
+            ordem = self._movimentacoes.pop()
+            self._movimentacoes_anteriores.append(list(self._figuras))
+            self._figuras.clear()
+            self._figuras.extend(ordem)
+            return True
+        return False
+
     def limpar(self):
         """
         Limpa todo o histórico do desenho.
@@ -110,3 +155,5 @@ class Historico:
         """
         self._figuras.clear()
         self._figuras_desfeitas.clear()
+        self._movimentacoes.clear()
+        self._movimentacoes_anteriores.clear()

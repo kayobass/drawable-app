@@ -157,8 +157,10 @@ class DrawableController:
         self.view.root.bind_all("<Control-z>", self.desfazer)
         self.view.root.bind_all("<Control-y>", self.refazer)
         self.view.root.bind_all("<Delete>", self.excluir_figura_selecionada)
-        self.view.root.bind_all("<Right>", self.passar_uma_posicao_para_frente)
-        self.view.root.bind_all("<Left>", self.passar_uma_posicao_para_tras)
+        self.view.root.bind_all("<Right>", self.mover_posicao_frente)
+        self.view.root.bind_all("<Left>", self.mover_posicao_tras)
+        self.view.root.bind_all("<Up>", self.mover_posicao_topo)
+        self.view.root.bind_all("<Down>", self.mover_posicao_fundo)
 
         self.view.canvas.focus_set()
 
@@ -426,22 +428,30 @@ class DrawableController:
         """
         Desfaz a última ação.
 
-        Delega a ação ao estado atual.
+        Verifica primeiro se há movimentações para desfazer.
+        Caso contrário, delega a ação ao estado atual.
 
         :param args: Argumentos opcionais enviados pelo evento de teclado.
         :return: None
         """
+        if self.historico.desfazer_movimentacao():
+            self.desenhar_figuras()
+            return
         self.estado.desfazer(self)
 
     def refazer(self, *args):
         """
         Refaz a última ação desfeita.
 
-        Delega a ação ao estado atual.
+        Verifica primeiro se há movimentações para refazer.
+        Caso contrário, delega a ação ao estado atual.
 
         :param args: Argumentos opcionais enviados pelo evento de teclado.
         :return: None
         """
+        if self.historico.refazer_movimentacao():
+            self.desenhar_figuras()
+            return
         self.estado.refazer(self)
 
     def excluir_figura_selecionada(self, event=None):
@@ -457,7 +467,7 @@ class DrawableController:
             self.desenhar_figuras()
             self.verifica_historico()
 
-    def passar_uma_posicao_para_frente(self, event=None):
+    def mover_posicao_frente(self, event=None):
         """
         Move a figura selecionada uma posição para frente na ordem de desenho.
 
@@ -471,10 +481,12 @@ class DrawableController:
         indice = figuras.index(self.figura_selecionada)
 
         if indice < len(figuras) - 1:
+            ordem_anterior = list(figuras)
             figuras[indice], figuras[indice + 1] = figuras[indice + 1], figuras[indice]
+            self.historico.registrar_movimentacao(ordem_anterior)
             self.desenhar_figuras()
 
-    def passar_uma_posicao_para_tras(self, event=None):
+    def mover_posicao_tras(self, event=None):
         """
         Move a figura selecionada uma posição para trás na ordem de desenho.
 
@@ -488,7 +500,47 @@ class DrawableController:
         indice = figuras.index(self.figura_selecionada)
 
         if indice > 0:
+            ordem_anterior = list(figuras)
             figuras[indice], figuras[indice - 1] = figuras[indice - 1], figuras[indice]
+            self.historico.registrar_movimentacao(ordem_anterior)
+            self.desenhar_figuras()
+
+    def mover_posicao_topo(self, event=None):
+        """
+        Move a figura selecionada para o topo da ordem de desenho (último lugar da lista).
+
+        :param event: Evento opcional da tecla de atalho.
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        figuras = self.historico.figuras
+        indice = figuras.index(self.figura_selecionada)
+
+        if indice < len(figuras) - 1:
+            ordem_anterior = list(figuras)
+            figuras.append(figuras.pop(indice))
+            self.historico.registrar_movimentacao(ordem_anterior)
+            self.desenhar_figuras()
+
+    def mover_posicao_fundo(self, event=None):
+        """
+        Move a figura selecionada para o fundo da ordem de desenho (primeira posição da lista).
+
+        :param event: Evento opcional da tecla de atalho.
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        figuras = self.historico.figuras
+        indice = figuras.index(self.figura_selecionada)
+
+        if indice > 0:
+            ordem_anterior = list(figuras)
+            figuras.insert(0, figuras.pop(indice))
+            self.historico.registrar_movimentacao(ordem_anterior)
             self.desenhar_figuras()
 
     def cancelar_acao(self, event=None):
@@ -596,6 +648,8 @@ class DrawableController:
 
                 self.historico.figuras.clear()
                 self.historico.figuras_desfeitas.clear()
+                self.historico._movimentacoes.clear()
+                self.historico._movimentacoes_anteriores.clear()
                 self.figuras_carregadas.clear()
 
                 for figura in figuras_carregadas:
