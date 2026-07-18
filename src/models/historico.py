@@ -19,7 +19,7 @@ class Historico:
     e limpar o desenho.
 
     :author: Matheuz Rozendo, Kayo Araujo
-    :version: OO.MVC.1
+    :version: OO.State.1
     :since: OO.MVC.1
     """
 
@@ -67,6 +67,8 @@ class Historico:
         """
         self._figuras.append(figura)
         self._figuras_desfeitas.clear()
+        self._movimentacoes.clear()
+        self._movimentacoes_anteriores.clear()
 
     def desfazer(self, figura=None):
         """
@@ -87,6 +89,8 @@ class Historico:
                 index = self._figuras.index(figura)
                 self._figuras.pop(index)
             self._figuras_desfeitas.append((index, figura))
+            self._movimentacoes.clear()
+            self._movimentacoes_anteriores.clear()
 
     def refazer(self):
         """
@@ -101,6 +105,8 @@ class Historico:
         if self._figuras_desfeitas:
             index, figura = self._figuras_desfeitas.pop()
             self._figuras.insert(index, figura)
+            self._movimentacoes.clear()
+            self._movimentacoes_anteriores.clear()
 
     def registrar_movimentacao(self, ordem_anterior):
         """
@@ -112,8 +118,9 @@ class Historico:
         :return: None
         """
         self._figuras_desfeitas.clear()
-        self._movimentacoes.append(list(self._figuras))
+        self._movimentacoes.clear()
         self._movimentacoes_anteriores.append(ordem_anterior)
+        self._movimentacoes.append(list(self._figuras))
 
     def desfazer_movimentacao(self):
         """
@@ -125,7 +132,6 @@ class Historico:
         """
         if self._movimentacoes_anteriores:
             ordem_anterior = self._movimentacoes_anteriores.pop()
-            self._movimentacoes.pop()
             self._figuras.clear()
             self._figuras.extend(ordem_anterior)
             return True
@@ -139,7 +145,6 @@ class Historico:
         """
         if self._movimentacoes:
             ordem = self._movimentacoes.pop()
-            self._movimentacoes_anteriores.append(list(self._figuras))
             self._figuras.clear()
             self._figuras.extend(ordem)
             return True

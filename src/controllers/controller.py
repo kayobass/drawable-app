@@ -359,8 +359,40 @@ class DrawableController:
                 self.figura_selecionada = self.itens_figuras[id_item]
                 break
 
+        self.atualizar_indicadores()
         self.desenhar_figuras()
         self.view.canvas.focus_set()
+
+    def atualizar_indicadores(self):
+        """
+        Atualiza os indicadores da view com base na figura selecionada.
+
+        Se houver uma figura selecionada, sincroniza as cores, espessura
+        e preenchimento da interface com os valores da figura.
+
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        self.cor_da_borda = self.figura_selecionada.cor_borda
+        self.cor_do_preenchimento = self.figura_selecionada.cor_preenchimento
+
+        self.view.indicador_borda.config(bg=self.cor_da_borda)
+        self.view.espessura.set(self.figura_selecionada.espessura)
+
+        if isinstance(self.figura_selecionada, (Linha, Rabisco)):
+            self.view.botao_cor_borda.config(text="Cor")
+            self.view.botao_cor_preenchimento.config(state="disabled")
+            self.view.botao_sem_preenchimento.config(state="disabled")
+            self.view.indicador_preenchimento.config(bg="#D3D3D3")
+        else:
+            self.view.botao_cor_borda.config(text="Cor da borda")
+            self.view.botao_cor_preenchimento.config(state="normal")
+            self.view.botao_sem_preenchimento.config(state="normal")
+            self.view.indicador_preenchimento.config(
+                bg=self.cor_do_preenchimento if self.cor_do_preenchimento else "#D3D3D3"
+            )
 
     def mover_figura_selecionada(self, deslocamento_x, deslocamento_y):
         """

@@ -5,7 +5,7 @@ Contém a classe que cria a janela, os controles de seleção e
 personalização, além da área onde as figuras são desenhadas.
 
 :author: Matheuz Rozendo, Kayo Araujo
-:version: OO.persiste.1
+:version: OO.State.1
 :since: OO.MVC.1
 """
 
