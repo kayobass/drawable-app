@@ -80,6 +80,7 @@ class DrawableController:
         self.ultima_posicao_mouse = None
         self.arquivo_atual = None
         self.figuras_carregadas = []
+        self._alterado = False
 
         self.estado = obter_estado(self.ferramenta)
         self.estado.configurar_estado(self)
@@ -193,6 +194,7 @@ class DrawableController:
             self.view.indicador_borda.config(bg=self.cor_da_borda)
             if self.figura_selecionada is not None:
                 self.figura_selecionada.cor_borda = self.cor_da_borda
+                self._alterado = True
                 self.desenhar_figuras()
 
     def escolher_cor_do_preenchimento(self):
@@ -210,6 +212,7 @@ class DrawableController:
             self.view.indicador_preenchimento.config(bg=self.cor_do_preenchimento)
             if self.figura_selecionada is not None:
                 self.figura_selecionada.cor_preenchimento = self.cor_do_preenchimento
+                self._alterado = True
                 self.desenhar_figuras()
 
     def remover_preenchimento(self):
@@ -223,6 +226,7 @@ class DrawableController:
         self.view.indicador_preenchimento.config(bg="#D3D3D3")
         if self.figura_selecionada is not None:
             self.figura_selecionada.cor_preenchimento = ""
+            self._alterado = True
             self.desenhar_figuras()
 
     def detecta_mudanca(self, *args):
@@ -249,6 +253,7 @@ class DrawableController:
         """
         if self.figura_selecionada is not None:
             self.figura_selecionada.espessura = self.espessura
+            self._alterado = True
             self.desenhar_figuras()
 
         self.view.canvas.focus_set()
@@ -426,6 +431,7 @@ class DrawableController:
                 valores[indice] += deslocamento_x
                 valores[indice + 1] += deslocamento_y
 
+        self._alterado = True
         self.desenhar_figuras()
 
     def desenhar_figura_nova(self):
@@ -516,6 +522,7 @@ class DrawableController:
             ordem_anterior = list(figuras)
             figuras[indice], figuras[indice + 1] = figuras[indice + 1], figuras[indice]
             self.historico.registrar_movimentacao(ordem_anterior)
+            self._alterado = True
             self.desenhar_figuras()
 
     def mover_posicao_tras(self, event=None):
@@ -535,6 +542,7 @@ class DrawableController:
             ordem_anterior = list(figuras)
             figuras[indice], figuras[indice - 1] = figuras[indice - 1], figuras[indice]
             self.historico.registrar_movimentacao(ordem_anterior)
+            self._alterado = True
             self.desenhar_figuras()
 
     def mover_posicao_topo(self, event=None):
@@ -554,6 +562,7 @@ class DrawableController:
             ordem_anterior = list(figuras)
             figuras.append(figuras.pop(indice))
             self.historico.registrar_movimentacao(ordem_anterior)
+            self._alterado = True
             self.desenhar_figuras()
 
     def mover_posicao_fundo(self, event=None):
@@ -573,6 +582,7 @@ class DrawableController:
             ordem_anterior = list(figuras)
             figuras.insert(0, figuras.pop(indice))
             self.historico.registrar_movimentacao(ordem_anterior)
+            self._alterado = True
             self.desenhar_figuras()
 
     def cancelar_acao(self, event=None):
@@ -612,6 +622,7 @@ class DrawableController:
         return (
             self.historico.figuras != self.figuras_carregadas
             or self.arquivo_atual is None
+            or self._alterado
         )
 
     def salvar_desenho(self):
@@ -639,6 +650,7 @@ class DrawableController:
 
                 self.figuras_carregadas = self.historico.figuras.copy()
                 self.arquivo_atual = caminho_para_salvar
+                self._alterado = False
 
                 nome_arquivo = caminho_para_salvar.split("/")[-1]
                 self.view.root.title(f"Drawable App - {nome_arquivo}")
@@ -689,6 +701,7 @@ class DrawableController:
                     self.figuras_carregadas.append(figura)
 
                 self.arquivo_atual = arquivo
+                self._alterado = False
 
                 nome_arquivo = arquivo.split("/")[-1]
                 self.view.root.title(f"Drawable App - {nome_arquivo}")
