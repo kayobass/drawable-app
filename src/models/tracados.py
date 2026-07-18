@@ -26,19 +26,21 @@ class Linha(Figura):
     """
 
     def desenhar(self, canvas):
-        """ 
-        Desenha uma linha reta no canvas. 
+        """
+        Desenha uma linha reta no canvas.
 
-        :param canvas: Área da interface onde a linha será desenhada. 
-        :return: Identificador da linha criada no canvas. 
+        :param canvas: Área da interface onde a linha será desenhada.
+        :return: Identificador da linha criada no canvas.
         """
         x_inicial, y_inicial, x_final, y_final = self.values
 
         return canvas.create_line(
-            x_inicial, y_inicial,
-            x_final, y_final,
+            x_inicial,
+            y_inicial,
+            x_final,
+            y_final,
             fill=self.cor_borda,
-            width=self.espessura
+            width=self.espessura,
         )
 
 
@@ -56,17 +58,15 @@ class Rabisco(Figura):
     """
 
     def desenhar(self, canvas):
-        """ 
-        Desenha o rabisco no canvas. 
-        
+        """
+        Desenha o rabisco no canvas.
+
         Os pontos armazenados na figura são ligados para formar
         um traçado contínuo.
 
-        :param canvas: Área da interface onde o rabisco será desenhado. 
-        :return: Identificador do rabisco criado no canvas. 
+        :param canvas: Área da interface onde o rabisco será desenhado.
+        :return: Identificador do rabisco criado no canvas.
         """
         return canvas.create_line(
-            self.values,
-            fill=self.cor_borda,
-            width=self.espessura
+            self.values, fill=self.cor_borda, width=self.espessura
         )

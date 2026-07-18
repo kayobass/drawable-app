@@ -16,9 +16,9 @@ from views.view import DrawableView
 def main():
     """
     Inicializa e executa o sistema de desenho.
-    
+
     Cria a visão, o histórico, o controlador e inicia o loop principal da interface gráfica.
-    
+
     :return: None
     :see: DrawableController, DrawableView, Historico
     """

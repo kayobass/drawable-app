@@ -27,14 +27,14 @@ class Figura(ABC):
     """
 
     def __init__(self, values, cor_borda, cor_preenchimento, espessura):
-        """ 
+        """
         Inicializa os dados básicos de uma figura.
 
-        :param values: Coordenadas ou pontos usados para formar a figura. 
-        :param cor_borda: Cor da borda da figura. 
-        :param cor_preenchimento: Cor do preenchimento da figura. 
-        :param espessura: Espessura da borda ou da linha da figura. 
-        :return: None 
+        :param values: Coordenadas ou pontos usados para formar a figura.
+        :param cor_borda: Cor da borda da figura.
+        :param cor_preenchimento: Cor do preenchimento da figura.
+        :param espessura: Espessura da borda ou da linha da figura.
+        :return: None
         """
         self.values = values
         self.cor_borda = cor_borda
@@ -42,44 +42,44 @@ class Figura(ABC):
         self.espessura = espessura
 
     def __str__(self):
-        """ 
-        Retorna os dados da figura em formato de texto. 
+        """
+        Retorna os dados da figura em formato de texto.
 
         O texto mostra o nome da classe da figura e os valores
-        armazenados em seus atributos. 
+        armazenados em seus atributos.
 
-        :return: Texto com o nome e os dados da figura. 
+        :return: Texto com o nome e os dados da figura.
         """
         return f"{self.__class__.__name__}: {', '.join([f'{chave}={valor}' for chave, valor in self.__dict__.items()])}"
 
     def __eq__(self, other):
-        """ 
-        Compara a figura atual com outra figura. 
+        """
+        Compara a figura atual com outra figura.
 
         As figuras são consideradas iguais quando são do mesmo tipo
         e possuem as mesmas coordenadas, cores e espessura.
 
-        :param other: Outra figura que será comparada com a figura atual. 
-        :return: True se as figuras forem iguais; False caso contrário. 
+        :param other: Outra figura que será comparada com a figura atual.
+        :return: True se as figuras forem iguais; False caso contrário.
         """
         if type(self) is not type(other):
             return False
         return (
-                self.values == other.values and
-                self.cor_borda == other.cor_borda and
-                self.cor_preenchimento == other.cor_preenchimento and
-                self.espessura == other.espessura
+            self.values == other.values
+            and self.cor_borda == other.cor_borda
+            and self.cor_preenchimento == other.cor_preenchimento
+            and self.espessura == other.espessura
         )
 
     @abstractmethod
     def desenhar(self, canvas):
-        """ 
-        Define o método usado para desenhar uma figura no canvas. 
+        """
+        Define o método usado para desenhar uma figura no canvas.
 
         Cada classe filha deve implementar esse método de acordo
-        com o tipo de figura que representa. 
+        com o tipo de figura que representa.
 
-        :param canvas: Área da interface onde a figura será desenhada. 
-        :return: Identificador da figura criada no canvas, quando aplicável. 
+        :param canvas: Área da interface onde a figura será desenhada.
+        :return: Identificador da figura criada no canvas, quando aplicável.
         """
         pass

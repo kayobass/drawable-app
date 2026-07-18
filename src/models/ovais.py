@@ -26,14 +26,14 @@ class Circulo(Figura):
     """
 
     def transformar_em_circulo(self, values):
-        """ 
-        Ajusta as coordenadas para formar um círculo. 
+        """
+        Ajusta as coordenadas para formar um círculo.
 
-        O método utiliza o menor valor entre a largura e a altura para 
-        deixar os dois lados com o mesmo tamanho. 
+        O método utiliza o menor valor entre a largura e a altura para
+        deixar os dois lados com o mesmo tamanho.
 
-        :param values: Coordenadas iniciais e finais usadas para formar o círculo. 
-        :return: Tupla com as coordenadas ajustadas do círculo. 
+        :param values: Coordenadas iniciais e finais usadas para formar o círculo.
+        :return: Tupla com as coordenadas ajustadas do círculo.
         """
         x_inicial, y_inicial, x_final, y_final = values
         largura = x_final - x_inicial
@@ -49,32 +49,31 @@ class Circulo(Figura):
         else:
             y_final = y_inicial + tamanho
 
-        return (
-            x_inicial,
-            y_inicial,
-            x_final,
-            y_final
-        )
+        return (x_inicial, y_inicial, x_final, y_final)
 
     def desenhar(self, canvas):
-        """ 
-        Desenha o círculo no canvas. 
+        """
+        Desenha o círculo no canvas.
 
         Primeiro ajusta as coordenadas para formar um círculo e depois
         utiliza essas coordenadas para criar a figura.
 
-        :param canvas: Área da interface onde o círculo será desenhado. 
-        :return: Identificador do círculo criado no canvas. 
-        :see: transformar_em_circulo 
+        :param canvas: Área da interface onde o círculo será desenhado.
+        :return: Identificador do círculo criado no canvas.
+        :see: transformar_em_circulo
         """
-        x_inicial, y_inicial, x_final, y_final = self.transformar_em_circulo(self.values)
+        x_inicial, y_inicial, x_final, y_final = self.transformar_em_circulo(
+            self.values
+        )
 
         return canvas.create_oval(
-            x_inicial, y_inicial,
-            x_final, y_final,
+            x_inicial,
+            y_inicial,
+            x_final,
+            y_final,
             outline=self.cor_borda,
             fill=self.cor_preenchimento,
-            width=self.espessura
+            width=self.espessura,
         )
 
 
@@ -92,18 +91,20 @@ class Oval(Figura):
     """
 
     def desenhar(self, canvas):
-        """ 
-        Desenha a oval no canvas. 
+        """
+        Desenha a oval no canvas.
 
-        :param canvas: Área da interface onde a oval será desenhada. 
-        :return: Identificador da oval criada no canvas. 
+        :param canvas: Área da interface onde a oval será desenhada.
+        :return: Identificador da oval criada no canvas.
         """
         x_inicial, y_inicial, x_final, y_final = self.values
 
         return canvas.create_oval(
-            x_inicial, y_inicial,
-            x_final, y_final,
+            x_inicial,
+            y_inicial,
+            x_final,
+            y_final,
             outline=self.cor_borda,
             fill=self.cor_preenchimento,
-            width=self.espessura
+            width=self.espessura,
         )

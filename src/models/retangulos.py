@@ -26,20 +26,22 @@ class Retangulo(Figura):
     """
 
     def desenhar(self, canvas):
-        """ 
+        """
         Desenha o retângulo no canvas.
 
-        :param canvas: Área da interface onde o retângulo será desenhado. 
-        :return: Identificador do retângulo criado no canvas. 
+        :param canvas: Área da interface onde o retângulo será desenhado.
+        :return: Identificador do retângulo criado no canvas.
         """
         x_inicial, y_inicial, x_final, y_final = self.values
 
         return canvas.create_rectangle(
-            x_inicial, y_inicial,
-            x_final, y_final,
+            x_inicial,
+            y_inicial,
+            x_final,
+            y_final,
             outline=self.cor_borda,
             fill=self.cor_preenchimento,
-            width=self.espessura
+            width=self.espessura,
         )
 
 
@@ -57,14 +59,14 @@ class Quadrado(Figura):
     """
 
     def retangulo_em_quadrado(self, values):
-        """ 
-        Ajusta as coordenadas de um retângulo para formar um quadrado. 
+        """
+        Ajusta as coordenadas de um retângulo para formar um quadrado.
 
-        O método utiliza o menor valor entre a largura e a altura para 
-        definir o tamanho dos lados do quadrado. 
+        O método utiliza o menor valor entre a largura e a altura para
+        definir o tamanho dos lados do quadrado.
 
         :param values: Coordenadas iniciais e finais usadas para formar o quadrado.
-        :return: Tupla com as coordenadas ajustadas do quadrado. 
+        :return: Tupla com as coordenadas ajustadas do quadrado.
         """
         x_inicial, y_inicial, x_final, y_final = values
         largura = x_final - x_inicial
@@ -83,22 +85,24 @@ class Quadrado(Figura):
         return x_inicial, y_inicial, x_inicial + ladox, y_inicial + ladoy
 
     def desenhar(self, canvas):
-        """ 
-        Desenha o quadrado no canvas. 
+        """
+        Desenha o quadrado no canvas.
 
-        Primeiro ajusta as coordenadas para formar um quadrado e depois 
+        Primeiro ajusta as coordenadas para formar um quadrado e depois
         utiliza essas coordenadas para criar a figura.
 
-        :param canvas: Área da interface onde o quadrado será desenhado. 
-        :return: Identificador do quadrado criado no canvas. 
-        :see: retangulo_em_quadrado 
+        :param canvas: Área da interface onde o quadrado será desenhado.
+        :return: Identificador do quadrado criado no canvas.
+        :see: retangulo_em_quadrado
         """
         x_inicial, y_inicial, x_final, y_final = self.retangulo_em_quadrado(self.values)
 
         return canvas.create_rectangle(
-            x_inicial, y_inicial,
-            x_final, y_final,
+            x_inicial,
+            y_inicial,
+            x_final,
+            y_final,
             outline=self.cor_borda,
             fill=self.cor_preenchimento,
-            width=self.espessura
+            width=self.espessura,
         )

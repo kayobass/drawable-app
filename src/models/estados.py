@@ -4,7 +4,8 @@ Módulo que contém as classes de estado do padrão State.
 Define os estados possíveis da ferramenta de desenho, encapsulando
 o comportamento que varia de acordo com a ferramenta selecionada.
 
-:author: Kayo Araujo
+:author: Matheuz Rozendo, Kayo Araujo
+:version: OO.State.1
 :since: OO.State.1
 """
 
@@ -110,7 +111,7 @@ class EstadoLinha(EstadoFerramenta):
             [event.x, event.y, event.x, event.y],
             controller.cor_da_borda,
             controller.cor_do_preenchimento,
-            controller.espessura
+            controller.espessura,
         )
 
     def atualizar_figura(self, controller, event):
@@ -164,7 +165,7 @@ class EstadoRabisco(EstadoFerramenta):
             [(event.x, event.y)],
             controller.cor_da_borda,
             controller.cor_do_preenchimento,
-            controller.espessura
+            controller.espessura,
         )
 
     def atualizar_figura(self, controller, event):
@@ -218,7 +219,7 @@ class EstadoFigura(EstadoFerramenta):
             [event.x, event.y, event.x, event.y],
             controller.cor_da_borda,
             controller.cor_do_preenchimento,
-            controller.espessura
+            controller.espessura,
         )
 
     def atualizar_figura(self, controller, event):
@@ -279,14 +280,17 @@ class EstadoPoligono(EstadoFerramenta):
                 [],
                 controller.cor_da_borda,
                 controller.cor_do_preenchimento,
-                controller.espessura
+                controller.espessura,
             )
 
         controller.poligono_atual.adicionar_ponto(event.x, event.y)
         controller.desenhar_figuras()
         controller.poligono_atual.desenhar_pontos_do_poligono(controller.view.canvas)
 
-        if len(controller.poligono_atual.values) == controller.view.lados_poligono.get():
+        if (
+            len(controller.poligono_atual.values)
+            == controller.view.lados_poligono.get()
+        ):
             controller.estado.finalizar(controller)
 
     def atualizar_figura(self, controller, event):
@@ -296,7 +300,10 @@ class EstadoPoligono(EstadoFerramenta):
         pass
 
     def finalizar(self, controller):
-        if controller.poligono_atual is not None and len(controller.poligono_atual.values) >= 3:
+        if (
+            controller.poligono_atual is not None
+            and len(controller.poligono_atual.values) >= 3
+        ):
             controller.historico.adicionar(controller.poligono_atual)
         controller.poligono_atual = None
         controller.verifica_historico()
@@ -323,6 +330,7 @@ class EstadoPoligono(EstadoFerramenta):
             controller.historico.refazer()
             controller.verifica_historico()
             controller.desenhar_figuras()
+
 
 class EstadoSelecao(EstadoFerramenta):
     """
@@ -372,8 +380,11 @@ class EstadoSelecao(EstadoFerramenta):
         :param event: Evento do mouse com a posição atual do cursor.
         :return: None
         """
-         
-        if (controller.figura_selecionada is None or controller.ultima_posicao_mouse is None):
+
+        if (
+            controller.figura_selecionada is None
+            or controller.ultima_posicao_mouse is None
+        ):
             return
 
         x_anterior, y_anterior = controller.ultima_posicao_mouse
@@ -381,10 +392,7 @@ class EstadoSelecao(EstadoFerramenta):
         deslocamento_x = event.x - x_anterior
         deslocamento_y = event.y - y_anterior
 
-        controller.mover_figura_selecionada(
-            deslocamento_x,
-            deslocamento_y
-        )
+        controller.mover_figura_selecionada(deslocamento_x, deslocamento_y)
 
         controller.ultima_posicao_mouse = (event.x, event.y)
 
@@ -413,17 +421,23 @@ class EstadoSelecao(EstadoFerramenta):
             controller.verifica_historico()
             controller.desenhar_figuras()
 
+
 MAPA_ESTADOS = {
-    'Selecionar': EstadoSelecao,
-    'Linha': EstadoLinha,
-    'Rabisco': EstadoRabisco,
-    'Poligono': EstadoPoligono,
+    "Selecionar": EstadoSelecao,
+    "Linha": EstadoLinha,
+    "Rabisco": EstadoRabisco,
+    "Poligono": EstadoPoligono,
 }
 
 FERRAMENTAS_COM_PREENCHIMENTO = {
-    'Oval', 'Circulo', 'Retangulo', 'Quadrado',
-    'Triangulo', 'Triangulo Retangulo',
-    'Pentagono', 'Hexagono'
+    "Oval",
+    "Circulo",
+    "Retangulo",
+    "Quadrado",
+    "Triangulo",
+    "Triangulo Retangulo",
+    "Pentagono",
+    "Hexagono",
 }
 
 
