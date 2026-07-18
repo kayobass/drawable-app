@@ -66,19 +66,25 @@ class Historico:
         self._figuras.append(figura)
         self._figuras_desfeitas.clear()
 
-    def desfazer(self):
+    def desfazer(self, figura=None):
         """
         Desfaz a última figura adicionada ao desenho.
 
         A figura é retirada da lista principal e colocada na lista
         de figuras desfeitas.
 
+        :param figura: Figura que será desfeita (opcional).
         :return: None
         :see: refazer
         """
+        index = len(self._figuras) - 1
         if self._figuras:
-            figura = self._figuras.pop()
-            self._figuras_desfeitas.append(figura)
+            if figura is None:
+                figura = self._figuras.pop()
+            else:
+                index = self._figuras.index(figura)
+                self._figuras.pop(index)
+            self._figuras_desfeitas.append((index, figura))
 
     def refazer(self):
         """
@@ -91,8 +97,8 @@ class Historico:
         :see: desfazer
         """
         if self._figuras_desfeitas:
-            figura = self._figuras_desfeitas.pop()
-            self._figuras.append(figura)
+            index, figura = self._figuras_desfeitas.pop()
+            self._figuras.insert(index, figura)
 
     def limpar(self):
         """

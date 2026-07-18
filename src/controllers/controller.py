@@ -154,6 +154,8 @@ class DrawableController:
 
         self.view.root.bind_all("<Control-z>", self.desfazer)
         self.view.root.bind_all("<Control-y>", self.refazer)
+        self.view.root.bind_all("<Delete>", self.excluir_figura_selecionada)
+
         self.view.canvas.focus_set()
 
     def atribuir_foco_canvas(self):
@@ -406,6 +408,19 @@ class DrawableController:
         :return: None
         """
         self.estado.refazer(self)
+
+    def excluir_figura_selecionada(self, event=None):
+        """
+        Remove a figura atualmente selecionada do canvas e do histórico.
+
+        :param event: Evento opcional do teclado (ex: tecla Delete).
+        :return: None
+        """
+        if self.figura_selecionada is not None:
+            self.historico.desfazer(self.figura_selecionada)
+            self.figura_selecionada = None
+            self.desenhar_figuras()
+            self.verifica_historico()
 
     def esta_alterado(self):
         """
