@@ -5,7 +5,7 @@ Define o funcionamento dos triângulos, pentágono, hexágono e do
 polígono criado livremente pelo usuário.
 
 :author: Matheuz Rozendo, Kayo Araujo
-:version: OO.MVC.1
+:version: OO.State.1
 :since: OO.1
 """
 
