@@ -257,3 +257,49 @@ class Poligono(Figura):
             fill=self.cor_preenchimento,
             width=self.espessura,
         )
+
+
+class Estrela(Figura):
+    """
+    Representa uma estrela de 5 pontas.
+
+    A classe calcula o centro, o raio externo e o raio interno
+    para gerar os 10 vértices da estrela (5 pontas externas e
+    5 pontos internos).
+
+    :author: Kayo Araujo
+    :since: OO.State.1
+    :see: Figura
+    """
+
+    def desenhar(self, canvas):
+        """
+        Calcula os pontos e desenha a estrela de 5 pontas no canvas.
+
+        :param canvas: Área da interface onde a estrela será desenhada.
+        :return: Identificador da estrela criada no canvas.
+        """
+        x_inicial, y_inicial, x_final, y_final = self.values
+        centro_x = (x_inicial + x_final) / 2
+        centro_y = (y_inicial + y_final) / 2
+        raio_x = abs(x_final - x_inicial) / 2
+        raio_y = abs(y_final - y_inicial) / 2
+        raio_externo = min(raio_x, raio_y)
+        raio_interno = raio_externo * 0.382
+
+        pontos = []
+        for i in range(5):
+            angulo_externo = math.radians(-90 + i * 72)
+            pontos.append(centro_x + raio_externo * math.cos(angulo_externo))
+            pontos.append(centro_y + raio_externo * math.sin(angulo_externo))
+
+            angulo_interno = math.radians(-90 + i * 72 + 36)
+            pontos.append(centro_x + raio_interno * math.cos(angulo_interno))
+            pontos.append(centro_y + raio_interno * math.sin(angulo_interno))
+
+        return canvas.create_polygon(
+            pontos,
+            outline=self.cor_borda,
+            fill=self.cor_preenchimento,
+            width=self.espessura,
+        )

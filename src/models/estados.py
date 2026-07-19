@@ -457,6 +457,7 @@ FERRAMENTAS_COM_PREENCHIMENTO = {
     "Triangulo Retangulo",
     "Pentagono",
     "Hexagono",
+    "Estrela",
 }
 
 

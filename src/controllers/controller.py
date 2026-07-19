@@ -20,6 +20,7 @@ from models.poligonos import (
     Pentagono,
     Hexagono,
     Poligono,
+    Estrela,
 )
 from models.retangulos import Retangulo, Quadrado
 from models.tracados import Linha, Rabisco
@@ -50,6 +51,7 @@ class DrawableController:
         "Quadrado": Quadrado,
         "Pentagono": Pentagono,
         "Hexagono": Hexagono,
+        "Estrela": Estrela,
         "Poligono": Poligono,
     }
 
