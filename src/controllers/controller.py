@@ -490,7 +490,7 @@ class DrawableController:
         if self.historico.desfazer_movimentacao():
             self.desenhar_figuras()
             return
-        
+
         self.estado.desfazer(self)
         if self.historico.figuras:
             self._alterado = True
@@ -499,7 +499,7 @@ class DrawableController:
         self.figura_selecionada = None
         self.desenhar_figuras()
         self.verifica_historico()
-        
+
     def refazer(self, *args):
         """
         Refaz a última ação desfeita.
@@ -542,12 +542,18 @@ class DrawableController:
         if self.figura_selecionada is None:
             return
 
-        copia = copy.deepcopy(self.figura_selecionada)
+        try:
+            copia = copy.deepcopy(self.figura_selecionada)
+        except Exception:
+            messagebox.showwarning("Aviso", "Não foi possível duplicar a figura.")
+            return
 
         if isinstance(copia.values[0], (tuple, list)):
             copia.values = [(x + 10, y + 10) for x, y in copia.values]
         else:
-            copia.values = [v + 10 if i % 2 == 0 else v + 10 for i, v in enumerate(copia.values)]
+            copia.values = [
+                v + 10 if i % 2 == 0 else v + 10 for i, v in enumerate(copia.values)
+            ]
 
         self.historico.adicionar(copia)
 
@@ -634,7 +640,7 @@ class DrawableController:
             self.historico.registrar_movimentacao(ordem_anterior)
             self._alterado = True
             self.desenhar_figuras()
-    
+
     def copiar_figura(self, event=None):
         """
         Copia a figura atualmente selecionada.
@@ -645,8 +651,11 @@ class DrawableController:
         if self.figura_selecionada is None:
             return
 
-        self.figura_copiada = copy.deepcopy(self.figura_selecionada)
-    
+        try:
+            self.figura_copiada = copy.deepcopy(self.figura_selecionada)
+        except Exception:
+            messagebox.showwarning("Aviso", "Não foi possível copiar a figura.")
+
     def colar_figura(self, event=None):
         """
         Cola uma cópia da figura armazenada.
@@ -660,7 +669,11 @@ class DrawableController:
         if self.figura_copiada is None:
             return
 
-        nova_figura = copy.deepcopy(self.figura_copiada)
+        try:
+            nova_figura = copy.deepcopy(self.figura_copiada)
+        except Exception:
+            messagebox.showwarning("Aviso", "Não foi possível colar a figura.")
+            return
 
         self.historico.adicionar(nova_figura)
         self.figura_selecionada = nova_figura
@@ -719,6 +732,8 @@ class DrawableController:
         Salva o desenho atual em um arquivo Pickle.
 
         :return: True se o desenho for salvo; None caso contrário.
+        :raises PicklingError: Se as figuras não puderem ser serializadas.
+        :raises OSError: Se houver erro de escrita no arquivo.
         """
         if not self.historico.figuras:
             messagebox.showwarning("Aviso", "Não há nada para salvar!")
@@ -756,6 +771,9 @@ class DrawableController:
         Carrega um desenho salvo em um arquivo Pickle.
 
         :return: None
+        :raises UnpicklingError: Se o arquivo não puder ser desserializado.
+        :raises EOFError: Se o arquivo estiver vazio ou corrompido.
+        :raises OSError: Se houver erro de leitura no arquivo.
         """
         if self.esta_alterado():
             resposta = messagebox.askyesnocancel(
