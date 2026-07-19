@@ -737,7 +737,7 @@ class DrawableController:
                 with open(caminho_para_salvar, "wb") as f:
                     pickle.dump(self.historico.figuras, f)
 
-                self.figuras_carregadas = self.historico.figuras.copy()
+                self.figuras_carregadas = copy.deepcopy(self.historico.figuras)
                 self.arquivo_atual = caminho_para_salvar
                 self._alterado = False
 
@@ -787,7 +787,7 @@ class DrawableController:
 
                 for figura in figuras_carregadas:
                     self.historico.adicionar(figura)
-                    self.figuras_carregadas.append(figura)
+                    self.figuras_carregadas.append(copy.deepcopy(figura))
 
                 self.arquivo_atual = arquivo
                 self._alterado = False
