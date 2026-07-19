@@ -1,0 +1,464 @@
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="models.html" class="white">models</a>.estados</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Ckayobass%5Cprogramming%5Cpython%5Cdrawable-app%5Csrc%5Cmodels%5Cestados.py">c:\users\kayobass\programming\python\drawable-app\src\models\estados.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;que&nbsp;contém&nbsp;as&nbsp;classes&nbsp;de&nbsp;estado&nbsp;do&nbsp;padrão&nbsp;State.<br>
+&nbsp;<br>
+Define&nbsp;os&nbsp;estados&nbsp;possíveis&nbsp;da&nbsp;ferramenta&nbsp;de&nbsp;desenho,&nbsp;encapsulando<br>
+o&nbsp;comportamento&nbsp;que&nbsp;varia&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:author:&nbsp;Matheuz&nbsp;Rozendo,&nbsp;Kayo&nbsp;Araujo<br>
+:version:&nbsp;OO.State.1<br>
+:since:&nbsp;OO.State.1</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="abc.html#ABC">abc.ABC</a>(<a href="builtins.html#object">builtins.object</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="models.estados.html#EstadoFigura">EstadoFigura</a>
+</dt><dt class="heading-text"><a href="models.estados.html#EstadoLinha">EstadoLinha</a>
+</dt><dt class="heading-text"><a href="models.estados.html#EstadoPoligono">EstadoPoligono</a>
+</dt><dt class="heading-text"><a href="models.estados.html#EstadoRabisco">EstadoRabisco</a>
+</dt><dt class="heading-text"><a href="models.estados.html#EstadoSelecao">EstadoSelecao</a>
+</dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="EstadoFerramenta">class <strong>EstadoFerramenta</strong></a>(<a href="abc.html#ABC">abc.ABC</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Classe&nbsp;base&nbsp;abstrata&nbsp;que&nbsp;define&nbsp;a&nbsp;interface&nbsp;dos&nbsp;estados&nbsp;da&nbsp;ferramenta.<br>
+&nbsp;<br>
+Cada&nbsp;estado&nbsp;concreto&nbsp;implementa&nbsp;o&nbsp;comportamento&nbsp;específico&nbsp;para<br>
+um&nbsp;tipo&nbsp;de&nbsp;ferramenta,&nbsp;eliminando&nbsp;condicionais&nbsp;no&nbsp;controlador.<br>
+&nbsp;<br>
+:author:&nbsp;Kayo&nbsp;Araujo<br>
+:since:&nbsp;OO.State.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EstadoFerramenta-atualizar_figura"><strong>atualizar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;figura&nbsp;enquanto&nbsp;o&nbsp;usuário&nbsp;arrasta&nbsp;o&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFerramenta-configurar_estado"><strong>configurar_estado</strong></a>(self, controller)</dt><dd><span class="code">Configura&nbsp;a&nbsp;interface&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFerramenta-desfazer"><strong>desfazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;desfazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFerramenta-incluir_figura"><strong>incluir_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Finaliza&nbsp;e&nbsp;inclui&nbsp;a&nbsp;figura&nbsp;no&nbsp;histórico&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFerramenta-iniciar_figura"><strong>iniciar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;uma&nbsp;figura&nbsp;ao&nbsp;pressionar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFerramenta-refazer"><strong>refazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;refazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset({'atualizar_figura', 'configurar_estado', 'desfazer', 'incluir_figura', 'iniciar_figura', 'refazer'})</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="EstadoFigura">class <strong>EstadoFigura</strong></a>(<a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Estado&nbsp;para&nbsp;figuras&nbsp;com&nbsp;preenchimento&nbsp;(Oval,&nbsp;Círculo,&nbsp;Retângulo,&nbsp;etc).<br>
+&nbsp;<br>
+Configura&nbsp;a&nbsp;interface&nbsp;habilitando&nbsp;os&nbsp;controles&nbsp;de&nbsp;preenchimento.<br>
+&nbsp;<br>
+:author:&nbsp;Kayo&nbsp;Araujo<br>
+:since:&nbsp;OO.State.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="models.estados.html#EstadoFigura">EstadoFigura</a></dd>
+<dd><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EstadoFigura-atualizar_figura"><strong>atualizar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;figura&nbsp;enquanto&nbsp;o&nbsp;usuário&nbsp;arrasta&nbsp;o&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFigura-configurar_estado"><strong>configurar_estado</strong></a>(self, controller)</dt><dd><span class="code">Configura&nbsp;a&nbsp;interface&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFigura-desfazer"><strong>desfazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;desfazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFigura-incluir_figura"><strong>incluir_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Finaliza&nbsp;e&nbsp;inclui&nbsp;a&nbsp;figura&nbsp;no&nbsp;histórico&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFigura-iniciar_figura"><strong>iniciar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;uma&nbsp;figura&nbsp;ao&nbsp;pressionar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoFigura-refazer"><strong>refazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;refazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Data descriptors inherited from <a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="EstadoLinha">class <strong>EstadoLinha</strong></a>(<a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Estado&nbsp;da&nbsp;ferramenta&nbsp;Linha.<br>
+&nbsp;<br>
+Configura&nbsp;a&nbsp;interface&nbsp;para&nbsp;desenho&nbsp;de&nbsp;linhas&nbsp;retas,<br>
+desabilitando&nbsp;os&nbsp;controles&nbsp;de&nbsp;preenchimento.<br>
+&nbsp;<br>
+:author:&nbsp;Kayo&nbsp;Araujo<br>
+:since:&nbsp;OO.State.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="models.estados.html#EstadoLinha">EstadoLinha</a></dd>
+<dd><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EstadoLinha-atualizar_figura"><strong>atualizar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;figura&nbsp;enquanto&nbsp;o&nbsp;usuário&nbsp;arrasta&nbsp;o&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoLinha-configurar_estado"><strong>configurar_estado</strong></a>(self, controller)</dt><dd><span class="code">Configura&nbsp;a&nbsp;interface&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoLinha-desfazer"><strong>desfazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;desfazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoLinha-incluir_figura"><strong>incluir_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Finaliza&nbsp;e&nbsp;inclui&nbsp;a&nbsp;figura&nbsp;no&nbsp;histórico&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoLinha-iniciar_figura"><strong>iniciar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;uma&nbsp;figura&nbsp;ao&nbsp;pressionar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoLinha-refazer"><strong>refazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;refazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Data descriptors inherited from <a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="EstadoPoligono">class <strong>EstadoPoligono</strong></a>(<a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Estado&nbsp;da&nbsp;ferramenta&nbsp;Polígono.<br>
+&nbsp;<br>
+Configura&nbsp;a&nbsp;interface&nbsp;para&nbsp;criação&nbsp;interativa&nbsp;de&nbsp;polígonos,<br>
+exibindo&nbsp;o&nbsp;seletor&nbsp;de&nbsp;quantidade&nbsp;de&nbsp;lados.<br>
+&nbsp;<br>
+:author:&nbsp;Kayo&nbsp;Araujo<br>
+:since:&nbsp;OO.State.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="models.estados.html#EstadoPoligono">EstadoPoligono</a></dd>
+<dd><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EstadoPoligono-atualizar_figura"><strong>atualizar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;figura&nbsp;enquanto&nbsp;o&nbsp;usuário&nbsp;arrasta&nbsp;o&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoPoligono-configurar_estado"><strong>configurar_estado</strong></a>(self, controller)</dt><dd><span class="code">Configura&nbsp;a&nbsp;interface&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoPoligono-desfazer"><strong>desfazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;desfazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoPoligono-finalizar"><strong>finalizar</strong></a>(self, controller)</dt></dl>
+
+<dl><dt><a name="EstadoPoligono-incluir_figura"><strong>incluir_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Finaliza&nbsp;e&nbsp;inclui&nbsp;a&nbsp;figura&nbsp;no&nbsp;histórico&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoPoligono-iniciar_figura"><strong>iniciar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;uma&nbsp;figura&nbsp;ao&nbsp;pressionar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoPoligono-refazer"><strong>refazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;refazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Data descriptors inherited from <a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="EstadoRabisco">class <strong>EstadoRabisco</strong></a>(<a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Estado&nbsp;da&nbsp;ferramenta&nbsp;Rabisco.<br>
+&nbsp;<br>
+Configura&nbsp;a&nbsp;interface&nbsp;para&nbsp;desenho&nbsp;livre,<br>
+desabilitando&nbsp;os&nbsp;controles&nbsp;de&nbsp;preenchimento.<br>
+&nbsp;<br>
+:author:&nbsp;Kayo&nbsp;Araujo<br>
+:since:&nbsp;OO.State.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="models.estados.html#EstadoRabisco">EstadoRabisco</a></dd>
+<dd><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EstadoRabisco-atualizar_figura"><strong>atualizar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Atualiza&nbsp;a&nbsp;figura&nbsp;enquanto&nbsp;o&nbsp;usuário&nbsp;arrasta&nbsp;o&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoRabisco-configurar_estado"><strong>configurar_estado</strong></a>(self, controller)</dt><dd><span class="code">Configura&nbsp;a&nbsp;interface&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoRabisco-desfazer"><strong>desfazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;desfazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoRabisco-incluir_figura"><strong>incluir_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Finaliza&nbsp;e&nbsp;inclui&nbsp;a&nbsp;figura&nbsp;no&nbsp;histórico&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoRabisco-iniciar_figura"><strong>iniciar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Inicia&nbsp;a&nbsp;criação&nbsp;de&nbsp;uma&nbsp;figura&nbsp;ao&nbsp;pressionar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoRabisco-refazer"><strong>refazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;refazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Data descriptors inherited from <a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="EstadoSelecao">class <strong>EstadoSelecao</strong></a>(<a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Estado&nbsp;responsável&nbsp;pela&nbsp;seleção&nbsp;e&nbsp;movimentação&nbsp;das&nbsp;figuras.<br>
+&nbsp;<br>
+Permite&nbsp;selecionar&nbsp;uma&nbsp;figura&nbsp;ao&nbsp;clicar&nbsp;sobre&nbsp;ela&nbsp;e&nbsp;movê-la&nbsp;enquanto<br>
+o&nbsp;botão&nbsp;esquerdo&nbsp;do&nbsp;mouse&nbsp;permanece&nbsp;pressionado.<br>
+&nbsp;<br>
+:author:&nbsp;Matheuz&nbsp;Rozendo<br>
+:since:&nbsp;OO.State.1<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="models.estados.html#EstadoSelecao">EstadoSelecao</a></dd>
+<dd><a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EstadoSelecao-atualizar_figura"><strong>atualizar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Move&nbsp;a&nbsp;figura&nbsp;selecionada&nbsp;durante&nbsp;o&nbsp;arraste&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+Calcula&nbsp;o&nbsp;deslocamento&nbsp;em&nbsp;relação&nbsp;à&nbsp;posição&nbsp;anterior&nbsp;do&nbsp;cursor<br>
+e&nbsp;solicita&nbsp;ao&nbsp;controlador&nbsp;que&nbsp;atualize&nbsp;as&nbsp;coordenadas&nbsp;da&nbsp;figura.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;a&nbsp;posição&nbsp;atual&nbsp;do&nbsp;cursor.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoSelecao-configurar_estado"><strong>configurar_estado</strong></a>(self, controller)</dt><dd><span class="code">Configura&nbsp;a&nbsp;interface&nbsp;de&nbsp;acordo&nbsp;com&nbsp;a&nbsp;ferramenta&nbsp;selecionada.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoSelecao-desfazer"><strong>desfazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;desfazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoSelecao-incluir_figura"><strong>incluir_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Finaliza&nbsp;a&nbsp;movimentação&nbsp;da&nbsp;figura&nbsp;selecionada.<br>
+&nbsp;<br>
+Se&nbsp;a&nbsp;figura&nbsp;foi&nbsp;movida,&nbsp;registra&nbsp;a&nbsp;mudança&nbsp;de&nbsp;posição&nbsp;no&nbsp;histórico.<br>
+Remove&nbsp;o&nbsp;registro&nbsp;da&nbsp;última&nbsp;posição&nbsp;do&nbsp;mouse&nbsp;quando&nbsp;o&nbsp;botão<br>
+esquerdo&nbsp;é&nbsp;solto.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;gerado&nbsp;ao&nbsp;soltar&nbsp;o&nbsp;botão&nbsp;do&nbsp;mouse.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoSelecao-iniciar_figura"><strong>iniciar_figura</strong></a>(self, controller, event)</dt><dd><span class="code">Seleciona&nbsp;uma&nbsp;figura&nbsp;e&nbsp;registra&nbsp;a&nbsp;posição&nbsp;inicial&nbsp;do&nbsp;mouse.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:param&nbsp;event:&nbsp;Evento&nbsp;do&nbsp;mouse&nbsp;com&nbsp;as&nbsp;coordenadas&nbsp;do&nbsp;clique.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<dl><dt><a name="EstadoSelecao-refazer"><strong>refazer</strong></a>(self, controller)</dt><dd><span class="code">Realiza&nbsp;a&nbsp;ação&nbsp;de&nbsp;refazer&nbsp;de&nbsp;acordo&nbsp;com&nbsp;o&nbsp;estado&nbsp;atual.<br>
+&nbsp;<br>
+:param&nbsp;controller:&nbsp;Controlador&nbsp;principal&nbsp;da&nbsp;aplicação.<br>
+:return:&nbsp;None</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Data descriptors inherited from <a href="models.estados.html#EstadoFerramenta">EstadoFerramenta</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-obter_estado"><strong>obter_estado</strong></a>(ferramenta)</dt><dd><span class="code">Retorna&nbsp;a&nbsp;instância&nbsp;do&nbsp;estado&nbsp;correspondente&nbsp;à&nbsp;ferramenta.<br>
+&nbsp;<br>
+:param&nbsp;ferramenta:&nbsp;Nome&nbsp;da&nbsp;ferramenta&nbsp;selecionada.<br>
+:return:&nbsp;Instância&nbsp;de&nbsp;<a href="#EstadoFerramenta">EstadoFerramenta</a>.<br>
+:see:&nbsp;MAPA_ESTADOS,&nbsp;FERRAMENTAS_COM_PREENCHIMENTO,&nbsp;<a href="#EstadoFigura">EstadoFigura</a></span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>FERRAMENTAS_COM_PREENCHIMENTO</strong> = {'Circulo', 'Estrela', 'Hexagono', 'Oval', 'Pentagono', 'Quadrado', ...}<br>
+<strong>MAPA_ESTADOS</strong> = {'Linha': &lt;class 'models.estados.EstadoLinha'&gt;, 'Poligono': &lt;class 'models.estados.EstadoPoligono'&gt;, 'Rabisco': &lt;class 'models.estados.EstadoRabisco'&gt;, 'Selecionar': &lt;class 'models.estados.EstadoSelecao'&gt;}</td></tr></table>

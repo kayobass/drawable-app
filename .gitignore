@@ -77,6 +77,9 @@ venv.bak/
 # Temp Files
 .mimocode
 
+# Scripts
+gerar_docs.py
+
 # Annotations
 metas.md
 annotations.md
