@@ -10,6 +10,7 @@ comandos, criação de desenhos, persistência e fechamento do sistema.
 """
 
 import pickle
+import copy
 from tkinter import colorchooser, messagebox, filedialog
 
 from models.ovais import Circulo, Oval
@@ -81,6 +82,7 @@ class DrawableController:
         self.arquivo_atual = None
         self.figuras_carregadas = []
         self._alterado = False
+        self.figura_copiada = None
 
         self.estado = obter_estado(self.ferramenta)
         self.estado.configurar_estado(self)
@@ -162,6 +164,8 @@ class DrawableController:
         self.view.root.bind_all("<Left>", self.mover_posicao_tras)
         self.view.root.bind_all("<Up>", self.mover_posicao_topo)
         self.view.root.bind_all("<Down>", self.mover_posicao_fundo)
+        self.view.root.bind_all("<Control-c>", self.copiar_figura)
+        self.view.root.bind_all("<Control-v>", self.colar_figura)
 
         self.view.canvas.focus_set()
 
@@ -231,30 +235,39 @@ class DrawableController:
 
     def detecta_mudanca(self, *args):
         """
-        Atualiza a interface e o estado quando a ferramenta ou a quantidade de lados muda.
+        Atualiza o estado quando a ferramenta selecionada é alterada.
 
-        Delega a configuração da interface ao estado atual.
+        Ao sair da ferramenta de seleção, remove a figura selecionada
+        antes de configurar a nova ferramenta.
 
         :param args: Informações enviadas automaticamente pelo Tkinter.
+        :see: obter_estado, desenhar_figuras
         :return: None
-        :see: obter_estado
         """
+        if self.ferramenta != "Selecionar":
+            self.figura_selecionada = None
+            self.desenhar_figuras()
+
         self.estado = obter_estado(self.ferramenta)
         self.estado.configurar_estado(self)
 
     def alterar_espessura(self, *args):
         """
-        Atualiza a espessura utilizada no desenho.
+        Altera a espessura da figura selecionada.
 
-        Se houver uma figura selecionada, altera também a espessura dela.
+        Primeiro verifica se existe uma figura selecionada e se a nova
+        espessura é diferente da atual. Caso seja diferente, atualiza a
+        figura, registra a alteração e redesenha o canvas.
 
         :param args: Informações enviadas automaticamente pelo Tkinter.
         :return: None
         """
         if self.figura_selecionada is not None:
-            self.figura_selecionada.espessura = self.espessura
-            self._alterado = True
-            self.desenhar_figuras()
+            nova_espessura = self.espessura
+            if self.figura_selecionada.espessura != nova_espessura:
+                self.figura_selecionada.espessura = nova_espessura
+                self._alterado = True
+                self.desenhar_figuras()
 
         self.view.canvas.focus_set()
 
@@ -464,10 +477,11 @@ class DrawableController:
 
     def desfazer(self, *args):
         """
-        Desfaz a última ação.
+        Desfaz a última ação feita pelo usuário.
 
-        Verifica primeiro se há movimentações para desfazer.
-        Caso contrário, delega a ação ao estado atual.
+        Primeiro verifica se existe alguma mudança na ordem das figuras para
+        desfazer. Caso não exista, desfaz a ação pelo estado atual, remove a
+        seleção da figura e atualiza o canvas.
 
         :param args: Argumentos opcionais enviados pelo evento de teclado.
         :return: None
@@ -475,8 +489,16 @@ class DrawableController:
         if self.historico.desfazer_movimentacao():
             self.desenhar_figuras()
             return
+        
         self.estado.desfazer(self)
-
+        if self.historico.figuras:
+            self._alterado = True
+        else:
+            self._alterado = self.arquivo_atual is not None
+        self.figura_selecionada = None
+        self.desenhar_figuras()
+        self.verifica_historico()
+        
     def refazer(self, *args):
         """
         Refaz a última ação desfeita.
@@ -502,6 +524,7 @@ class DrawableController:
         if self.figura_selecionada is not None:
             self.historico.desfazer(self.figura_selecionada)
             self.figura_selecionada = None
+            self._alterado = True
             self.desenhar_figuras()
             self.verifica_historico()
 
@@ -584,6 +607,41 @@ class DrawableController:
             self.historico.registrar_movimentacao(ordem_anterior)
             self._alterado = True
             self.desenhar_figuras()
+    
+    def copiar_figura(self, event=None):
+        """
+        Copia a figura atualmente selecionada.
+
+        :param event: Evento opcional do atalho Ctrl+C.
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        self.figura_copiada = copy.deepcopy(self.figura_selecionada)
+    
+    def colar_figura(self, event=None):
+        """
+        Cola uma cópia da figura armazenada.
+
+        A nova figura é deslocada para não ficar exatamente
+        sobreposta à figura original.
+
+        :param event: Evento opcional do atalho Ctrl+V.
+        :return: None
+        """
+        if self.figura_copiada is None:
+            return
+
+        nova_figura = copy.deepcopy(self.figura_copiada)
+
+        self.historico.adicionar(nova_figura)
+        self.figura_selecionada = nova_figura
+
+        self.mover_figura_selecionada(15, 15)
+
+        self._alterado = True
+        self.verifica_historico()
 
     def cancelar_acao(self, event=None):
         """
@@ -614,10 +672,14 @@ class DrawableController:
         """
         Verifica se o desenho atual possui alterações ainda não salvas.
 
+        Se não tiver nenhuma figura no histórico, verifica se alguma alteração
+        foi feita. Caso ainda existam figuras, compara o desenho atual com o
+        último desenho salvo.
+
         :return: True quando existem alterações não salvas; False caso contrário.
         """
         if not self.historico.figuras:
-            return False
+            return self._alterado
 
         return (
             self.historico.figuras != self.figuras_carregadas
