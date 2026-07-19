@@ -362,12 +362,17 @@ class EstadoSelecao(EstadoFerramenta):
         :param event: Evento do mouse com as coordenadas do clique.
         :return: None
         """
+        import copy
 
         controller.selecionar_figura(event.x, event.y)
         if controller.figura_selecionada is not None:
             controller.ultima_posicao_mouse = (event.x, event.y)
+            controller._posicao_inicial_arraste = copy.deepcopy(
+                controller.figura_selecionada.values
+            )
         else:
             controller.ultima_posicao_mouse = None
+            controller._posicao_inicial_arraste = None
 
     def atualizar_figura(self, controller, event):
         """
@@ -400,6 +405,7 @@ class EstadoSelecao(EstadoFerramenta):
         """
         Finaliza a movimentação da figura selecionada.
 
+        Se a figura foi movida, registra a mudança de posição no histórico.
         Remove o registro da última posição do mouse quando o botão
         esquerdo é solto.
 
@@ -407,7 +413,20 @@ class EstadoSelecao(EstadoFerramenta):
         :param event: Evento gerado ao soltar o botão do mouse.
         :return: None
         """
+        if (
+            controller.figura_selecionada is not None
+            and controller._posicao_inicial_arraste is not None
+        ):
+            valores_atuais = controller.figura_selecionada.values
+            valores_anteriores = controller._posicao_inicial_arraste
+            if valores_atuais != valores_anteriores:
+                controller.historico.registrar_posicao(
+                    controller.figura_selecionada, valores_anteriores
+                )
+                controller._alterado = True
+
         controller.ultima_posicao_mouse = None
+        controller._posicao_inicial_arraste = None
 
     def desfazer(self, controller):
         if controller.historico.figuras:

@@ -83,6 +83,7 @@ class DrawableController:
         self.figuras_carregadas = []
         self._alterado = False
         self.figura_copiada = None
+        self._posicao_inicial_arraste = None
 
         self.estado = obter_estado(self.ferramenta)
         self.estado.configurar_estado(self)
@@ -198,6 +199,13 @@ class DrawableController:
             self.cor_da_borda = cor[1]
             self.view.indicador_borda.config(bg=self.cor_da_borda)
             if self.figura_selecionada is not None:
+                valor_anterior = self.figura_selecionada.cor_borda
+                self.historico.registrar_mudanca_atributo(
+                    self.figura_selecionada,
+                    "cor_borda",
+                    valor_anterior,
+                    self.cor_da_borda,
+                )
                 self.figura_selecionada.cor_borda = self.cor_da_borda
                 self._alterado = True
                 self.desenhar_figuras()
@@ -216,6 +224,13 @@ class DrawableController:
             self.cor_do_preenchimento = corp[1]
             self.view.indicador_preenchimento.config(bg=self.cor_do_preenchimento)
             if self.figura_selecionada is not None:
+                valor_anterior = self.figura_selecionada.cor_preenchimento
+                self.historico.registrar_mudanca_atributo(
+                    self.figura_selecionada,
+                    "cor_preenchimento",
+                    valor_anterior,
+                    self.cor_do_preenchimento,
+                )
                 self.figura_selecionada.cor_preenchimento = self.cor_do_preenchimento
                 self._alterado = True
                 self.desenhar_figuras()
@@ -230,6 +245,10 @@ class DrawableController:
         self.cor_do_preenchimento = ""
         self.view.indicador_preenchimento.config(bg="#D3D3D3")
         if self.figura_selecionada is not None:
+            valor_anterior = self.figura_selecionada.cor_preenchimento
+            self.historico.registrar_mudanca_atributo(
+                self.figura_selecionada, "cor_preenchimento", valor_anterior, ""
+            )
             self.figura_selecionada.cor_preenchimento = ""
             self._alterado = True
             self.desenhar_figuras()
@@ -266,6 +285,10 @@ class DrawableController:
         if self.figura_selecionada is not None:
             nova_espessura = self.espessura
             if self.figura_selecionada.espessura != nova_espessura:
+                valor_anterior = self.figura_selecionada.espessura
+                self.historico.registrar_mudanca_atributo(
+                    self.figura_selecionada, "espessura", valor_anterior, nova_espessura
+                )
                 self.figura_selecionada.espessura = nova_espessura
                 self._alterado = True
                 self.desenhar_figuras()
@@ -480,40 +503,46 @@ class DrawableController:
         """
         Desfaz a última ação feita pelo usuário.
 
-        Primeiro verifica se existe alguma mudança na ordem das figuras para
-        desfazer. Caso não exista, desfaz a ação pelo estado atual, remove a
-        seleção da figura e atualiza o canvas.
+        Utiliza a pilha unificada de ações para desfazer na ordem cronológica
+        correta, independente do tipo de alteração.
 
         :param args: Argumentos opcionais enviados pelo evento de teclado.
         :return: None
         """
-        if self.historico.desfazer_movimentacao():
+        if self.poligono_atual is not None:
+            self.poligono_atual = None
             self.desenhar_figuras()
             return
 
-        self.estado.desfazer(self)
-        if self.historico.figuras:
+        tipo = self.historico.desfazer()
+        if tipo is not None:
             self._alterado = True
-        else:
-            self._alterado = self.arquivo_atual is not None
-        self.figura_selecionada = None
-        self.desenhar_figuras()
-        self.verifica_historico()
+            if tipo in ("remocao", "adicionar"):
+                self.figura_selecionada = None
+                self.verifica_historico()
+            self.desenhar_figuras()
 
     def refazer(self, *args):
         """
         Refaz a última ação desfeita.
 
-        Verifica primeiro se há movimentações para refazer.
-        Caso contrário, delega a ação ao estado atual.
+        Utiliza a pilha unificada de ações para refazer na ordem cronológica
+        correta, independente do tipo de alteração.
 
         :param args: Argumentos opcionais enviados pelo evento de teclado.
         :return: None
         """
-        if self.historico.refazer_movimentacao():
+        if self.poligono_atual is not None:
+            self.poligono_atual = None
             self.desenhar_figuras()
             return
-        self.estado.refazer(self)
+
+        tipo = self.historico.refazer()
+        if tipo is not None:
+            self._alterado = True
+            if tipo in ("remocao", "adicionar"):
+                self.verifica_historico()
+            self.desenhar_figuras()
 
     def excluir_figura_selecionada(self, event=None):
         """
@@ -523,7 +552,7 @@ class DrawableController:
         :return: None
         """
         if self.figura_selecionada is not None:
-            self.historico.desfazer(self.figura_selecionada)
+            self.historico.remover(self.figura_selecionada)
             self.figura_selecionada = None
             self._alterado = True
             self.desenhar_figuras()
@@ -798,13 +827,11 @@ class DrawableController:
                     figuras_carregadas = pickle.load(f)
 
                 self.historico.figuras.clear()
-                self.historico.figuras_desfeitas.clear()
-                self.historico._movimentacoes.clear()
-                self.historico._movimentacoes_anteriores.clear()
-                self.figuras_carregadas.clear()
+                self.historico._acoes.clear()
+                self.historico._acoes_refeitas.clear()
 
                 for figura in figuras_carregadas:
-                    self.historico.adicionar(figura)
+                    self.historico.figuras.append(figura)
                     self.figuras_carregadas.append(copy.deepcopy(figura))
 
                 self.arquivo_atual = arquivo

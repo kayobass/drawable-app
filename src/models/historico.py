@@ -9,14 +9,16 @@ as ações de desfazer e refazer.
 :since: OO.MVC.1
 """
 
+import copy
+
 
 class Historico:
     """
     Controla o histórico de figuras do sistema de desenho.
 
-    A classe guarda as figuras adicionadas e também as figuras que foram
-    desfeitas. Com isso, permite realizar as ações de desfazer, refazer
-    e limpar o desenho.
+    Utiliza uma pilha unificada de ações para garantir que o desfazer/refazer
+    respeite a ordem cronológica, independente do tipo de alteração
+    (atributo, posição, reordenação ou criação/exclusão de figuras).
 
     :author: Matheuz Rozendo, Kayo Araujo
     :version: OO.State.1
@@ -27,15 +29,11 @@ class Historico:
         """
         Inicializa o histórico do desenho.
 
-        Cria uma lista para guardar as figuras adicionadas e outra
-        para guardar as figuras que foram desfeitas.
-
         :return: None
         """
         self._figuras = []
-        self._figuras_desfeitas = []
-        self._movimentacoes = []
-        self._movimentacoes_anteriores = []
+        self._acoes = []
+        self._acoes_refeitas = []
 
     @property
     def figuras(self):
@@ -51,24 +49,25 @@ class Historico:
         """
         Retorna as figuras que foram desfeitas.
 
-        :return: Lista com as figuras disponíveis para serem refeitas.
+        Compatibility property — in the unified-stack system this is no longer
+        the primary way to check redo state. Kept so external code that still
+        references it does not break.
+
+        :return: Lista vazia (redo state is tracked internally).
         """
-        return self._figuras_desfeitas
+        return []
 
     def adicionar(self, figura):
         """
         Adiciona uma nova figura ao histórico.
 
-        Quando uma nova figura é adicionada, a lista de figuras desfeitas
-        é limpa, pois não será mais possível refazer as ações anteriores.
-
         :param figura: Figura que será adicionada ao desenho.
         :return: None
         """
+        index = len(self._figuras)
         self._figuras.append(figura)
-        self._figuras_desfeitas.clear()
-        self._movimentacoes.clear()
-        self._movimentacoes_anteriores.clear()
+        self._acoes.append(("adicionar", index, figura))
+        self._acoes_refeitas.clear()
 
     def inserir(self, indice, figura):
         """
@@ -79,99 +78,128 @@ class Historico:
         :return: None
         """
         self._figuras.insert(indice, figura)
-        self._figuras_desfeitas.clear()
-        self._movimentacoes.clear()
-        self._movimentacoes_anteriores.clear()
+        self._acoes_refeitas.clear()
 
-    def desfazer(self, figura=None):
+    def remover(self, figura):
         """
-        Desfaz a última figura adicionada ao desenho.
+        Remove uma figura e registra a ação para desfazer.
 
-        A figura é retirada da lista principal e colocada na lista
-        de figuras desfeitas.
-
-        :param figura: Figura que será desfeita (opcional).
+        :param figura: Figura que será removida.
         :return: None
-        :see: refazer
         """
-        index = len(self._figuras) - 1
-        if self._figuras:
-            if figura is None:
-                figura = self._figuras.pop()
-            else:
-                index = self._figuras.index(figura)
-                self._figuras.pop(index)
-            self._figuras_desfeitas.append((index, figura))
-            self._movimentacoes.clear()
-            self._movimentacoes_anteriores.clear()
+        if figura in self._figuras:
+            index = self._figuras.index(figura)
+            self._figuras.pop(index)
+            self._acoes.append(("remocao", index, figura))
+            self._acoes_refeitas.clear()
 
-    def refazer(self):
+    def registrar_mudanca_atributo(self, figura, atributo, valor_anterior, valor_novo):
         """
-        Refaz a última figura que foi desfeita.
+        Registra uma mudança de atributo de uma figura.
 
-        A figura é retirada da lista de figuras desfeitas e colocada
-        novamente na lista principal.
-
+        :param figura: Figura que teve o atributo alterado.
+        :param atributo: Nome do atributo alterado (ex: 'cor_borda').
+        :param valor_anterior: Valor do atributo antes da mudança.
+        :param valor_novo: Valor do atributo após a mudança.
         :return: None
-        :see: desfazer
         """
-        if self._figuras_desfeitas:
-            index, figura = self._figuras_desfeitas.pop()
-            self._figuras.insert(index, figura)
-            self._movimentacoes.clear()
-            self._movimentacoes_anteriores.clear()
+        self._acoes.append(("atributo", figura, atributo, valor_anterior, valor_novo))
+        self._acoes_refeitas.clear()
+
+    def registrar_posicao(self, figura, valores_anteriores):
+        """
+        Registra uma mudança de posição (coordenadas) de uma figura.
+
+        :param figura: Figura que teve as coordenadas alteradas.
+        :param valores_anteriores: Valores das coordenadas antes da movimentação.
+        :return: None
+        """
+        valores_novos = copy.deepcopy(figura.values)
+        self._acoes.append(
+            ("posicao", figura, copy.deepcopy(valores_anteriores), valores_novos)
+        )
+        self._acoes_refeitas.clear()
 
     def registrar_movimentacao(self, ordem_anterior):
         """
-        Registra uma mudança de posição das figuras no histórico.
-
-        Salva a ordem anterior para permitir desfazer a movimentação.
+        Registra uma mudança de ordem (z-order) das figuras.
 
         :param ordem_anterior: Lista com a ordem das figuras antes da movimentação.
         :return: None
         """
-        self._figuras_desfeitas.clear()
-        self._movimentacoes.clear()
-        self._movimentacoes_anteriores.append(ordem_anterior)
-        self._movimentacoes.append(list(self._figuras))
+        self._acoes.append(("movimentacao", list(ordem_anterior), list(self._figuras)))
+        self._acoes_refeitas.clear()
 
-    def desfazer_movimentacao(self):
+    def desfazer(self):
         """
-        Desfaz a última movimentação de posição.
+        Desfaz a última ação registrada (LIFO).
 
-        Restaura a ordem das figuras para o estado anterior à movimentação.
-
-        :return: True se uma movimentação foi desfeita; False caso contrário.
+        :return: Tipo da ação desfeita ou None se não houver nada para desfazer.
         """
-        if self._movimentacoes_anteriores:
-            ordem_anterior = self._movimentacoes_anteriores.pop()
+        if not self._acoes:
+            return None
+
+        acao = self._acoes.pop()
+        tipo = acao[0]
+
+        if tipo == "remocao":
+            _, index, figura = acao
+            self._figuras.insert(index, figura)
+        elif tipo == "adicionar":
+            _, index, figura = acao
+            self._figuras.pop(index)
+        elif tipo == "atributo":
+            _, figura, atributo, valor_anterior, valor_novo = acao
+            setattr(figura, atributo, valor_anterior)
+        elif tipo == "posicao":
+            _, figura, valores_anteriores, valores_novos = acao
+            figura.values = valores_anteriores
+        elif tipo == "movimentacao":
+            _, ordem_anterior, ordem_nova = acao
             self._figuras.clear()
             self._figuras.extend(ordem_anterior)
-            return True
-        return False
 
-    def refazer_movimentacao(self):
-        """
-        Refaz a última movimentação de posição desfeita.
+        self._acoes_refeitas.append(acao)
+        return tipo
 
-        :return: True se uma movimentação foi refeita; False caso contrário.
+    def refazer(self):
         """
-        if self._movimentacoes:
-            ordem = self._movimentacoes.pop()
+        Refaz a última ação desfeita (LIFO).
+
+        :return: Tipo da ação refeita ou None se não houver nada para refazer.
+        """
+        if not self._acoes_refeitas:
+            return None
+
+        acao = self._acoes_refeitas.pop()
+        tipo = acao[0]
+
+        if tipo == "remocao":
+            _, index, figura = acao
+            self._figuras.pop(index)
+        elif tipo == "adicionar":
+            _, index, figura = acao
+            self._figuras.insert(index, figura)
+        elif tipo == "atributo":
+            _, figura, atributo, valor_anterior, valor_novo = acao
+            setattr(figura, atributo, valor_novo)
+        elif tipo == "posicao":
+            _, figura, valores_anteriores, valores_novos = acao
+            figura.values = valores_novos
+        elif tipo == "movimentacao":
+            _, ordem_anterior, ordem_nova = acao
             self._figuras.clear()
-            self._figuras.extend(ordem)
-            return True
-        return False
+            self._figuras.extend(ordem_nova)
+
+        self._acoes.append(acao)
+        return tipo
 
     def limpar(self):
         """
         Limpa todo o histórico do desenho.
 
-        Remove as figuras adicionadas e também as figuras que foram desfeitas.
-
         :return: None
         """
         self._figuras.clear()
-        self._figuras_desfeitas.clear()
-        self._movimentacoes.clear()
-        self._movimentacoes_anteriores.clear()
+        self._acoes.clear()
+        self._acoes_refeitas.clear()
