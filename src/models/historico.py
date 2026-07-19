@@ -5,7 +5,7 @@ Contém a classe que guarda as figuras adicionadas e controla
 as ações de desfazer e refazer.
 
 :author: Matheuz Rozendo, Kayo Araujo
-:version: OO.MVC.1
+:version: OO.State.1
 :since: OO.MVC.1
 """
 
@@ -66,6 +66,19 @@ class Historico:
         :return: None
         """
         self._figuras.append(figura)
+        self._figuras_desfeitas.clear()
+        self._movimentacoes.clear()
+        self._movimentacoes_anteriores.clear()
+
+    def inserir(self, indice, figura):
+        """
+        Insere uma figura em uma posição específica do histórico.
+
+        :param indice: Posição onde a figura será inserida.
+        :param figura: Figura que será inserida.
+        :return: None
+        """
+        self._figuras.insert(indice, figura)
         self._figuras_desfeitas.clear()
         self._movimentacoes.clear()
         self._movimentacoes_anteriores.clear()

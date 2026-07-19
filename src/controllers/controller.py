@@ -159,6 +159,7 @@ class DrawableController:
         self.view.root.bind_all("<Escape>", self.cancelar_acao)
         self.view.root.bind_all("<Control-z>", self.desfazer)
         self.view.root.bind_all("<Control-y>", self.refazer)
+        self.view.root.bind_all("<Control-d>", self.duplicar_figura)
         self.view.root.bind_all("<Delete>", self.excluir_figura_selecionada)
         self.view.root.bind_all("<Right>", self.mover_posicao_frente)
         self.view.root.bind_all("<Left>", self.mover_posicao_tras)
@@ -527,6 +528,32 @@ class DrawableController:
             self._alterado = True
             self.desenhar_figuras()
             self.verifica_historico()
+
+    def duplicar_figura(self, event=None):
+        """
+        Duplica a figura selecionada e a adiciona ao histórico.
+
+        Cria uma cópia da figura com os mesmos atributos e a insere
+        no final da lista de figuras.
+
+        :param event: Evento opcional do teclado (ex: Ctrl+D).
+        :return: None
+        """
+        if self.figura_selecionada is None:
+            return
+
+        copia = copy.deepcopy(self.figura_selecionada)
+
+        if isinstance(copia.values[0], (tuple, list)):
+            copia.values = [(x + 10, y + 10) for x, y in copia.values]
+        else:
+            copia.values = [v + 10 if i % 2 == 0 else v + 10 for i, v in enumerate(copia.values)]
+
+        self.historico.adicionar(copia)
+
+        self.figura_selecionada = copia
+        self._alterado = True
+        self.desenhar_figuras()
 
     def mover_posicao_frente(self, event=None):
         """
