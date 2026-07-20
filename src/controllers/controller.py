@@ -831,6 +831,7 @@ class DrawableController:
                 self.historico.figuras.clear()
                 self.historico._acoes.clear()
                 self.historico._acoes_refeitas.clear()
+                self.figuras_carregadas.clear()
 
                 for figura in figuras_carregadas:
                     self.historico.figuras.append(figura)
